@@ -70,35 +70,29 @@
 
 .calendar-grid {
   display: grid;
-
-  grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: repeat(10, 1fr);
-
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-rows: repeat(10, minmax(0, 1fr));
   gap: 5px;
-
   width: 100%;
+  min-width: 0;
 }
 
 /* Singolo giorno */
 
 .calendar-day {
+  min-width: 0;
   min-height: 80px;
-
   border: 1px solid #ccc;
   border-radius: 5px;
-
   padding: 8px;
-
   display: flex;
   flex-direction: column;
-
   justify-content: space-between;
-
   background-color: #f8f9fa;
-
   transition:
     transform 0.15s ease,
     background-color 0.15s ease;
+  overflow: hidden;
 }
 
 
@@ -125,10 +119,13 @@
 
 .holiday-name {
   display: block;
+  max-width: 100%;
+  overflow: hidden;
   font-size: 0.75rem;
   font-weight: bold;
   line-height: 1.1;
   text-align: center;
+  overflow-wrap: break-word;
 }
 
 /* Giorno corrente */
@@ -220,7 +217,93 @@
 
 /* Responsive */
 
-@media (max-width: 768px) {
+@media (min-width: 992px) and (max-width: 1199px) {
+
+  .season {
+    padding: 25px 30px;
+  }
+
+  .calendar {
+    grid-template-columns: 75px minmax(0, 1fr);
+    gap: 4px;
+  }
+
+  .week-column {
+    gap: 4px;
+  }
+
+  .calendar-grid {
+    gap: 4px;
+  }
+
+  .calendar-day {
+    min-height: 65px;
+    padding: 5px;
+  }
+
+  .day-number {
+    font-size: 1rem;
+  }
+
+  .day-name {
+    font-size: 0.7rem;
+  }
+
+  .holiday-name {
+    font-size: 0.65rem;
+  }
+}
+
+
+@media (min-width: 769px) and (max-width: 991px) {
+
+  .calendar-container {
+    max-width: none;
+    margin: 40px auto;
+  }
+
+  .season {
+    padding: 40px 50px;
+  }
+
+  .calendar {
+    grid-template-columns: 100px minmax(0, 1fr);
+    gap: 5px;
+  }
+
+  .week-column {
+    gap: 5px;
+  }
+
+  .calendar-grid {
+    gap: 5px;
+  }
+
+  .calendar-day {
+    min-height: 80px;
+    padding: 8px;
+  }
+
+  .day-number {
+    font-size: 1.2rem;
+  }
+
+  .day-name {
+    display: block;
+    font-size: 0.8rem;
+  }
+
+  .holiday-name {
+    font-size: 0.75rem;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+
+  .calendar-container {
+    max-width: none;
+    margin: 40px auto;
+  }
 
   .season {
     padding: 30px 40px;
@@ -238,14 +321,26 @@
   .day-number {
     font-size: 1rem;
   }
-
 }
-
 
 @media (max-width: 576px) {
 
+  .calendar-container {
+    max-width: none;
+    margin: 20px auto;
+  }
+
   .season {
-    padding: 20px 30px;
+    padding: 20px 10px;
+  }
+
+  .calendar {
+    grid-template-columns: 45px minmax(0, 1fr);
+    gap: 2px;
+  }
+
+  .week-column {
+    gap: 2px;
   }
 
   .calendar-grid {
@@ -254,7 +349,20 @@
 
   .calendar-day {
     min-height: 45px;
+    padding: 3px;
     border-radius: 2px;
   }
 
+  .day-number {
+    font-size: 0.85rem;
+  }
+
+  .day-name {
+    display: none;
+  }
+
+  .holiday-name {
+    font-size: 0.5rem;
+    line-height: 1;
+  }
 }
