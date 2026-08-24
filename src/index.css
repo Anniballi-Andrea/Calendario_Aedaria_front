@@ -174,12 +174,34 @@
 }
 
 .bg_header {
-  background-color: #161616 !important;
-  color: #ffffff;
+  background: rgba(128, 128, 128, 0.4) !important;
+  color: #f8f9fa;
+}
 
-  .active {
-    color: #a9741c !important;
-  }
+
+.bg_header .nav-link {
+  color: #f8f9fa !important;
+  transition: color 0.2s ease;
+}
+
+.bg_header .nav-link:hover {
+  color: #d4a64a !important;
+}
+
+.bg_header .nav-link.active {
+  color: rgb(245, 56, 56) !important;
+}
+
+.bg_header .navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.bg_header .navbar-toggler-icon {
+  filter: invert(1);
+}
+
+.bg_header .navbar-toggler:hover {
+  border-color: #a9741c;
 }
 
 #seasonCarousel .carousel-item {
