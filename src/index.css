@@ -1,0 +1,260 @@
+@import url('bootstrap');
+@import url('bootstrap-icons');
+
+.calendar-title {
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+
+/* Contenitore principale del calendario */
+
+.calendar-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 40px auto;
+  background: rgba(128, 128, 128, 0.4);
+  border-radius: 1rem;
+}
+
+
+/* Singola stagione */
+
+.season {
+  padding: 40px 70px;
+}
+
+
+/* Nome della stagione */
+
+.season-title {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2rem;
+}
+
+
+/* Griglia 10 settimane × 7 giorni */
+
+.calendar {
+  display: grid;
+
+  grid-template-columns: 100px 1fr;
+
+  gap: 5px;
+}
+
+.week-column {
+  display: grid;
+
+  grid-template-rows: repeat(10, 1fr);
+
+  gap: 5px;
+}
+
+.week-name {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding-right: 10px;
+
+  font-weight: bold;
+
+  background-color: #e9ecef;
+
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.calendar-grid {
+  display: grid;
+
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+
+  gap: 5px;
+
+  width: 100%;
+}
+
+/* Singolo giorno */
+
+.calendar-day {
+  min-height: 80px;
+
+  border: 1px solid #ccc;
+  border-radius: 5px;
+
+  padding: 8px;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: space-between;
+
+  background-color: #f8f9fa;
+
+  transition:
+    transform 0.15s ease,
+    background-color 0.15s ease;
+}
+
+
+/* Numero del giorno */
+
+.day-number {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+
+/* Nome del giorno */
+
+.day-name {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.calendar-day.holiday {
+  border: 2px solid red;
+  color: red;
+  background-color: rgb(250, 170, 170);
+}
+
+.holiday-name {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: bold;
+  line-height: 1.1;
+  text-align: center;
+}
+
+/* Giorno corrente */
+
+.calendar-day.current-day {
+  background-color: #8afd9d;
+  border: 2px solid #dc3545;
+
+  transform: scale(1.03);
+}
+
+
+/* Effetto quando passi sopra una giornata */
+
+.calendar-day:hover {
+  transform: scale(1.10);
+  cursor: pointer;
+}
+
+
+/* Controlli del carosello */
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 50px;
+}
+
+
+.calendar-arrow {
+  font-size: 50px;
+  font-weight: bold;
+
+  line-height: 1;
+
+  color: #000;
+
+  text-shadow: 0 0 3px white;
+}
+
+.calendar-arrow-prev {
+  margin-right: auto;
+}
+
+.calendar-arrow-next {
+  margin-left: auto;
+}
+
+.bg_header {
+  background-color: #161616 !important;
+  color: #ffffff;
+
+  .active {
+    color: #a9741c !important;
+  }
+}
+
+#seasonCarousel .carousel-item {
+  transition: transform 1s ease-in-out;
+}
+
+/* bg con le stagioni*/
+.season-0 {
+  min-height: 100vh;
+  background: url("/img/primavera.jpg") center / cover no-repeat;
+}
+
+.season-1 {
+  min-height: 100vh;
+  background: url("/img/estate.jpg") center / cover no-repeat;
+}
+
+.season-2 {
+  min-height: 100vh;
+  background: url("/img/autunno.jpg") center / cover no-repeat;
+}
+
+.season-3 {
+  min-height: 100vh;
+  background: url("/img/inverno.jpg") center / cover no-repeat;
+}
+
+.survival-pannel {
+  background: rgba(128, 128, 128, 0.4);
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-bottom: 1rem;
+  border-radius: 10px;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+
+  .season {
+    padding: 30px 40px;
+  }
+
+  .calendar-day {
+    min-height: 60px;
+    padding: 5px;
+  }
+
+  .day-name {
+    display: none;
+  }
+
+  .day-number {
+    font-size: 1rem;
+  }
+
+}
+
+
+@media (max-width: 576px) {
+
+  .season {
+    padding: 20px 30px;
+  }
+
+  .calendar-grid {
+    gap: 2px;
+  }
+
+  .calendar-day {
+    min-height: 45px;
+    border-radius: 2px;
+  }
+
+}
