@@ -5,7 +5,7 @@ import { useCalendar } from "../context/CalendarContext";
 export default function Home() {
     const { displaySeason } = useCalendar()
     return (
-        <div className={`container-fluid season-${displaySeason}`}>
+        <div className={`container-fluid `}>
             <div className="row">
                 <div className="col-4 d-none d-lg-block">
                     <SurvivolPannel />

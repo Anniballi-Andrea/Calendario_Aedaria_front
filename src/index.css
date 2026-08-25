@@ -351,6 +351,106 @@
   }
 }
 
+.initiative-pannel {
+  background: rgba(128, 128, 128, 0.4);
+  padding: 1rem 2rem 1.25rem;
+  border-radius: 10px;
+}
+
+.initiative-pannel h2 {
+  margin-bottom: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.initiative-pannel form {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+}
+
+.initiative-pannel form .form-control {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.initiative-pannel form .form-control:focus {
+  box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.2);
+}
+
+.initiative-pannel form .btn-primary {
+  min-width: 110px;
+  font-weight: 500;
+}
+
+.initiative-pannel .mt-4 {
+  margin-top: 1.25rem !important;
+}
+
+.initiative-pannel .fw-bold.fs-5 {
+  margin-bottom: 0.6rem !important;
+}
+
+.initiative-pannel .btn-sm {
+  min-width: 42px;
+}
+
+
+.initiative-player-card {
+  width: 100%;
+  background-color: rgba(248, 249, 250, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.initiative-player-card:hover {
+  border-color: rgba(0, 0, 0, 0.3);
+}
+
+
+.initiative-player-active {
+  border: 2px solid #ffc107;
+  box-shadow: 0 0 8px rgba(255, 193, 7, 0.45);
+}
+
+.initiative-player-active:hover {
+  box-shadow: 0 0 10px rgba(255, 193, 7, 0.55);
+}
+
+.initiative-player-card .card-body {
+  padding: 0.55rem 0.75rem;
+}
+
+.initiative-player-card .fw-bold {
+  min-width: 90px;
+}
+
+.initiative-player-card strong {
+  color: #212529;
+}
+
+.initiative-player-active .card-header {
+
+  background-color: #fff3cd;
+
+}
+
+.initiative-player-card .btn-danger {
+  margin-left: auto !important;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.8rem;
+}
+
+.initiative-pannel .col-6>p {
+  padding: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-style: italic;
+}
 
 @media (min-width: 769px) and (max-width: 991px) {
 
@@ -418,6 +518,7 @@
   .day-number {
     font-size: 1rem;
   }
+
 }
 
 @media (max-width: 576px) {
@@ -481,6 +582,20 @@
   .calendar-day:hover {
     transform: none;
   }
+
+  .initiative-pannel {
+
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+  }
+
+  .initiative-player-active {
+
+    box-shadow: none;
+
+  }
+
 }
 
 
