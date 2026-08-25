@@ -1,6 +1,6 @@
 import { useCalendar } from "../context/CalendarContext"
 
-export default function DayGreed({ index, }) {
+export default function DayGreed({ index, onDayClick }) {
 
     const { weeks, days, dayOfYear, displayYear, yearCount, DAYS_IN_WEEK, DAYS_IN_SEASON } = useCalendar()
 
@@ -28,7 +28,11 @@ export default function DayGreed({ index, }) {
             10: "Trilunio di primavera"
         }
     }
+    const hasNote = (year, seasonIndex, weekNumber, dayNumber) => {
+        const noteKey = `day-note-${year}-${seasonIndex}-${weekNumber}-${dayNumber}`
 
+        return Boolean(localStorage.getItem(noteKey))
+    }
 
     return (
         <div className="calendar-grid">
@@ -54,6 +58,20 @@ export default function DayGreed({ index, }) {
                             : null
 
                     const isHoliday = Boolean(holidayName)
+                    const hasDayNote = hasNote(
+                        displayYear,
+                        index,
+                        weekNumber,
+                        dayNumber
+                    )
+                    const selectedDay = {
+                        seasonIndex: index,
+                        weekNumber,
+                        dayNumber,
+                        absoluteDay,
+                        year: displayYear,
+                        holidayName
+                    }
 
                     return (
                         <div
@@ -62,13 +80,30 @@ export default function DayGreed({ index, }) {
                                 ${isCurrentDay ? "current-day" : ""}
                                 ${isHoliday ? "holiday" : ""}
                             `}
+                            title={isHoliday ? holidayName : ""}
+                            onClick={(event) => {
+                                const rect = event.currentTarget.getBoundingClientRect()
+
+                                onDayClick(selectedDay, rect)
+                            }}
                         >
 
                             <span className="day-number">
-                                {dayNumber}
+                                <div className="d-flex">
+                                    <div className="me-3">{dayNumber}</div>
+                                    <div>
+                                        {hasDayNote && (
+                                            <span className="bi bi-journal-text text-primary"></span>
+                                        )}
+                                    </div>
+                                </div>
+
+
                             </span>
+
                             {isHoliday && (
                                 <span className="holiday-name">
+
                                     {holidayName}
                                 </span>
                             )}

@@ -22,7 +22,8 @@ export default function CauroselBotton() {
 
             new Carousel(carouselRef.current, {
                 interval: false,
-                wrap: true
+                wrap: true,
+                touch: true
             });
 
         }
@@ -63,20 +64,8 @@ export default function CauroselBotton() {
         carouselRef.current.addEventListener(
             "slid.bs.carousel",
             () => {
-                console.log(
-                    "PRIMA SET:",
-                    newSeason,
-                    newYear
-                )
-
                 setDisplaySeason(newSeason)
                 setDisplayYear(newYear)
-
-                console.log(
-                    "DOPO SET:",
-                    newSeason,
-                    newYear
-                )
             },
             { once: true }
         )

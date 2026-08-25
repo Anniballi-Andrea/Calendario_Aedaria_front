@@ -126,7 +126,10 @@
   line-height: 1.1;
   text-align: center;
   overflow-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
+
 
 /* Giorno corrente */
 
@@ -229,6 +232,11 @@
   background: url("/img/inverno.jpg") center / cover no-repeat;
 }
 
+/*
+.season {
+  height: 1000px;
+}*/
+
 .survival-pannel {
   background: rgba(128, 128, 128, 0.4);
   padding-left: 2rem;
@@ -236,6 +244,73 @@
   padding-bottom: 1rem;
   border-radius: 10px;
 }
+
+.day-card {
+  position: fixed;
+
+  top: var(--start-top);
+  left: var(--start-left);
+
+  width: var(--start-width);
+  height: var(--start-height);
+
+  box-sizing: border-box;
+  padding: 30px;
+
+  background-color: #f8f9fa;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+
+  z-index: 9999;
+  overflow: hidden;
+
+  transition:
+    top 0.5s ease,
+    left 0.5s ease,
+    width 0.5s ease,
+    height 0.5s ease,
+    opacity 0.5s ease,
+    transform 0.5s ease;
+
+  transform: translate(0, 0);
+}
+
+.day-card-expanded {
+  top: 50% !important;
+  left: 50% !important;
+  width: min(300px, 90vw) !important;
+  height: min(300px, 80vh) !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+.day-card-closing {
+
+  opacity: 0;
+  top: var(--start-top) !important;
+  left: var(--start-left) !important;
+  width: var(--start-width) !important;
+  height: var(--start-height) !important;
+  transform: translate(0, 0) !important;
+}
+
+
+.day-card-close {
+  position: absolute;
+
+  top: 10px;
+  right: 15px;
+
+  border: none;
+
+  background: transparent;
+
+  font-size: 2rem;
+
+  line-height: 1;
+
+  cursor: pointer;
+}
+
 
 /* Responsive */
 
@@ -349,15 +424,83 @@
 
   .calendar-container {
     max-width: none;
-    margin: 20px auto;
+    margin: 15px auto;
   }
 
   .season {
-    padding: 20px 10px;
+    padding: 20px 8px;
+  }
+
+  .season-title {
+    margin-bottom: 15px;
+    font-size: 1.5rem;
   }
 
   .calendar {
-    grid-template-columns: 45px minmax(0, 1fr);
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 3px;
+  }
+
+  .week-column {
+    gap: 3px;
+  }
+
+  .calendar-grid {
+    gap: 3px;
+  }
+
+  .calendar-day {
+    min-height: 45px;
+    padding: 3px;
+    border-radius: 3px;
+  }
+
+  .day-number {
+    font-size: 0.8rem;
+  }
+
+  .day-name {
+    display: none;
+  }
+
+  .holiday-name {
+    font-size: 0.5rem;
+    line-height: 1;
+  }
+
+
+  #seasonCarousel .carousel-control-prev,
+  #seasonCarousel .carousel-control-next {
+    display: none;
+  }
+
+  #seasonCarousel {
+    touch-action: pan-y;
+  }
+
+  .calendar-day:hover {
+    transform: none;
+  }
+}
+
+
+@media (max-width: 360px) {
+
+  .calendar-container {
+    margin: 10px auto;
+  }
+
+  .season {
+    padding: 15px 4px;
+  }
+
+  .season-title {
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+  }
+
+  .calendar {
+    grid-template-columns: 30px minmax(0, 1fr);
     gap: 2px;
   }
 
@@ -370,21 +513,26 @@
   }
 
   .calendar-day {
-    min-height: 45px;
-    padding: 3px;
+    min-height: 36px;
+    padding: 2px;
     border-radius: 2px;
   }
 
-  .day-number {
-    font-size: 0.85rem;
+  .week-name {
+    padding-right: 0;
+    font-size: 0.5rem;
   }
 
-  .day-name {
-    display: none;
+  .day-number {
+    font-size: 0.65rem;
   }
 
   .holiday-name {
-    font-size: 0.5rem;
-    line-height: 1;
+    font-size: 0.4rem;
   }
+
+  .calendar-day.current-day {
+    transform: none;
+  }
+
 }

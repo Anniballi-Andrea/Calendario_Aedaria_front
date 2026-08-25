@@ -4,11 +4,22 @@ import DayGreed from "./DayGreed"
 import WeeckColumn from "./WeeckColumn"
 import CauroselBotton from "./CauroselBotton"
 import { useCalendar } from "../context/CalendarContext"
+import { useState } from "react"
+import DayCard from "./DayCard"
 
 
 export default function Calendar() {
 
     const { carouselRef, seasons, displaySeason } = useCalendar()
+
+    const [selectedDay, setSelectedDay] = useState(null)
+
+    const handleDayClick = (day, rect) => {
+        setSelectedDay({
+            ...day,
+            rect
+        })
+    }
 
 
     return (
@@ -39,7 +50,8 @@ export default function Calendar() {
                                     <WeeckColumn />
 
                                     {/* Griglia dei giorni */}
-                                    <DayGreed index={index} />
+                                    <DayGreed index={index}
+                                        onDayClick={handleDayClick} />
 
                                 </div>
 
@@ -54,6 +66,14 @@ export default function Calendar() {
                 <CauroselBotton />
 
             </div>
+            {selectedDay && (
+                <DayCard
+
+                    key={`${selectedDay.year}-${selectedDay.seasonIndex}-${selectedDay.weekNumber}-${selectedDay.dayNumber}`}
+                    day={selectedDay}
+                    onClose={() => setSelectedDay(null)}
+                />
+            )}
 
         </div>
     )
