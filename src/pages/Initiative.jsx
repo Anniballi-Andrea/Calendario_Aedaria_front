@@ -8,9 +8,15 @@ export default function Initiative() {
     const [playerDex, setPlayerDex] = useState(0)
     const [playerInit, setPlayerInit] = useState(0)
     const [playerPriority, setPlayerPriority] = useState(0)
-
+    const [editedPlayers, setEditedPlayers] = useState({})
+    const [playerToRemove, setPlayerToRemove] = useState(null)
     const [initiative, setInitiative] = useState([])
     const [turnCount, setTurnCount] = useState(0)
+    const [round, setRound] = useState(() => {
+        const savedRound = localStorage.getItem("initiativeRound")
+
+        return savedRound ? Number(savedRound) : 1
+    })
 
     const API_URL = "http://localhost:8080/api/initiative"
 
@@ -19,6 +25,10 @@ export default function Initiative() {
         getPlayerList()
         getTurnCount()
     }, [])
+
+    useEffect(() => {
+        localStorage.setItem("initiativeRound", round)
+    }, [round])
 
 
     function getPlayerList() {
@@ -64,13 +74,10 @@ export default function Initiative() {
 
 
     function removePlayer(id) {
-
         axios
             .delete(`${API_URL}/deletePlayer/${id}`)
             .then(() => {
-
                 getPlayerList()
-
             })
             .catch((error) => {
                 console.error("Errore:", error)
@@ -94,13 +101,24 @@ export default function Initiative() {
 
 
     function changeTurn(n) {
+        if (initiative.length === 0) return
+
+        const currentPlayerIndex =
+            ((turnCount % initiative.length) + initiative.length) %
+            initiative.length
+
+        if (n === 1 && currentPlayerIndex === initiative.length - 1) {
+            setRound(prev => prev + 1)
+        }
+
+        if (n === -1 && currentPlayerIndex === 0 && round > 1) {
+            setRound(prev => prev - 1)
+        }
 
         axios
             .post(`${API_URL}/changeTurn`, { quantity: n })
             .then(() => {
-
                 getTurnCount()
-
             })
             .catch((error) => {
                 console.error("Errore:", error)
@@ -109,13 +127,23 @@ export default function Initiative() {
 
 
     function restartTurn() {
-
         axios
             .post(`${API_URL}/restartTurn/1`)
-            .then(() => {
+            .then(async () => {
+
+                const updateRequests = initiative.map(player =>
+                    axios.put(`${API_URL}/changePlayer`, {
+                        ...player,
+                        initiative: 0
+                    })
+                )
+
+                await Promise.all(updateRequests)
+
+                setRound(1)
 
                 getTurnCount()
-
+                getPlayerList()
             })
             .catch((error) => {
                 console.error("Errore:", error)
@@ -125,15 +153,56 @@ export default function Initiative() {
 
     const currentPlayerIndex =
         initiative.length > 0
-            ? turnCount % initiative.length
+            ? ((turnCount % initiative.length) + initiative.length) %
+            initiative.length
             : 0
 
+    function handlePlayerChange(id, field, value) {
+        setEditedPlayers(prev => ({
+            ...prev,
+            [id]: {
+                ...prev[id],
+                [field]: value
+            }
+        }))
+    }
+    function changePlayer(player) {
+        const editedPlayer = {
+            ...player,
+            ...editedPlayers[player.id],
+            dex: Number(
+                editedPlayers[player.id]?.dex ?? player.dex
+            ),
+            initiative: Number(
+                editedPlayers[player.id]?.initiative ?? player.initiative
+            ),
+            priority: Number(
+                editedPlayers[player.id]?.priority ?? player.priority
+            )
+        }
 
-    const currentRound =
-        initiative.length > 0
-            ? Math.floor(turnCount / initiative.length) + 1
-            : 0
+        axios
+            .put(`${API_URL}/changePlayer`, editedPlayer)
+            .then(() => {
+                setEditedPlayers(prev => {
+                    const updated = { ...prev }
+                    delete updated[player.id]
+                    return updated
+                })
 
+                getPlayerList()
+            })
+            .catch((error) => {
+                console.error("Errore:", error)
+            })
+    }
+    function openRemoveModal(player) {
+        setPlayerToRemove(player)
+    }
+
+    function closeRemoveModal() {
+        setPlayerToRemove(null)
+    }
 
     return (
         <div className="initiative-pannel">
@@ -152,6 +221,12 @@ export default function Initiative() {
                         <div className="row g-2 justify-content-center align-items-end">
 
                             <div className="col-2">
+                                <label
+                                    htmlFor="player-name"
+                                    className="form-label mb-1"
+                                >
+                                    Nome
+                                </label>
                                 <input
                                     id="player-name"
                                     className="form-control"
@@ -167,6 +242,12 @@ export default function Initiative() {
 
 
                             <div className="col-2">
+                                <label
+                                    htmlFor="player-dex"
+                                    className="form-label mb-1"
+                                >
+                                    Dex
+                                </label>
                                 <input
                                     id="player-dex"
                                     className="form-control"
@@ -182,7 +263,12 @@ export default function Initiative() {
 
 
                             <div className="col-2">
-
+                                <label
+                                    htmlFor="player-init"
+                                    className="form-label mb-1"
+                                >
+                                    Init
+                                </label>
                                 <input
                                     id="player-init"
                                     className="form-control"
@@ -221,7 +307,7 @@ export default function Initiative() {
                 <div className="mt-4">
 
                     <div className="fw-bold fs-5 mb-2">
-                        Round: {currentRound}
+                        Round: {round}
                     </div>
 
                     <div className="d-flex justify-content-center align-items-center gap-2">
@@ -261,7 +347,7 @@ export default function Initiative() {
                 {/* Lista giocatori */}
 
                 <div className="mt-3 row justify-content-center">
-                    <div className="col-12 col-lg-8 col-xl-6">
+                    <div className="col-12 col-lg-8 col-xl-6 mb-5">
 
                         {initiative.length > 0 ? (
 
@@ -273,50 +359,113 @@ export default function Initiative() {
                                             : ""
                                             }`}
                                     >
-                                        <div className="row row-cols-2 row-cols-md-5 card-body justify-content-center">
-                                            <div className="col">
-                                                <span className="fw-bold me-3">
-                                                    {player.name}
-                                                </span>
+                                        <div className="row g-2 card-body align-items-end">
+
+                                            <div className="col-12 col-md-2">
+                                                <div className="player-name-wrapper">
+                                                    <span className="fw-bold">
+                                                        {player.name}
+                                                    </span>
+                                                </div>
                                             </div>
-                                            <div className="col">
-                                                <span className="me-3">
-                                                    Iniziativa:{" "}
-                                                    <strong>
-                                                        {player.initiative}
-                                                    </strong>
-                                                </span>
+
+                                            <div className="col-4 col-md-2">
+                                                <label
+                                                    htmlFor={`initiative-${player.id}`}
+                                                    className="form-label mb-1"
+                                                >
+                                                    Init
+                                                </label>
+
+                                                <input
+                                                    id={`initiative-${player.id}`}
+                                                    type="number"
+                                                    className="form-control"
+                                                    value={
+                                                        editedPlayers[player.id]?.initiative ??
+                                                        player.initiative
+                                                    }
+                                                    onChange={event =>
+                                                        handlePlayerChange(
+                                                            player.id,
+                                                            "initiative",
+                                                            event.target.value
+                                                        )
+                                                    }
+                                                />
                                             </div>
-                                            <div className="col">
-                                                <span className="me-3">
-                                                    Des:{" "}
-                                                    <strong>
-                                                        {player.dex}
-                                                    </strong>
-                                                </span>
+
+                                            <div className="col-4 col-md-2">
+                                                <label
+                                                    htmlFor={`dex-${player.id}`}
+                                                    className="form-label mb-1"
+                                                >
+                                                    Dex
+                                                </label>
+
+                                                <input
+                                                    id={`dex-${player.id}`}
+                                                    type="number"
+                                                    className="form-control"
+                                                    value={
+                                                        editedPlayers[player.id]?.dex ??
+                                                        player.dex
+                                                    }
+                                                    onChange={event =>
+                                                        handlePlayerChange(
+                                                            player.id,
+                                                            "dex",
+                                                            event.target.value
+                                                        )
+                                                    }
+                                                />
                                             </div>
-                                            <div className="col">
-                                                <span>
-                                                    Priorità:{" "}
-                                                    <strong>
-                                                        {player.priority}
-                                                    </strong>
-                                                </span>
+
+                                            <div className="col-4 col-md-2">
+                                                <label
+                                                    htmlFor={`priority-${player.id}`}
+                                                    className="form-label mb-1"
+                                                >
+                                                    Priorità
+                                                </label>
+
+                                                <input
+                                                    id={`priority-${player.id}`}
+                                                    type="number"
+                                                    className="form-control"
+                                                    value={
+                                                        editedPlayers[player.id]?.priority ??
+                                                        player.priority
+                                                    }
+                                                    onChange={event =>
+                                                        handlePlayerChange(
+                                                            player.id,
+                                                            "priority",
+                                                            event.target.value
+                                                        )
+                                                    }
+                                                />
                                             </div>
-                                            <div className="col">
+
+                                            <div className="col-12 col-md-4 d-flex gap-2 justify-content-md-end">
                                                 <button
                                                     type="button"
-                                                    className="btn btn-danger btn-sm ms-3"
-                                                    onClick={() =>
-                                                        removePlayer(player.id)
-                                                    }
+                                                    className="btn btn-success btn-sm"
+                                                    onClick={() => changePlayer(player)}
+                                                >
+                                                    Salva
+                                                </button>
+
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-danger btn-sm"
+                                                    onClick={() => openRemoveModal(player)}
                                                 >
                                                     Rimuovi
                                                 </button>
                                             </div>
+
                                         </div>
-
-
                                     </div>
                                 </div>
 
@@ -335,7 +484,69 @@ export default function Initiative() {
                 </div>
 
             </div>
+            {playerToRemove && (
+                <>
+                    <div
+                        className="modal fade show"
+                        style={{ display: "block" }}
+                        tabIndex="-1"
+                        role="dialog"
+                        aria-modal="true"
+                    >
+                        <div className="modal-dialog modal-dialog-centered">
+                            <div className="modal-content">
 
+                                <div className="modal-header">
+                                    <h5 className="modal-title">
+                                        Rimuovi giocatore
+                                    </h5>
+
+                                    <button
+                                        type="button"
+                                        className="btn-close"
+                                        onClick={closeRemoveModal}
+                                        aria-label="Chiudi"
+                                    />
+                                </div>
+
+                                <div className="modal-body">
+                                    <p className="mb-0">
+                                        Sei sicuro di voler rimuovere{" "}
+                                        <strong>
+                                            {playerToRemove.name}
+                                        </strong>
+                                        ?
+                                    </p>
+                                </div>
+
+                                <div className="modal-footer">
+                                    <button
+                                        type="button"
+                                        className="btn btn-secondary"
+                                        onClick={closeRemoveModal}
+                                    >
+                                        Annulla
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        className="btn btn-danger"
+                                        onClick={() => {
+                                            removePlayer(playerToRemove.id)
+                                            closeRemoveModal()
+                                        }}
+                                    >
+                                        Rimuovi
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="modal-backdrop fade show"></div>
+                </>
+            )}
         </div>
     )
 }
