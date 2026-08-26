@@ -46,6 +46,14 @@ export default function Header() {
                                     Iniziativa
                                 </NavLink>
                             </li>
+                            <li className="nav-item">
+                                <NavLink
+                                    className="nav-link text-light fs-4"
+                                    to="/incantesimi"
+                                >
+                                    Magia
+                                </NavLink>
+                            </li>
                         </ul>
                     </div>
 

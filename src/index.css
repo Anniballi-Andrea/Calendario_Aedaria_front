@@ -188,11 +188,11 @@
 }
 
 .bg_header .nav-link:hover {
-  color: #d4a64a !important;
+  color: #0a830a !important;
 }
 
 .bg_header .nav-link.active {
-  color: rgb(245, 56, 56) !important;
+  color: rgb(2, 70, 14) !important;
 }
 
 .bg_header .navbar-toggler {

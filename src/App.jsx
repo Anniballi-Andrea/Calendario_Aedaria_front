@@ -4,6 +4,7 @@ import DefaultLayout from "./layout/DefaultLayout"
 import { ResourceProvider } from "./context/ResourceContext"
 import { CalendarProvider } from "./context/CalendarContext"
 import Initiative from "./pages/Initiative"
+import SpellPage from "./pages/SpellPage"
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
             <Route element={<DefaultLayout />}>
               <Route path="/" element={<Home />} />
               <Route path="/iniziativa" element={<Initiative />} />
+              <Route path="/incantesimi" element={<SpellPage />} />
             </Route>
           </Routes>
         </CalendarProvider>

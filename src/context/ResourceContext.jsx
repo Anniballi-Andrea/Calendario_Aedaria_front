@@ -45,6 +45,12 @@ export function ResourceProvider({ children }) {
         setPlayerName("")
     }
 
+    const removePlayer = (id) => {
+        setPlayerList(currentPlayerList =>
+            currentPlayerList.filter(player => player.id !== id)
+        )
+    }
+
 
     useEffect(() => {
         localStorage.setItem("playerList", JSON.stringify(playerList))
@@ -73,7 +79,8 @@ export function ResourceProvider({ children }) {
                 setTotalWather,
                 setTotalFood,
                 season,
-                setSeason
+                setSeason,
+                removePlayer
             }}
         >
             {children}

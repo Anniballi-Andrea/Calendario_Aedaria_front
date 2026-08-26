@@ -13,7 +13,8 @@ export default function SurvivolPannel() {
             totalWather,
             setTotalWather,
             totalFood,
-            setTotalFood
+            setTotalFood,
+            removePlayer
         } = useResource()
 
 
@@ -178,8 +179,13 @@ export default function SurvivolPannel() {
                 {playerList.length > 0 ? (playerList.map(player => (
                     <div className="col mt-3" key={player.id}>
                         <div className="card">
-                            <div className="card-header">
-                                {player.name}
+                            <div className="card-header ">
+                                <div className="d-flex justify-content-between">
+                                    <span>
+                                        {player.name}
+                                    </span>
+                                </div>
+
                             </div>
                             <div className="card-body">
                                 <div className="d-flex align-items-center">
@@ -220,7 +226,15 @@ export default function SurvivolPannel() {
                                         }}
                                         aria-label="Checkbox for following text input"></input>
                                 </div>
-
+                                <div className="text-center mt-2">
+                                    <button
+                                        type="button"
+                                        className="btn btn-danger btn-sm"
+                                        onClick={() => removePlayer(player.id)}
+                                    >
+                                        Rimuovi
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
