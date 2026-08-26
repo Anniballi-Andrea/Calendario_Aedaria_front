@@ -1,6 +1,11 @@
 import axios from "axios"
 import { useEffect } from "react"
 import { useState } from "react"
+import FormAddInitiativePlayer from "../Components/FormAddInitiativePlayers"
+import TurnManager from "../Components/TurnManager"
+import InitiativeInput from "../Components/InitiativeImput"
+import InitiativeCards from "../Components/InitiativeCards"
+import RemoveFromInitiative from "../Components/RemoveFromInitiative"
 
 export default function Initiative() {
 
@@ -214,135 +219,18 @@ export default function Initiative() {
 
                 {/* Form aggiunta giocatore */}
 
-                <div className="mt-3">
-
-                    <form onSubmit={addPlayer}>
-
-                        <div className="row g-2 justify-content-center align-items-end">
-
-                            <div className="col-2">
-                                <label
-                                    htmlFor="player-name"
-                                    className="form-label mb-1"
-                                >
-                                    Nome
-                                </label>
-                                <input
-                                    id="player-name"
-                                    className="form-control"
-                                    type="text"
-                                    value={playerName}
-                                    onChange={event =>
-                                        setPlayerName(event.target.value)
-                                    }
-                                    placeholder="Nome..."
-                                    required
-                                />
-                            </div>
-
-
-                            <div className="col-2">
-                                <label
-                                    htmlFor="player-dex"
-                                    className="form-label mb-1"
-                                >
-                                    Dex
-                                </label>
-                                <input
-                                    id="player-dex"
-                                    className="form-control"
-                                    type="number"
-                                    value={playerDex}
-                                    onChange={event =>
-                                        setPlayerDex(event.target.value)
-                                    }
-                                    placeholder="Destrezza"
-                                    required
-                                />
-                            </div>
-
-
-                            <div className="col-2">
-                                <label
-                                    htmlFor="player-init"
-                                    className="form-label mb-1"
-                                >
-                                    Init
-                                </label>
-                                <input
-                                    id="player-init"
-                                    className="form-control"
-                                    type="number"
-                                    value={playerInit}
-                                    onChange={event =>
-                                        setPlayerInit(event.target.value)
-                                    }
-                                    placeholder="Iniziativa"
-                                    required
-                                />
-                            </div>
-
-                            <div className="col-12 ">
-                                <div>
-                                    <button
-                                        type="submit"
-                                        className="btn btn-primary "
-                                    >
-                                        Aggiungi
-                                    </button>
-                                </div>
-
-
-                            </div>
-
-                        </div>
-
-                    </form>
-
-                </div>
-
-
+                <FormAddInitiativePlayer
+                    addPlayer={addPlayer}
+                    playerName={playerName}
+                    setPlayerName={setPlayerName}
+                    playerDex={playerDex}
+                    setPlayerDex={setPlayerDex}
+                    playerInit={playerInit}
+                    setPlayerInit={setPlayerInit}
+                />
                 {/* Controlli turno */}
 
-                <div className="mt-4">
-
-                    <div className="fw-bold fs-5 mb-2">
-                        Round: {round}
-                    </div>
-
-                    <div className="d-flex justify-content-center align-items-center gap-2">
-
-                        <button
-                            type="button"
-                            className="btn btn-danger btn-sm"
-                            onClick={() => changeTurn(-1)}
-                            disabled={initiative.length === 0}
-                        >
-                            ←
-                        </button>
-
-                        <button
-                            type="button"
-                            className="btn btn-secondary btn-sm"
-                            onClick={restartTurn}
-                            disabled={initiative.length === 0}
-                        >
-                            Reset
-                        </button>
-
-                        <button
-                            type="button"
-                            className="btn btn-primary btn-sm"
-                            onClick={() => changeTurn(1)}
-                            disabled={initiative.length === 0}
-                        >
-                            →
-                        </button>
-
-                    </div>
-
-                </div>
-
+                <TurnManager round={round} initiative={initiative} changeTurn={changeTurn} restartTurn={restartTurn} />
 
                 {/* Lista giocatori */}
 
@@ -359,113 +247,15 @@ export default function Initiative() {
                                             : ""
                                             }`}
                                     >
-                                        <div className="row g-2 card-body align-items-end">
+                                        <InitiativeCards
+                                            name={player.name}
+                                            player={player}
+                                            editedPlayers={editedPlayers}
+                                            handlePlayerChange={handlePlayerChange}
+                                            changePlayer={changePlayer}
+                                            openRemoveModal={openRemoveModal}
+                                        />
 
-                                            <div className="col-12 col-md-2">
-                                                <div className="player-name-wrapper">
-                                                    <span className="fw-bold">
-                                                        {player.name}
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                            <div className="col-4 col-md-2">
-                                                <label
-                                                    htmlFor={`initiative-${player.id}`}
-                                                    className="form-label mb-1"
-                                                >
-                                                    Init
-                                                </label>
-
-                                                <input
-                                                    id={`initiative-${player.id}`}
-                                                    type="number"
-                                                    className="form-control"
-                                                    value={
-                                                        editedPlayers[player.id]?.initiative ??
-                                                        player.initiative
-                                                    }
-                                                    onChange={event =>
-                                                        handlePlayerChange(
-                                                            player.id,
-                                                            "initiative",
-                                                            event.target.value
-                                                        )
-                                                    }
-                                                />
-                                            </div>
-
-                                            <div className="col-4 col-md-2">
-                                                <label
-                                                    htmlFor={`dex-${player.id}`}
-                                                    className="form-label mb-1"
-                                                >
-                                                    Dex
-                                                </label>
-
-                                                <input
-                                                    id={`dex-${player.id}`}
-                                                    type="number"
-                                                    className="form-control"
-                                                    value={
-                                                        editedPlayers[player.id]?.dex ??
-                                                        player.dex
-                                                    }
-                                                    onChange={event =>
-                                                        handlePlayerChange(
-                                                            player.id,
-                                                            "dex",
-                                                            event.target.value
-                                                        )
-                                                    }
-                                                />
-                                            </div>
-
-                                            <div className="col-4 col-md-2">
-                                                <label
-                                                    htmlFor={`priority-${player.id}`}
-                                                    className="form-label mb-1"
-                                                >
-                                                    Priorità
-                                                </label>
-
-                                                <input
-                                                    id={`priority-${player.id}`}
-                                                    type="number"
-                                                    className="form-control"
-                                                    value={
-                                                        editedPlayers[player.id]?.priority ??
-                                                        player.priority
-                                                    }
-                                                    onChange={event =>
-                                                        handlePlayerChange(
-                                                            player.id,
-                                                            "priority",
-                                                            event.target.value
-                                                        )
-                                                    }
-                                                />
-                                            </div>
-
-                                            <div className="col-12 col-md-4 d-flex gap-2 justify-content-md-end">
-                                                <button
-                                                    type="button"
-                                                    className="btn btn-success btn-sm"
-                                                    onClick={() => changePlayer(player)}
-                                                >
-                                                    Salva
-                                                </button>
-
-                                                <button
-                                                    type="button"
-                                                    className="btn btn-danger btn-sm"
-                                                    onClick={() => openRemoveModal(player)}
-                                                >
-                                                    Rimuovi
-                                                </button>
-                                            </div>
-
-                                        </div>
                                     </div>
                                 </div>
 
@@ -484,69 +274,7 @@ export default function Initiative() {
                 </div>
 
             </div>
-            {playerToRemove && (
-                <>
-                    <div
-                        className="modal fade show"
-                        style={{ display: "block" }}
-                        tabIndex="-1"
-                        role="dialog"
-                        aria-modal="true"
-                    >
-                        <div className="modal-dialog modal-dialog-centered">
-                            <div className="modal-content">
-
-                                <div className="modal-header">
-                                    <h5 className="modal-title">
-                                        Rimuovi giocatore
-                                    </h5>
-
-                                    <button
-                                        type="button"
-                                        className="btn-close"
-                                        onClick={closeRemoveModal}
-                                        aria-label="Chiudi"
-                                    />
-                                </div>
-
-                                <div className="modal-body">
-                                    <p className="mb-0">
-                                        Sei sicuro di voler rimuovere{" "}
-                                        <strong>
-                                            {playerToRemove.name}
-                                        </strong>
-                                        ?
-                                    </p>
-                                </div>
-
-                                <div className="modal-footer">
-                                    <button
-                                        type="button"
-                                        className="btn btn-secondary"
-                                        onClick={closeRemoveModal}
-                                    >
-                                        Annulla
-                                    </button>
-
-                                    <button
-                                        type="button"
-                                        className="btn btn-danger"
-                                        onClick={() => {
-                                            removePlayer(playerToRemove.id)
-                                            closeRemoveModal()
-                                        }}
-                                    >
-                                        Rimuovi
-                                    </button>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="modal-backdrop fade show"></div>
-                </>
-            )}
+            <RemoveFromInitiative playerToRemove={playerToRemove} closeRemoveModal={closeRemoveModal} removePlayer={removePlayer} />
         </div>
     )
 }
