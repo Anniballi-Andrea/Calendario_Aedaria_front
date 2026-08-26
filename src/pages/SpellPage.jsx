@@ -210,402 +210,406 @@ export default function SpellPage() {
     const navigate = useNavigate();
 
     return (
-        <div className="container-fluid">
+        <div className="container-fluid pb-5">
+            <div className="d-flex justify-content-center mt-4">
+                <div className="spells-page">
 
-            <div className="spells-page">
+                    {/* HEADER */}
+                    <div className="spells-header">
 
-                {/* HEADER */}
-                <div className="spells-header">
+                        <div className="d-flex justify-content-between align-items-center">
 
-                    <div className="d-flex justify-content-between align-items-center">
+                            <h1>Incantesimi</h1>
 
-                        <h1>Incantesimi</h1>
+                            <button
+                                type="button"
+                                className="btn btn-primary"
+                                onClick={() => navigate("/aggiungi-incantesimo")}
+                            >
+                                + Crea incantesimo
+                            </button>
 
-                        <button
-                            type="button"
-                            className="btn btn-primary"
-                            onClick={() => navigate("/aggiungi-incantesimo")}
-                        >
-                            + Crea incantesimo
-                        </button>
+                        </div>
+
+
+                        {/* RICERCA */}
+                        <div className="mt-3">
+
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Cerca incantesimo..."
+                                value={search}
+                                onChange={(event) =>
+                                    setSearch(event.target.value)
+                                }
+                            />
+
+                        </div>
+
+
+                        {/* FILTRO LIVELLO */}
+                        <div className="spells-level-filter mt-3">
+
+                            <button
+                                type="button"
+                                className={`btn ${level === null
+                                    ? "btn-primary"
+                                    : "btn-outline-primary"
+                                    }`}
+                                onClick={() => setLevel(null)}
+                            >
+                                Tutti
+                            </button>
+
+                            {Array.from(
+                                { length: 10 },
+                                (_, index) => (
+
+                                    <button
+                                        type="button"
+                                        key={index}
+                                        className={`btn ${level === index
+                                            ? "btn-primary"
+                                            : "btn-outline-primary"
+                                            }`}
+                                        onClick={() => setLevel(index)}
+                                    >
+                                        {index}
+                                    </button>
+
+                                )
+                            )}
+
+                        </div>
 
                     </div>
 
 
-                    {/* RICERCA */}
-                    <div className="mt-3">
-
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Cerca incantesimo..."
-                            value={search}
-                            onChange={(event) =>
-                                setSearch(event.target.value)
-                            }
-                        />
-
-                    </div>
+                    {/* CONTENUTO */}
+                    <div className="spells-content">
 
 
-                    {/* FILTRO LIVELLO */}
-                    <div className="spells-level-filter mt-3">
-
-                        <button
-                            type="button"
-                            className={`btn ${level === null
-                                ? "btn-primary"
-                                : "btn-outline-primary"
+                        {/* LISTA */}
+                        <div
+                            className={`spells-list ${showDetail
+                                ? "d-none d-lg-block"
+                                : ""
                                 }`}
-                            onClick={() => setLevel(null)}
                         >
-                            Tutti
-                        </button>
 
-                        {Array.from(
-                            { length: 10 },
-                            (_, index) => (
-
-                                <button
-                                    type="button"
-                                    key={index}
-                                    className={`btn ${level === index
-                                        ? "btn-primary"
-                                        : "btn-outline-primary"
-                                        }`}
-                                    onClick={() => setLevel(index)}
-                                >
-                                    {index}
-                                </button>
-
-                            )
-                        )}
-
-                    </div>
-
-                </div>
-
-
-                {/* CONTENUTO */}
-                <div className="spells-content">
-
-
-                    {/* LISTA */}
-                    <div
-                        className={`spells-list ${showDetail
-                            ? "d-none d-lg-block"
-                            : ""
-                            }`}
-                    >
-
-                        {loading && (
-
-                            <div className="text-center p-4">
-
-                                Caricamento incantesimi...
-
-                            </div>
-
-                        )}
-
-
-                        {error && (
-
-                            <div className="alert alert-danger">
-
-                                {error}
-
-                            </div>
-
-                        )}
-
-
-                        {!loading &&
-                            !error &&
-                            spells.length === 0 && (
+                            {loading && (
 
                                 <div className="text-center p-4">
 
-                                    Nessun incantesimo trovato.
+                                    Caricamento incantesimi...
 
                                 </div>
 
-                            )
-                        }
+                            )}
 
 
-                        {!loading && !error && (
+                            {error && (
 
-                            Object.keys(spellsByLevel)
-                                .sort(
-                                    (a, b) =>
-                                        Number(a) - Number(b)
+                                <div className="alert alert-danger">
+
+                                    {error}
+
+                                </div>
+
+                            )}
+
+
+                            {!loading &&
+                                !error &&
+                                spells.length === 0 && (
+
+                                    <div className="text-center p-4">
+
+                                        Nessun incantesimo trovato.
+
+                                    </div>
+
                                 )
-                                .map((spellLevel) => (
-
-                                    <div
-                                        className="spell-level-group"
-                                        key={spellLevel}
-                                    >
-
-                                        <h2>
-
-                                            {spellLevel === "0"
-                                                ? "Trucchetti"
-                                                : `Livello ${spellLevel}`
-                                            }
-
-                                        </h2>
+                            }
 
 
-                                        <div className="spell-list-items">
+                            {!loading && !error && (
 
-                                            {spellsByLevel[spellLevel].map(
-                                                (spell) => (
+                                Object.keys(spellsByLevel)
+                                    .sort(
+                                        (a, b) =>
+                                            Number(a) - Number(b)
+                                    )
+                                    .map((spellLevel) => (
 
-                                                    <button
-                                                        type="button"
-                                                        className={`spell-list-item ${selectedSpell?.id === spell.id
-                                                            ? "active"
-                                                            : ""
-                                                            }`}
-                                                        key={spell.id}
-                                                        onClick={() =>
-                                                            selectSpell(
-                                                                spell.id
-                                                            )
-                                                        }
-                                                    >
+                                        <div
+                                            className="spell-level-group"
+                                            key={spellLevel}
+                                        >
 
-                                                        <span>
-                                                            {spell.name}
-                                                        </span>
+                                            <h2>
 
-                                                        <span>
-                                                            {spell.school}
-                                                        </span>
+                                                {spellLevel === "0"
+                                                    ? "Trucchetti"
+                                                    : `Livello ${spellLevel}`
+                                                }
 
-                                                    </button>
+                                            </h2>
 
-                                                )
-                                            )}
+
+                                            <div className="spell-list-items row ">
+                                                <div className="col-12 text-center ">
+                                                    {spellsByLevel[spellLevel].map(
+                                                        (spell) => (
+                                                            <div key={spell.id} className="row justify-content-center">
+                                                                <div className="col-6 mt-2">
+                                                                    <div className="card">
+                                                                        <button
+                                                                            type="button"
+                                                                            className={`btn spell-list-item ${selectedSpell?.id === spell.id
+                                                                                ? "btn-warning"
+                                                                                : ""
+                                                                                }`}
+
+                                                                            onClick={() =>
+                                                                                selectSpell(
+                                                                                    spell.id
+                                                                                )
+                                                                            }
+                                                                        >
+
+                                                                            <span>
+                                                                                {spell.name}
+                                                                            </span>
+
+
+
+                                                                        </button>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        )
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    ))
+                            )}
+
+                        </div>
+
+
+                        {/* DETTAGLIO */}
+                        <div
+                            className={` ${!showDetail
+                                ? "d-none d-lg-block"
+                                : ""
+                                }`}
+                        >
+
+                            {!selectedSpell ? (
+
+                                <div className="spell-detail-empty text-center">
+
+                                    <h2>
+                                        Seleziona un incantesimo
+                                    </h2>
+
+                                    <p>
+                                        Seleziona un incantesimo dalla lista
+                                        per visualizzarne i dettagli.
+                                    </p>
+
+                                </div>
+
+                            ) : (
+
+                                <div className="card w-100">
+
+                                    {/* TITOLO */}
+                                    <div className="spell-detail-header">
+                                        <div className="card-header d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-lg-center">
+                                            <div className=" d-flex justify-content-center ">
+                                                <button
+                                                    type="button"
+                                                    className="mt-3 btn btn-outline-danger d-lg-none mb-3"
+                                                    onClick={() => {
+                                                        setShowDetail(false)
+                                                        setSelectedSpell(null)
+                                                    }
+                                                    }
+                                                >
+                                                    ← Chiudi
+                                                </button>
+                                            </div>
+                                            <div>
+                                                <h2>
+                                                    {selectedSpell.name}
+                                                </h2>
+
+                                                <p>
+
+                                                    {selectedSpell.level === 0
+                                                        ? "Trucchetto"
+                                                        : `Incantesimo di ${selectedSpell.level}° livello`
+                                                    }
+
+                                                    {" • "}
+
+                                                    {selectedSpell.school}
+
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <div className="d-flex justify-content-between">
+                                                    <div className="me-2 d-none d-lg-block">
+                                                        <button
+                                                            type="button"
+                                                            className="btn btn-outline-primary"
+                                                            onClick={() => {
+                                                                // In seguito porterà alla pagina di modifica
+                                                            }}
+                                                        >
+                                                            Modifica
+                                                        </button>
+                                                    </div>
+
+                                                    <div className="d-none d-lg-block">
+                                                        <button
+                                                            type="button"
+                                                            className="btn btn-outline-danger"
+                                                            onClick={deleteSpell}
+                                                        >
+                                                            Elimina
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
 
                                         </div>
 
                                     </div>
 
-                                ))
-                        )}
 
-                    </div>
+                                    {/* DATI */}
+                                    <div className="spell-properties card-body">
 
+                                        <div>
 
-                    {/* DETTAGLIO */}
-                    <div
-                        className={`spell-detail ${!showDetail
-                            ? "d-none d-lg-block"
-                            : ""
-                            }`}
-                    >
+                                            <strong>
+                                                {`Tempo di lancio: `}
+                                            </strong>
 
-                        {!selectedSpell ? (
+                                            <span>
+                                                {selectedSpell.castMethod}
+                                            </span>
 
-                            <div className="spell-detail-empty">
+                                        </div>
 
-                                <h2>
-                                    Seleziona un incantesimo
-                                </h2>
+                                        <div>
 
-                                <p>
-                                    Seleziona un incantesimo dalla lista
-                                    per visualizzarne i dettagli.
-                                </p>
+                                            <strong>
+                                                {`Gittata: `}
+                                            </strong>
 
-                            </div>
+                                            <span>
+                                                {selectedSpell.castRange}
+                                            </span>
 
-                        ) : (
+                                        </div>
 
-                            <div>
+                                        <div>
 
-                                {/* MOBILE BACK */}
-                                <button
-                                    type="button"
-                                    className="btn btn-outline-secondary d-lg-none mb-3"
-                                    onClick={() =>
-                                        setShowDetail(false)
-                                    }
-                                >
-                                    ← Torna agli incantesimi
-                                </button>
+                                            <strong>
+                                                {`Componenti: `}
+                                            </strong>
 
+                                            <span>
+                                                {selectedSpell.components || "-"}
+                                            </span>
 
-                                {/* TITOLO */}
-                                <div className="spell-detail-header">
+                                        </div>
 
-                                    <div>
+                                        <div>
 
-                                        <h2>
-                                            {selectedSpell.name}
-                                        </h2>
+                                            <strong>
+                                                {`Durata: `}
+                                            </strong>
 
-                                        <p>
+                                            <span>
+                                                {selectedSpell.duration}
+                                            </span>
 
-                                            {selectedSpell.level === 0
-                                                ? "Trucchetto"
-                                                : `Incantesimo di ${selectedSpell.level}° livello`
-                                            }
-
-                                            {" • "}
-
-                                            {selectedSpell.school}
-
-                                        </p>
+                                        </div>
 
                                     </div>
 
 
-                                    {/* AZIONI */}
-                                    <div className="spell-actions">
+                                    {/* MATERIALI */}
+                                    {selectedSpell.materials && (
 
-                                        <button
-                                            type="button"
-                                            className="btn btn-outline-primary"
-                                            onClick={() => {
-                                                // In seguito porterà alla pagina di modifica
-                                            }}
-                                        >
-                                            Modifica
-                                        </button>
+                                        <div className="spell-section card-body">
 
-                                        <button
-                                            type="button"
-                                            className="btn btn-outline-danger"
-                                            onClick={deleteSpell}
-                                        >
-                                            Elimina
-                                        </button>
+                                            <h3>
+                                                {`Materiali: `}
+                                            </h3>
 
-                                    </div>
+                                            <p>
+                                                {selectedSpell.materials}
+                                            </p>
 
-                                </div>
+                                        </div>
+
+                                    )}
 
 
-                                {/* DATI */}
-                                <div className="spell-properties">
-
-                                    <div>
-
-                                        <strong>
-                                            Tempo di lancio
-                                        </strong>
-
-                                        <span>
-                                            {selectedSpell.castMethod}
-                                        </span>
-
-                                    </div>
-
-
-                                    <div>
-
-                                        <strong>
-                                            Gittata
-                                        </strong>
-
-                                        <span>
-                                            {selectedSpell.castRange}
-                                        </span>
-
-                                    </div>
-
-
-                                    <div>
-
-                                        <strong>
-                                            Componenti
-                                        </strong>
-
-                                        <span>
-                                            {selectedSpell.components || "-"}
-                                        </span>
-
-                                    </div>
-
-
-                                    <div>
-
-                                        <strong>
-                                            Durata
-                                        </strong>
-
-                                        <span>
-                                            {selectedSpell.duration}
-                                        </span>
-
-                                    </div>
-
-                                </div>
-
-
-                                {/* MATERIALI */}
-                                {selectedSpell.materials && (
-
-                                    <div className="spell-section">
+                                    {/* DESCRIZIONE */}
+                                    <div className="spell-section card-body">
 
                                         <h3>
-                                            Materiali
+                                            Descrizione:
                                         </h3>
 
                                         <p>
-                                            {selectedSpell.materials}
+                                            {selectedSpell.effect}
                                         </p>
 
                                     </div>
 
-                                )}
 
+                                    {/* LIVELLI SUPERIORI */}
+                                    {selectedSpell.upgrade && (
 
-                                {/* DESCRIZIONE */}
-                                <div className="spell-section">
+                                        <div className="spell-section card-body">
 
-                                    <h3>
-                                        Descrizione
-                                    </h3>
+                                            <h3>
+                                                Ai livelli superiori:
+                                            </h3>
 
-                                    <p>
-                                        {selectedSpell.effect}
-                                    </p>
+                                            <p>
+                                                {selectedSpell.upgrade}
+                                            </p>
+
+                                        </div>
+
+                                    )}
 
                                 </div>
 
+                            )}
 
-                                {/* LIVELLI SUPERIORI */}
-                                {selectedSpell.upgrade && (
-
-                                    <div className="spell-section">
-
-                                        <h3>
-                                            Ai livelli superiori
-                                        </h3>
-
-                                        <p>
-                                            {selectedSpell.upgrade}
-                                        </p>
-
-                                    </div>
-
-                                )}
-
-                            </div>
-
-                        )}
+                        </div>
 
                     </div>
 
                 </div>
-
             </div>
-
         </div>
 
     );

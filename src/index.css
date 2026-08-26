@@ -1,11 +1,22 @@
 @import url('bootstrap');
 @import url('bootstrap-icons');
 
+body {
+  caret-color: transparent;
+  user-select: none;
+}
+
+input,
+textarea,
+[contenteditable="true"] {
+  caret-color: auto;
+  user-select: text;
+}
+
 .calendar-title {
   margin-top: 30px;
   margin-bottom: 20px;
 }
-
 
 /* Contenitore principale del calendario */
 
@@ -406,51 +417,9 @@
 .spells-content {
   display: grid;
   grid-template-columns: 380px minmax(0, 1fr);
-
   gap: 20px;
-
   margin-top: 20px;
-
   min-height: 600px;
-}
-
-/* Responsive */
-
-@media (min-width: 992px) and (max-width: 1199px) {
-
-  .season {
-    padding: 25px 30px;
-  }
-
-  .calendar {
-    grid-template-columns: 75px minmax(0, 1fr);
-    gap: 4px;
-  }
-
-  .week-column {
-    gap: 4px;
-  }
-
-  .calendar-grid {
-    gap: 4px;
-  }
-
-  .calendar-day {
-    min-height: 65px;
-    padding: 5px;
-  }
-
-  .day-number {
-    font-size: 1rem;
-  }
-
-  .day-name {
-    font-size: 0.7rem;
-  }
-
-  .holiday-name {
-    font-size: 0.65rem;
-  }
 }
 
 .initiative-pannel {
@@ -558,6 +527,55 @@
   height: 38px;
   display: flex;
   align-items: center;
+}
+
+/* Responsive */
+
+@media (min-width: 992px) and (max-width: 1199px) {
+
+  .season {
+    padding: 25px 30px;
+  }
+
+  .calendar {
+    grid-template-columns: 75px minmax(0, 1fr);
+    gap: 4px;
+  }
+
+  .week-column {
+    gap: 4px;
+  }
+
+  .calendar-grid {
+    gap: 4px;
+  }
+
+  .calendar-day {
+    min-height: 65px;
+    padding: 5px;
+  }
+
+  .day-number {
+    font-size: 1rem;
+  }
+
+  .day-name {
+    font-size: 0.7rem;
+  }
+
+  .holiday-name {
+    font-size: 0.65rem;
+  }
+
+}
+
+@media (max-width: 991px) {
+
+  .spells-content {
+    display: block !important;
+    min-height: auto !important;
+  }
+
 }
 
 @media (min-width: 769px) and (max-width: 991px) {
@@ -704,8 +722,9 @@
 
   }
 
-}
 
+
+}
 
 @media (max-width: 360px) {
 

@@ -63,10 +63,10 @@ export default function CreateSpell() {
 
 
     return (
-        <div className="container-fluid">
+        <div className="container-fluid pb-5">
 
             {/* DESKTOP */}
-            <div className="d-none d-lg-block">
+            <div className="d-none d-lg-flex justify-content-center mt-4">
 
                 <div className="create-spell-page">
 
@@ -371,5 +371,7 @@ export default function CreateSpell() {
             </div>
 
         </div>
+
+
     );
 }
