@@ -8,7 +8,7 @@ export default function InitiativeInput({
 }) {
 
     return (
-        <div className="col-4 col-md-2">
+        <div className="col-4 col-md-2 d-none d-lg-block">
             <label
                 htmlFor={`${field}-${player.id}`}
                 className="form-label mb-1"

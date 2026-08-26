@@ -19,7 +19,7 @@ export default function InitiativeCards({ name, player, editedPlayers, handlePla
 
             <InitiativeInput player={player} editedPlayers={editedPlayers} handlePlayerChange={handlePlayerChange} field={"priority"} label={"Priorità"} />
 
-            <div className="col-12 col-md-4 d-flex gap-2 justify-content-md-end">
+            <div className="col-12 col-md-4  gap-2 justify-content-md-end d-none d-lg-flex">
                 <button
                     type="button"
                     className="btn btn-success btn-sm"

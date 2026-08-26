@@ -11,7 +11,7 @@ export default function TurnManager({ round, initiative, changeTurn, restartTurn
 
                 <button
                     type="button"
-                    className="btn btn-danger btn-sm"
+                    className="btn btn-danger btn-sm d-none d-lg-block"
                     onClick={() => changeTurn(-1)}
                     disabled={initiative.length === 0}
                 >
@@ -20,7 +20,7 @@ export default function TurnManager({ round, initiative, changeTurn, restartTurn
 
                 <button
                     type="button"
-                    className="btn btn-secondary btn-sm"
+                    className="btn btn-secondary btn-sm d-none d-lg-block"
                     onClick={restartTurn}
                     disabled={initiative.length === 0}
                 >
@@ -29,7 +29,7 @@ export default function TurnManager({ round, initiative, changeTurn, restartTurn
 
                 <button
                     type="button"
-                    className="btn btn-primary btn-sm"
+                    className="btn btn-primary btn-sm d-none d-lg-block"
                     onClick={() => changeTurn(1)}
                     disabled={initiative.length === 0}
                 >

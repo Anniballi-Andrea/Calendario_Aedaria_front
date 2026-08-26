@@ -1,7 +1,7 @@
 export default function FormAddInitiativePlayer({ addPlayer, playerName, setPlayerName, playerDex, setPlayerDex, playerInit, setPlayerInit }) {
 
     return (
-        <div className="mt-3">
+        <div className="mt-3 d-none d-lg-block">
 
             <form onSubmit={addPlayer}>
 
