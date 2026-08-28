@@ -1,7 +1,25 @@
+import axios from "axios";
+import { useEffect } from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 
 export default function Header() {
+
+    const [classes, setClasses] = useState([])
+
+    useEffect(() => {
+
+        axios
+            .get("http://localhost:8080/api/class/get-all-summary")
+            .then(response => {
+                setClasses(response.data)
+            })
+            .catch(error => {
+                console.error("Errore nel recupero delle classi:", error)
+            })
+
+    }, [])
 
     return (
         <header>
@@ -53,6 +71,36 @@ export default function Header() {
                                 >
                                     Magia
                                 </NavLink>
+                            </li>
+
+                            <li className="nav-item dropdown">
+
+                                <button
+                                    className="nav-link dropdown-toggle text-light fs-4"
+                                    type="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                    Classi
+                                </button>
+
+                                <ul className="dropdown-menu class-dropdown">
+
+                                    {classes.map((dndClass) => (
+
+                                        <li key={dndClass.id}>
+                                            <NavLink
+                                                className="dropdown-item"
+                                                to={`/classi/${dndClass.slug}`}
+                                            >
+                                                {dndClass.name}
+                                            </NavLink>
+                                        </li>
+
+                                    ))}
+
+                                </ul>
+
                             </li>
                         </ul>
                     </div>

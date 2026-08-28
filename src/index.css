@@ -1,9 +1,21 @@
 @import url('bootstrap');
 @import url('bootstrap-icons');
 
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   caret-color: transparent;
   user-select: none;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 input,
@@ -322,7 +334,7 @@ textarea,
   cursor: pointer;
 }
 
-.create-spell-page {
+.create-page {
   max-width: 1100px;
   padding: 30px;
   border-radius: 12px;
@@ -330,20 +342,20 @@ textarea,
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
 }
 
-.create-spell-header {
+.create-page-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 30px;
 }
 
-.create-spell-header h1 {
+.create-page-header h1 {
   margin: 0;
   text-align: center;
   flex: 1;
 }
 
-.spell-form-section {
+.create-form-section {
   margin-bottom: 25px;
   padding: 25px;
   border-radius: 10px;
@@ -351,17 +363,17 @@ textarea,
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-.spell-form-section h2 {
+.create-form-section h2 {
   margin-bottom: 20px;
   font-size: 1.35rem;
 }
 
-.spell-form-section .form-label {
+.create-form-section .form-label {
   font-weight: 600;
 }
 
-.spell-form-section .form-control,
-.spell-form-section .form-select {
+.create-form-section .form-control,
+.create-form-section .form-select {
   border-radius: 7px;
 }
 
@@ -370,7 +382,7 @@ textarea,
   resize: vertical;
 }
 
-.create-spell-actions {
+.create-page-actions {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
@@ -527,6 +539,47 @@ textarea,
   height: 38px;
   display: flex;
   align-items: center;
+}
+
+.class-dropdown {
+
+  min-width: 120px !important;
+  max-width: 150px !important;
+  max-height: 20vh;
+  overflow-y: auto;
+
+  background-color: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.35rem 0 !important;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.class-dropdown::-webkit-scrollbar {
+  display: none;
+}
+
+.class-dropdown .dropdown-item {
+  padding: 0.35rem 1rem !important;
+  color: white;
+  font-size: 0.8rem;
+}
+
+.class-dropdown .dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.18) !important;
+  color: white !important;
+}
+
+.class-dropdown .dropdown-item.active {
+  background-color: rgba(255, 255, 255, 0.30) !important;
+  color: white !important;
+}
+
+.class-dropdown .dropdown-item.active:hover {
+  background-color: rgba(255, 255, 255, 0.38) !important;
+  color: white !important;
 }
 
 /* Responsive */

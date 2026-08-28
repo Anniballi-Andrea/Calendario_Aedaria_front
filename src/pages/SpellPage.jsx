@@ -223,7 +223,7 @@ export default function SpellPage() {
 
                             <button
                                 type="button"
-                                className="btn btn-primary d-none d-lx-block"
+                                className="btn btn-primary d-none d-lg-block"
                                 onClick={() => navigate("/aggiungi-incantesimo")}
                             >
                                 + Crea incantesimo

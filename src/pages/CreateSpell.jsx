@@ -68,10 +68,10 @@ export default function CreateSpell() {
             {/* DESKTOP */}
             <div className="d-none d-lg-flex justify-content-center mt-4">
 
-                <div className="create-spell-page">
+                <div className="create-page">
 
                     {/* HEADER */}
-                    <div className="create-spell-header">
+                    <div className="create-page-header">
 
                         <button
                             type="button"
@@ -256,7 +256,7 @@ export default function CreateSpell() {
 
 
                         {/* DESCRIZIONE */}
-                        <div className="spell-form-section">
+                        <div className="create-form-section">
 
                             <h2>Descrizione</h2>
 
@@ -319,7 +319,7 @@ export default function CreateSpell() {
 
 
                         {/* AZIONI */}
-                        <div className="create-spell-actions">
+                        <div className="create-page-actions">
 
                             <button
                                 type="button"
@@ -346,7 +346,7 @@ export default function CreateSpell() {
 
 
             {/* TABLET + SMARTPHONE */}
-            <div className="d-flex d-lg-none justify-content-center align-items-center text-center create-spell-page">
+            <div className="d-flex d-lg-none justify-content-center align-items-center text-center create-page">
 
                 <div className="px-3 py-5">
 
