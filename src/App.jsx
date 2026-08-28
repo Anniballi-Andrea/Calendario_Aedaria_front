@@ -7,6 +7,7 @@ import Initiative from "./pages/Initiative"
 import SpellPage from "./pages/SpellPage"
 import CreateSpell from "./pages/CreateSpell"
 import CreateClass from "./pages/CreateClass"
+import ClassPage from "./pages/ClassPage"
 
 
 function App() {
@@ -20,7 +21,8 @@ function App() {
               <Route path="/iniziativa" element={<Initiative />} />
               <Route path="/incantesimi" element={<SpellPage />} />
               <Route path="/aggiungi-incantesimo" element={<CreateSpell />} />
-              <Route path="/crea-classe" element={<CreateClass />} />
+              <Route path="/classe/crea-classe" element={<CreateClass />} />
+              <Route path="/classe/:slug" element={<ClassPage />} />
             </Route>
           </Routes>
         </CalendarProvider>

@@ -91,7 +91,7 @@ export default function Header() {
                                         <li key={dndClass.id}>
                                             <NavLink
                                                 className="dropdown-item"
-                                                to={`/classi/${dndClass.slug}`}
+                                                to={`/classe/${dndClass.slug}`}
                                             >
                                                 {dndClass.name}
                                             </NavLink>
