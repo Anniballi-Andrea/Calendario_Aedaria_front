@@ -611,6 +611,14 @@ textarea,
   color: white !important;
 }
 
+.spell-list-button {
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.spell-list-button:hover {
+  background-color: #fae091;
+  color: #000;
+}
 
 /* =========================================================
    RESPONSIVE

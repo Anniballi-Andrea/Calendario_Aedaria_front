@@ -1,4 +1,8 @@
+import { useNavigate } from "react-router-dom";
+
 export default function SpellPageDetail({ showDetail, selectedSpell, deleteSpell, setShowDetail, setSelectedSpell }) {
+
+    const navigate = useNavigate()
     return (
         <div
             className={
@@ -47,7 +51,7 @@ export default function SpellPageDetail({ showDetail, selectedSpell, deleteSpell
 
                             </div>
 
-                            <div>
+                            <div className="w-100 text-start">
 
                                 <h2>
                                     {selectedSpell.name}
@@ -56,10 +60,10 @@ export default function SpellPageDetail({ showDetail, selectedSpell, deleteSpell
                                 <p>
                                     {selectedSpell.level === 0
                                         ? "Trucchetto"
-                                        : `Incantesimo di ${selectedSpell.level}° livello`
+                                        : ` ${selectedSpell.level}° livello`
                                     }
 
-                                    {" • "}
+                                    {" - "}
 
                                     {selectedSpell.school}
 
@@ -76,10 +80,8 @@ export default function SpellPageDetail({ showDetail, selectedSpell, deleteSpell
                                         <button
                                             type="button"
                                             className="btn btn-outline-primary"
-                                            onClick={() => {
-                                                // In seguito porterà
-                                                // alla pagina di modifica
-                                            }}
+                                            onClick={() => navigate(`/incantesimi/modifica/${selectedSpell.id}`)
+                                            }
                                         >
                                             Modifica
                                         </button>

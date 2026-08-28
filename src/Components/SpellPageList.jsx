@@ -63,7 +63,7 @@ export default function SpellPageList({ showDetail, loading, error, spells, spel
 
                                         <button
                                             type="button"
-                                            className={`btn ${selectedSpell?.id ===
+                                            className={`btn spell-list-button ${selectedSpell?.id ===
                                                 spell.id
                                                 ? "btn-warning"
                                                 : ""

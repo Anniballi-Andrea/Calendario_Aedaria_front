@@ -1,6 +1,8 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function SpellPageHeader({ search, setSearch, level, setLevel }) {
+
+    const navigate = useNavigate()
 
     return (
         <div className="data-page-header">
@@ -15,7 +17,7 @@ export default function SpellPageHeader({ search, setSearch, level, setLevel }) 
                     type="button"
                     className="btn btn-primary d-none d-lg-block"
                     onClick={() =>
-                        Navigate("/aggiungi-incantesimo")
+                        navigate("/aggiungi-incantesimo")
                     }
                 >
                     + Crea incantesimo

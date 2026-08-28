@@ -21,6 +21,7 @@ function App() {
               <Route path="/iniziativa" element={<Initiative />} />
               <Route path="/incantesimi" element={<SpellPage />} />
               <Route path="/aggiungi-incantesimo" element={<CreateSpell />} />
+              <Route path="/incantesimi/modifica/:id" element={<CreateSpell />} />
               <Route path="/classe/crea-classe" element={<CreateClass />} />
               <Route path="/classe/:slug" element={<ClassPage />} />
             </Route>

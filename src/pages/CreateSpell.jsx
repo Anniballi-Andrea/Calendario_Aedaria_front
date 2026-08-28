@@ -1,12 +1,16 @@
 import axios from "axios";
+import { useEffect } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function CreateSpell() {
 
     const API_URL = "http://localhost:8080/api/spells";
 
     const navigate = useNavigate();
+    const { id } = useParams();
+
+    const isEditMode = Boolean(id);
 
     const [name, setName] = useState("");
     const [school, setSchool] = useState("");
@@ -21,8 +25,43 @@ export default function CreateSpell() {
 
     const [error, setError] = useState("");
 
+    useEffect(() => {
 
-    function createSpell(event) {
+        if (!id) {
+            return;
+        }
+
+        axios
+            .get(`${API_URL}/${id}`)
+            .then((response) => {
+
+                const spell = response.data;
+
+                setName(spell.name ?? "");
+                setSchool(spell.school ?? "");
+                setLevel(spell.level ?? 0);
+                setCastMethod(spell.castMethod ?? "");
+                setCastRange(spell.castRange ?? "");
+                setComponents(spell.components ?? "");
+                setDuration(spell.duration ?? "");
+                setEffect(spell.effect ?? "");
+                setUpgrade(spell.upgrade ?? "");
+                setMaterials(spell.materials ?? "");
+
+            })
+            .catch((error) => {
+
+                console.error(
+                    "Errore nel caricamento dell'incantesimo:",
+                    error
+                );
+
+                setError("Impossibile caricare l'incantesimo.");
+            });
+
+    }, [id]);
+
+    function saveSpell(event) {
 
         event.preventDefault();
 
@@ -39,26 +78,39 @@ export default function CreateSpell() {
             materials: materials
         };
 
-        axios
-            .post(API_URL, spell)
+        const request = isEditMode
+            ? axios.put(API_URL, {
+                ...spell,
+                id: Number(id)
+            })
+            : axios.post(API_URL, spell);
+        request
             .then((response) => {
 
-                console.log("Incantesimo creato:", response.data);
+                console.log(
+                    isEditMode
+                        ? "Incantesimo modificato:"
+                        : "Incantesimo creato:",
+                    response.data
+                );
 
                 navigate("/incantesimi");
-
             })
             .catch((error) => {
 
                 console.error(
-                    "Errore nella creazione dell'incantesimo:",
+                    isEditMode
+                        ? "Errore nella modifica dell'incantesimo:"
+                        : "Errore nella creazione dell'incantesimo:",
                     error
                 );
 
-                setError("Impossibile creare l'incantesimo.");
-
+                setError(
+                    isEditMode
+                        ? "Impossibile modificare l'incantesimo."
+                        : "Impossibile creare l'incantesimo."
+                );
             });
-
     }
 
 
@@ -81,7 +133,11 @@ export default function CreateSpell() {
                             ← Torna agli incantesimi
                         </button>
 
-                        <h1>Nuovo incantesimo</h1>
+                        <h1>
+                            {isEditMode
+                                ? "Modifica incantesimo"
+                                : "Nuovo incantesimo"}
+                        </h1>
 
                     </div>
 
@@ -93,7 +149,7 @@ export default function CreateSpell() {
                     )}
 
 
-                    <form onSubmit={createSpell}>
+                    <form onSubmit={saveSpell}>
 
                         {/* DATI PRINCIPALI */}
                         <div className="spell-form-section">
@@ -333,7 +389,9 @@ export default function CreateSpell() {
                                 type="submit"
                                 className="btn btn-primary"
                             >
-                                Crea incantesimo
+                                {isEditMode
+                                    ? "Salva modifiche"
+                                    : "Crea incantesimo"}
                             </button>
 
                         </div>
