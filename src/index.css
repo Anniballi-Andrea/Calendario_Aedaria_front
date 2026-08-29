@@ -371,6 +371,9 @@ textarea,
 /* =========================================================
    PAGINE DATI GENERICHE
    ========================================================= */
+.border-right {
+  border-right: 2px solid rgba(0, 0, 0, 0.15) !important;
+}
 
 .data-page {
   width: 100%;
@@ -542,9 +545,9 @@ textarea,
   color: #212529;
 }
 
-.initiative-player-active .card-header {
+/*.initiative-player-active .card-header {
   background-color: #fff3cd;
-}
+}*/
 
 .initiative-player-card .btn-danger {
   margin-left: auto !important;

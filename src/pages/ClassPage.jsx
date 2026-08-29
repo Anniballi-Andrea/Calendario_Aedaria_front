@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function ClassPage() {
     const API_URL = "http://localhost:8080/api/class";
@@ -10,6 +10,9 @@ export default function ClassPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [selectedSubClass, setSelectedSubClass] = useState(null);
+    const [selectedSkill, setSelectedSkill] = useState(null)
+
+    const navigate = useNavigate()
 
     function getClass() {
         setLoading(true);
@@ -28,6 +31,36 @@ export default function ClassPage() {
     }
 
     useEffect(() => { getClass(); }, [slug]);
+
+    function deleteSkill(skillId) {
+
+        axios
+            .delete(`${API_URL}/skills/delete/${skillId}`)
+            .then(() => {
+
+                // Ricarica la classe per aggiornare la lista delle skill
+                getClass();
+
+                // Se era selezionata la skill eliminata,
+                // svuota il dettaglio
+                if (selectedSkill?.id === skillId) {
+                    setSelectedSkill(null);
+                }
+
+            })
+            .catch((error) => {
+
+                console.error(
+                    "Errore nell'eliminazione dell'abilità:",
+                    error
+                );
+
+                setError("Impossibile eliminare l'abilità.");
+
+            });
+    }
+
+
 
     if (loading) {
         return (
@@ -142,10 +175,9 @@ export default function ClassPage() {
                                     <button
                                         type="button"
                                         className="btn btn-primary"
-                                        onClick={() => {
-                                            // In seguito porterà alla creazione
-                                            // di una nuova abilità
-                                        }}
+                                        onClick={() =>
+                                            navigate(`/classe/${slug}/skill/nuova`)
+                                        }
                                     >
                                         + Aggiungi
                                     </button>
@@ -153,22 +185,67 @@ export default function ClassPage() {
 
                                 <div className="data-page-list">
 
-                                    {classData.classFeatures?.length === 0 && (
+                                    {classData.skills?.length === 0 && (
                                         <div className="data-page-empty">
                                             Nessuna abilità presente.
                                         </div>
                                     )}
 
-                                    {classData.classFeatures?.map((feature) => (
+                                    {classData.skills?.map((skill) => (
                                         <div
                                             className="card mb-2"
-                                            key={feature.id}
+                                            key={skill.id}
                                         >
+
                                             <div className="card-body">
-                                                <h3>
-                                                    {feature.name}
-                                                </h3>
+
+                                                {/* SELEZIONE SKILL */}
+
+                                                <button
+                                                    type="button"
+                                                    className={`btn spell-list-button w-100 text-start ${selectedSkill?.id === skill.id ? "active" : ""
+                                                        }`}
+                                                    onClick={() => setSelectedSkill(skill)}
+                                                >
+
+                                                    <h3 className="mb-1">
+                                                        {skill.name}
+                                                    </h3>
+
+                                                    <small className="text-muted">
+                                                        Livello {skill.level}
+                                                    </small>
+
+                                                </button>
+
+                                                {/* AZIONI */}
+
+                                                <div className="d-flex justify-content-end gap-2 mt-2">
+
+                                                    <button
+                                                        type="button"
+                                                        className="btn btn-outline-primary"
+                                                        onClick={() =>
+                                                            navigate(`/classe/${slug}/skill/${skill.id}/modifica`)
+                                                        }
+                                                    >
+                                                        <i className="bi bi-pencil"></i>
+                                                        {" "}Modifica
+                                                    </button>
+
+                                                    <button
+                                                        type="button"
+                                                        className="btn btn-outline-danger"
+                                                        onClick={() => deleteSkill(skill.id)}
+                                                    >
+                                                        <i className="bi bi-trash"></i>
+                                                        {" "}Elimina
+                                                    </button>
+
+                                                </div>
+
                                             </div>
+
                                         </div>
                                     ))}
 
@@ -179,36 +256,78 @@ export default function ClassPage() {
                         </div>
 
                         {/* COLONNA DESTRA */}
+
                         <div className="data-page-detail">
 
-                            <div className="card data-page-detail-card">
+                            {!selectedSkill ? (
 
-                                {/* HEADER DETTAGLIO */}
-                                <div className="card-header">
-                                    <h2>
-                                        {classData.name}
-                                    </h2>
-                                </div>
+                                <div className="card data-page-detail-card">
 
-                                {/* DESCRIZIONE */}
-                                <div className="card-body">
+                                    <div className="card-body text-center p-4">
 
-                                    <h3>
-                                        Descrizione
-                                    </h3>
+                                        <h3>
 
-                                    <p>
-                                        {/* Al momento Classes non contiene
-                                            il campo description.
-                                            Inserire qui
-                                            classData.description
-                                            quando sarà disponibile
-                                            dal backend. */}
-                                    </p>
+                                            Nessuna abilità selezionata
+
+                                        </h3>
+
+                                        <p className="mb-0 text-muted">
+
+                                            Seleziona un'abilità dalla lista per visualizzarne i dettagli.
+
+                                        </p>
+
+                                    </div>
 
                                 </div>
 
-                            </div>
+                            ) : (
+
+                                <div className="card data-page-detail-card">
+
+                                    {/* HEADER */}
+
+                                    <div className="card-header">
+
+                                        <h2 className="mb-0">
+
+                                            {selectedSkill.name}
+
+                                        </h2>
+
+                                    </div>
+
+                                    {/* DETTAGLI */}
+
+                                    <div className="card-body">
+
+                                        <div className="mb-3">
+
+                                            <span className="badge text-bg-primary">
+
+                                                Livello {selectedSkill.level}
+
+                                            </span>
+
+                                        </div>
+
+                                        <h3>
+
+                                            Descrizione
+
+                                        </h3>
+
+                                        <p className="mb-0">
+
+                                            {selectedSkill.description}
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            )}
 
                         </div>
 
