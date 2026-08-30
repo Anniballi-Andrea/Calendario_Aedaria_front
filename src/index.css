@@ -458,6 +458,9 @@ textarea,
   min-width: 45px;
 }
 
+.level-dropdown {
+  max-height: 200px;
+}
 
 /* =========================================================
    INIZIATIVA

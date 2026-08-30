@@ -2,8 +2,13 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import PageHeader from "../Components/PageHeader";
+import SubClassHeader from "../Components/SubClassHeader";
+import PageSectionLeft from "../Components/PageSectionLeft";
+import PageSectionRight from "../Components/PgeSectionRight";
 
 export default function ClassPage() {
+
     const API_URL = "http://localhost:8080/api/class";
     const { slug } = useParams();
     const [classData, setClassData] = useState(null);
@@ -11,8 +16,15 @@ export default function ClassPage() {
     const [error, setError] = useState("");
     const [selectedSubClass, setSelectedSubClass] = useState(null);
     const [selectedSkill, setSelectedSkill] = useState(null)
+    const [showDetail, setShowDetail] = useState(false);
 
-    const navigate = useNavigate()
+    const [searchValue, setSearchValue] = useState("");
+    const [selectedLevel, setSelectedLevel] = useState(null);
+
+    const levels = Array.from(
+        { length: 20 },
+        (_, index) => index + 1
+    );
 
     function getClass() {
         setLoading(true);
@@ -29,6 +41,8 @@ export default function ClassPage() {
             })
             .finally(() => { setLoading(false); });
     }
+
+
 
     useEffect(() => { getClass(); }, [slug]);
 
@@ -60,7 +74,18 @@ export default function ClassPage() {
             });
     }
 
+    const filteredSkills = classData?.skills?.filter((skill) => {
 
+        const matchName = skill.name
+            .toLowerCase()
+            .includes(searchValue.toLowerCase());
+
+        const matchLevel =
+            selectedLevel === null ||
+            skill.level === selectedLevel;
+
+        return matchName && matchLevel;
+    }) || [];
 
     if (loading) {
         return (
@@ -98,239 +123,42 @@ export default function ClassPage() {
         <div className="container-fluid pb-5">
             <div className="d-flex justify-content-center mt-4">
                 <div className="data-page">
+                    <PageHeader
+                        name={classData.name}
+                        searchValue={searchValue}
+                        setSearchValue={setSearchValue}
+                        selectedLevel={selectedLevel}
+                        setSelectedLevel={setSelectedLevel}
+                        levels={levels}
+                        showDetail={showDetail}
+                    />
+                    <div className=" row justify-content-between ">
 
-                    {/* HEADER */}
-                    <div className="data-page-header">
-                        <h1>
-                            {classData.name}
-                        </h1>
-                    </div>
+                        <div className={showDetail
+                            ? "col-12 col-lg-5 data-page-sidebar mt-4 border-right d-none d-lg-block"
+                            : "col-12 col-lg-5 data-page-sidebar mt-4 border-right"}>
 
-                    {/* CONTENUTO */}
-                    <div className="data-page-content">
+                            <SubClassHeader
+                                selectedSubClass={selectedSubClass}
+                                subClasses={classData.subClasses}
+                            />
 
-                        {/* COLONNA SINISTRA */}
-                        <div className="data-page-sidebar">
-
-                            {/* SOTTOCLASSI */}
-                            <div className="data-page-section">
-
-                                <div className="data-page-section-header">
-                                    <h2>
-                                        Sottoclassi
-                                    </h2>
-
-                                    <button
-                                        type="button"
-                                        className="btn btn-primary"
-                                        onClick={() => {
-                                            // In seguito porterà alla creazione
-                                            // di una nuova sottoclasse
-                                        }}
-                                    >
-                                        + Aggiungi
-                                    </button>
-                                </div>
-
-                                <select
-                                    className="form-select mt-3"
-                                    value={selectedSubClass?.id || ""}
-                                    onChange={(event) => {
-                                        const subClass =
-                                            classData.subClasses?.find(
-                                                (subClass) =>
-                                                    subClass.id ===
-                                                    Number(event.target.value)
-                                            );
-
-                                        setSelectedSubClass(
-                                            subClass || null
-                                        );
-                                    }}
-                                >
-                                    <option value="">
-                                        Seleziona una sottoclasse
-                                    </option>
-
-                                    {classData.subClasses?.map((subClass) => (
-                                        <option
-                                            key={subClass.id}
-                                            value={subClass.id}
-                                        >
-                                            {subClass.name}
-                                        </option>
-                                    ))}
-                                </select>
-
-                            </div>
-
-                            {/* ABILITÀ */}
-                            <div className="data-page-section">
-
-                                <div className="data-page-section-header">
-                                    <h2>
-                                        Abilità
-                                    </h2>
-
-                                    <button
-                                        type="button"
-                                        className="btn btn-primary"
-                                        onClick={() =>
-                                            navigate(`/classe/${slug}/skill/nuova`)
-                                        }
-                                    >
-                                        + Aggiungi
-                                    </button>
-                                </div>
-
-                                <div className="data-page-list">
-
-                                    {classData.skills?.length === 0 && (
-                                        <div className="data-page-empty">
-                                            Nessuna abilità presente.
-                                        </div>
-                                    )}
-
-                                    {classData.skills?.map((skill) => (
-                                        <div
-                                            className="card mb-2"
-                                            key={skill.id}
-                                        >
-
-                                            <div className="card-body">
-
-                                                {/* SELEZIONE SKILL */}
-
-                                                <button
-                                                    type="button"
-                                                    className={`btn spell-list-button w-100 text-start ${selectedSkill?.id === skill.id ? "active" : ""
-                                                        }`}
-                                                    onClick={() => setSelectedSkill(skill)}
-                                                >
-
-                                                    <h3 className="mb-1">
-                                                        {skill.name}
-                                                    </h3>
-
-                                                    <small className="text-muted">
-                                                        Livello {skill.level}
-                                                    </small>
-
-                                                </button>
-
-                                                {/* AZIONI */}
-
-                                                <div className="d-flex justify-content-end gap-2 mt-2">
-
-                                                    <button
-                                                        type="button"
-                                                        className="btn btn-outline-primary"
-                                                        onClick={() =>
-                                                            navigate(`/classe/${slug}/skill/${skill.id}/modifica`)
-                                                        }
-                                                    >
-                                                        <i className="bi bi-pencil"></i>
-                                                        {" "}Modifica
-                                                    </button>
-
-                                                    <button
-                                                        type="button"
-                                                        className="btn btn-outline-danger"
-                                                        onClick={() => deleteSkill(skill.id)}
-                                                    >
-                                                        <i className="bi bi-trash"></i>
-                                                        {" "}Elimina
-                                                    </button>
-
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                    ))}
-
-                                </div>
-
-                            </div>
-
+                            <PageSectionLeft
+                                name={"Abilità"}
+                                navigateTo={`/classe/${slug}/skill/nuova`}
+                                item={filteredSkills}
+                                selectedItem={selectedSkill}
+                                setSelectedItem={setSelectedSkill}
+                                setShowDetail={setShowDetail}
+                                updateSlgLink={"skill"}
+                                deleteItem={deleteSkill}
+                                slug={slug} />
                         </div>
 
-                        {/* COLONNA DESTRA */}
-
-                        <div className="data-page-detail">
-
-                            {!selectedSkill ? (
-
-                                <div className="card data-page-detail-card">
-
-                                    <div className="card-body text-center p-4">
-
-                                        <h3>
-
-                                            Nessuna abilità selezionata
-
-                                        </h3>
-
-                                        <p className="mb-0 text-muted">
-
-                                            Seleziona un'abilità dalla lista per visualizzarne i dettagli.
-
-                                        </p>
-
-                                    </div>
-
-                                </div>
-
-                            ) : (
-
-                                <div className="card data-page-detail-card">
-
-                                    {/* HEADER */}
-
-                                    <div className="card-header">
-
-                                        <h2 className="mb-0">
-
-                                            {selectedSkill.name}
-
-                                        </h2>
-
-                                    </div>
-
-                                    {/* DETTAGLI */}
-
-                                    <div className="card-body">
-
-                                        <div className="mb-3">
-
-                                            <span className="badge text-bg-primary">
-
-                                                Livello {selectedSkill.level}
-
-                                            </span>
-
-                                        </div>
-
-                                        <h3>
-
-                                            Descrizione
-
-                                        </h3>
-
-                                        <p className="mb-0">
-
-                                            {selectedSkill.description}
-
-                                        </p>
-
-                                    </div>
-
-                                </div>
-
-                            )}
-
-                        </div>
-
+                        <PageSectionRight
+                            selectedItem={selectedSkill}
+                            setSelectedItem={setSelectedSkill}
+                            setShowDetail={setShowDetail} />
                     </div>
 
                 </div>
