@@ -74,18 +74,30 @@ export default function ClassPage() {
             });
     }
 
-    const filteredSkills = classData?.skills?.filter((skill) => {
+    const allSkills = [
+        ...(classData?.skills || []).map((skill) => ({
+            ...skill,
+            isSubClassSkill: false
+        })),
+        ...(selectedSubClass?.skills || []).map((skill) => ({
+            ...skill,
+            isSubClassSkill: true
+        }))
+    ];
 
-        const matchName = skill.name
-            .toLowerCase()
-            .includes(searchValue.toLowerCase());
+    const filteredSkills = allSkills
+        .filter((skill) => {
+            const matchName = skill.name
+                .toLowerCase()
+                .includes(searchValue.toLowerCase());
 
-        const matchLevel =
-            selectedLevel === null ||
-            skill.level === selectedLevel;
+            const matchLevel =
+                selectedLevel === null ||
+                skill.level === selectedLevel;
 
-        return matchName && matchLevel;
-    }) || [];
+            return matchName && matchLevel;
+        })
+        .sort((a, b) => a.level - b.level);
 
     if (loading) {
         return (
@@ -140,7 +152,14 @@ export default function ClassPage() {
 
                             <SubClassHeader
                                 selectedSubClass={selectedSubClass}
+                                setSelectedSubClass={setSelectedSubClass}
                                 subClasses={classData.subClasses}
+                                navigateTo={`/classe/${slug}/sotto-classe/nuova`}
+                                navigateToCreateSkill={
+                                    selectedSubClass
+                                        ? `/classe/${slug}/sotto-classe/${selectedSubClass.id}/skill/nuova`
+                                        : null
+                                }
                             />
 
                             <PageSectionLeft

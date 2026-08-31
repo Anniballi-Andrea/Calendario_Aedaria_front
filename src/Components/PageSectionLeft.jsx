@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom"
 
-
 export default function PageSectionLeft({ name, navigateTo, item, selectedItem, setSelectedItem, deleteItem, updateSlgLink, slug, setShowDetail, editPath }) {
 
     const navigate = useNavigate()
@@ -71,6 +70,11 @@ export default function PageSectionLeft({ name, navigateTo, item, selectedItem, 
                                             }}
                                         >
                                             {item.name}
+                                            {item.isSubClassSkill && (
+                                                <span className="badge bg-secondary ms-2">
+                                                    Sottoclasse
+                                                </span>
+                                            )}
                                         </button>
                                     </div>
                                 </div>

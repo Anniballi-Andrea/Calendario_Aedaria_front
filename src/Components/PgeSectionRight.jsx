@@ -29,9 +29,15 @@ export default function PageSectionRight({ selectedItem, setSelectedItem, setSho
                             </h5>
 
                             <div className="">
-                                <span className="badge text-bg-primary">
+                                <span className="badge text-bg-primary me-1">
                                     Livello {selectedItem.level}
                                 </span>
+
+                                {selectedItem.isSubClassSkill && (
+                                    <span className="badge text-bg-secondary">
+                                        Sottoclasse
+                                    </span>
+                                )}
                             </div>
 
                             <button

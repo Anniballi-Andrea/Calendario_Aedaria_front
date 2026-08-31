@@ -9,9 +9,11 @@ export default function CreateSkill() {
     const CLASS_API_URL = "http://localhost:8080/api/class";
 
     const navigate = useNavigate();
-    const { slug, id } = useParams();
+
+    const { slug, id, subClassId } = useParams();
 
     const isEditMode = Boolean(id);
+    const isSubClassSkill = Boolean(subClassId);
 
     const [name, setName] = useState("");
     const [level, setLevel] = useState(1);
@@ -77,12 +79,10 @@ export default function CreateSkill() {
 
         event.preventDefault();
 
-        if (!classId) {
-
+        if (!classId && !subClassId) {
             setError(
-                "Impossibile identificare la classe."
+                "Impossibile identificare la classe o la sottoclasse."
             );
-
             return;
         }
 
@@ -97,11 +97,15 @@ export default function CreateSkill() {
                 `${API_URL}/update/${id}`,
                 skill
             )
-            : axios.post(
-                `${API_URL}/create/${classId}`,
-                skill
-            );
-
+            : isSubClassSkill
+                ? axios.post(
+                    `${API_URL}/create/sub-class/${subClassId}`,
+                    skill
+                )
+                : axios.post(
+                    `${API_URL}/create/${classId}`,
+                    skill
+                );
         request
             .then((response) => {
 
@@ -156,7 +160,9 @@ export default function CreateSkill() {
                         <h1>
                             {isEditMode
                                 ? "Modifica abilità"
-                                : "Nuova abilità"}
+                                : isSubClassSkill
+                                    ? "Nuova abilità della sottoclasse"
+                                    : "Nuova abilità"}
                         </h1>
 
                     </div>
