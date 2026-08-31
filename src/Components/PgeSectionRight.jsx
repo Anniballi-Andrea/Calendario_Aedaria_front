@@ -1,4 +1,10 @@
-export default function PageSectionRight({ selectedItem, setSelectedItem, setShowDetail }) {
+import { useEffect } from "react"
+
+export default function PageSectionRight({ selectedItem, setSelectedItem, setShowDetail, emptyMessage }) {
+
+    useEffect(() => {
+        console.log("Incantesimo selezionato:", selectedItem);
+    }, [selectedItem]);
 
     return (
         <div className="col-12 col-lg-7">
@@ -10,7 +16,7 @@ export default function PageSectionRight({ selectedItem, setSelectedItem, setSho
                         <div className="card-body">
                             <h3>
 
-                                Nessuna abilità selezionata
+                                {emptyMessage}
 
                             </h3>
                         </div>

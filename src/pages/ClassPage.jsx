@@ -158,7 +158,8 @@ export default function ClassPage() {
                         <PageSectionRight
                             selectedItem={selectedSkill}
                             setSelectedItem={setSelectedSkill}
-                            setShowDetail={setShowDetail} />
+                            setShowDetail={setShowDetail}
+                            emptyMessage={"Nessuna abilità selezionata"} />
                     </div>
 
                 </div>

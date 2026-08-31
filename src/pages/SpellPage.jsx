@@ -1,164 +1,74 @@
-
+import { useState } from "react";
+import PageHeader from "../Components/PageHeader";
+import PageSectionLeft from "../Components/PageSectionLeft";
+import PageSectionRight from "../Components/PgeSectionRight";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import SpellPageHeader from "../Components/SpellPageHeader";
-import SpellPageList from "../Components/SpellPageList";
-import SpellPageDetail from "../Components/SpellPageDetail";
+import { useEffect } from "react";
+import SpellDetail from "../Components/SpellDetail";
 
-export default function SpellPage() {
-
+export default function PageTest() {
     const API_URL = "http://localhost:8080/api/spells";
 
     const [spells, setSpells] = useState([]);
     const [selectedSpell, setSelectedSpell] = useState(null);
-
-    const [search, setSearch] = useState("");
-    const [level, setLevel] = useState(null);
-
+    const [searchValue, setSearchValue] = useState("");
+    const [selectedLevel, setSelectedLevel] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
-
     const [showDetail, setShowDetail] = useState(false);
 
+    const levels = Array.from(
+        { length: 10 },
+        (_, index) => index
+    );
 
     // Recupera gli incantesimi dal backend
     function getSpells() {
-
         setLoading(true);
         setError("");
-
-        if (search.trim() !== "") {
-
-            const params = {
-                name: search.trim()
-            };
-
-            if (level !== null) {
-                params.level = level;
-            }
-
-            axios
-                .get(`${API_URL}/search`, {
-                    params: params
-                })
-                .then((response) => {
-
-                    const data = response.data;
-
-                    setSpells(data);
-
-                })
-                .catch((error) => {
-
-                    console.error("Errore nel recupero degli incantesimi:", error);
-                    setError("Impossibile recuperare gli incantesimi.");
-
-                })
-                .finally(() => {
-
-                    setLoading(false);
-
-                });
-
-            return;
-        }
-
-
-        if (level !== null) {
-
-            axios
-                .get(`${API_URL}/level/${level}`)
-                .then((response) => {
-
-                    const data = response.data;
-
-                    setSpells(data);
-
-                })
-                .catch((error) => {
-
-                    console.error("Errore nel recupero degli incantesimi:", error);
-                    setError("Impossibile recuperare gli incantesimi.");
-
-                })
-                .finally(() => {
-
-                    setLoading(false);
-
-                });
-
-            return;
-        }
-
 
         axios
             .get(API_URL)
             .then((response) => {
-
                 const data = response.data;
-
                 setSpells(data);
-
             })
             .catch((error) => {
-
-                console.error("Errore nel recupero degli incantesimi:", error);
-                setError("Impossibile recuperare gli incantesimi.");
-
-            })
-            .finally(() => {
-
-                setLoading(false);
-
-            });
-
-    }
-
-
-    // Recupera gli incantesimi all'avvio e quando cambiano ricerca/livello
-    useEffect(() => {
-
-        getSpells();
-
-    }, [search, level]);
-
-
-    // Recupera il dettaglio di un incantesimo
-    function selectSpell(id) {
-
-        axios
-            .get(`${API_URL}/${id}`)
-            .then((response) => {
-
-                const data = response.data;
-
-                setSelectedSpell(data);
-                setShowDetail(true);
-
-            })
-            .catch((error) => {
-
                 console.error(
-                    "Errore nel recupero dell'incantesimo:",
+                    "Errore nel recupero degli incantesimi:",
                     error
                 );
-
-                setError("Impossibile recuperare l'incantesimo.");
-
+                setError("Impossibile recuperare gli incantesimi.");
+            })
+            .finally(() => {
+                setLoading(false);
             });
-
     }
 
+    useEffect(() => {
+        getSpells();
+    }, []);
+
+    const filteredSpells = spells.filter((spell) => {
+
+        const matchName = spell.name
+            .toLowerCase()
+            .includes(searchValue.toLowerCase());
+
+        const matchLevel =
+            selectedLevel === null ||
+            spell.level === selectedLevel;
+
+        return matchName && matchLevel;
+    });
+
+    // Recupera il dettaglio di un incantesimo
 
     // Elimina l'incantesimo selezionato
-    function deleteSpell() {
-
-        if (!selectedSpell) {
-            return;
-        }
+    function deleteSpell(spellId) {
 
         const confirmed = window.confirm(
-            `Vuoi davvero eliminare "${selectedSpell.name}"?`
+            "Vuoi davvero eliminare questo incantesimo?"
         );
 
         if (!confirmed) {
@@ -166,84 +76,111 @@ export default function SpellPage() {
         }
 
         axios
-            .delete(`${API_URL}/${selectedSpell.id}`)
+            .delete(`${API_URL}/${spellId}`)
             .then(() => {
 
-                setSelectedSpell(null);
-                setShowDetail(false);
+                if (selectedSpell?.id === spellId) {
+                    setSelectedSpell(null);
+                    setShowDetail(false);
+                }
 
                 getSpells();
-
             })
             .catch((error) => {
-
                 console.error(
                     "Errore durante la cancellazione:",
                     error
                 );
 
-                setError("Impossibile eliminare l'incantesimo.");
-
+                setError(
+                    "Impossibile eliminare l'incantesimo."
+                );
             });
-
     }
 
 
-    // Raggruppa gli incantesimi per livello
-    function getSpellsByLevel() {
+    if (loading) {
 
-        return spells.reduce((groups, spell) => {
-
-            if (!groups[spell.level]) {
-                groups[spell.level] = [];
-            }
-
-            groups[spell.level].push(spell);
-
-            return groups;
-
-        }, {});
-
+        return (
+            <div className="container-fluid pb-5">
+                <div className="d-flex justify-content-center mt-4">
+                    <div className="data-page">
+                        <div className="text-center p-4">
+                            Caricamento incantesimi...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
+    if (error) {
 
-    const spellsByLevel = getSpellsByLevel();
+        return (
+            <div className="container-fluid pb-5">
+                <div className="d-flex justify-content-center mt-4">
+                    <div className="data-page">
+                        <div className="alert alert-danger">
+                            {error}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="container-fluid pb-5">
+
             <div className="d-flex justify-content-center mt-4">
+
                 <div className="data-page">
 
-                    {/* HEADER */}
-                    <SpellPageHeader search={search} setSearch={setSearch} level={level} setLevel={setLevel} />
+                    <PageHeader
+                        name="Incantesimi"
+                        searchValue={searchValue}
+                        setSearchValue={setSearchValue}
+                        selectedLevel={selectedLevel}
+                        setSelectedLevel={setSelectedLevel}
+                        levels={levels}
+                        showDetail={showDetail}
+                    />
 
-                    {/* CONTENUTO */}
-                    <div className="data-page-content">
+                    <div className="row justify-content-between">
 
-                        {/* LISTA */}
-                        <SpellPageList
-                            showDetail={showDetail}
-                            loading={loading}
-                            error={error}
-                            spells={spells}
-                            spellsByLevel={spellsByLevel}
+                        <div
+                            className={
+                                showDetail
+                                    ? "col-12 col-lg-5 data-page-sidebar mt-4 border-right d-none d-lg-block"
+                                    : "col-12 col-lg-5 data-page-sidebar mt-4 border-right"
+                            }
+                        >
+
+                            <PageSectionLeft
+                                name={"Lista"}
+                                navigateTo={"/aggiungi-incantesimo"}
+                                item={filteredSpells}
+                                selectedItem={selectedSpell}
+                                setSelectedItem={setSelectedSpell}
+                                setShowDetail={setShowDetail}
+                                updateSlgLink={"incantesimo"}
+                                deleteItem={deleteSpell}
+                                editPath={(id) => `/incantesimi/modifica/${id}`}
+                            />
+
+                        </div>
+
+                        <SpellDetail
                             selectedSpell={selectedSpell}
-                            selectSpell={selectSpell}
-                        />
-
-                        {/* DETTAGLIO */}
-                        <SpellPageDetail
-                            showDetail={showDetail}
-                            selectedSpell={selectedSpell}
-                            deleteSpell={deleteSpell}
                             setSelectedSpell={setSelectedSpell}
-                            setShowDetail={setShowDetail}
-                        />
+                            setShowDetail={setShowDetail} />
 
                     </div>
 
                 </div>
+
             </div>
+
         </div>
-    )
+    );
 }

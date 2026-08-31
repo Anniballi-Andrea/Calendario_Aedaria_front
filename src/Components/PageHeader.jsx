@@ -75,7 +75,7 @@ export default function PageHeader({
                                                 setSelectedLevel(level)
                                             }
                                         >
-                                            Livello {level}
+                                            {level === 0 ? "Trucchetti" : `Livello ${level}`}
                                         </button>
                                     </li>
                                 ))}
