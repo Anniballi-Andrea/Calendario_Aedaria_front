@@ -11,6 +11,10 @@ import ClassPage from "./pages/ClassPage"
 import CreateSkill from "./pages/CreteSkill"
 import PageTest from "./pages/PageTest"
 import CreateSubClass from "./pages/CreateSubClass"
+import NotFound from "./pages/NotFound"
+import EldritchInvocationsPage from "./pages/EldritchInvocationsPage"
+import MetamagicPage from "./pages/MetamagicPage"
+import TacticsPage from "./pages/TacticsPage"
 
 
 function App() {
@@ -27,11 +31,15 @@ function App() {
               <Route path="/incantesimi/modifica/:id" element={<CreateSpell />} />
               <Route path="/classe/crea-classe" element={<CreateClass />} />
               <Route path="/classe/:slug" element={<ClassPage />} />
-              <Route path="/test" element={<PageTest />} />
+              <Route path="/classe/:slug/suppliche-occulte" element={<EldritchInvocationsPage />} />
+              <Route path="/classe/:slug/metamagia" element={<MetamagicPage />} />
+              <Route path="/classe/:slug/tattiche" element={<TacticsPage />} />
               <Route path="/classe/:slug/sotto-classe/nuova" element={<CreateSubClass />} />
               <Route path="/classe/:slug/skill/nuova" element={<CreateSkill />} />
               <Route path="/classe/:slug/sotto-classe/:subClassId/skill/nuova" element={<CreateSkill />} />
               <Route path="/classe/:slug/skill/:id/modifica" element={<CreateSkill />} />
+              <Route path="/test" element={<PageTest />} />
+              <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
         </CalendarProvider>

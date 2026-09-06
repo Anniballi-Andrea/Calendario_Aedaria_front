@@ -131,6 +131,7 @@ export default function ClassPage() {
         return null;
     }
 
+
     return (
         <div className="container-fluid pb-5">
             <div className="d-flex justify-content-center mt-4">
@@ -143,6 +144,7 @@ export default function ClassPage() {
                         setSelectedLevel={setSelectedLevel}
                         levels={levels}
                         showDetail={showDetail}
+                        slug={slug}
                     />
                     <div className=" row justify-content-between ">
 

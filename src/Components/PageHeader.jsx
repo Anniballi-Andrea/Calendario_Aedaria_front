@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom"
+
 export default function PageHeader({
     name,
     searchValue,
@@ -5,19 +8,41 @@ export default function PageHeader({
     selectedLevel,
     setSelectedLevel,
     levels,
-    showDetail
+    showDetail,
+    slug
 }) {
+
+    const navigate = useNavigate()
+
     return (
         <div className="container-fluid data-page-header">
             <div className="row justify-content-between ">
                 {/* PARTE DESTRA */}
                 <div className="col-12 col-lg-4 text-lg-start mt-3 mt-lg-0">
-                    <h1 className="mb-0">
-                        {name}
-                    </h1>
+                    <div className="d-flex align-items-center">
+                        <h1 className="mb-0">
+                            {name}
+                        </h1>
+                        {slug === "warlock" ? (
+                            <div className="ms-4">
+                                <button type="button" className="btn btn-primary mt-2 " onClick={() => navigate(`/classe/${slug}/suppliche-occulte`)} >
+                                    Suppliche Occulte
+                                </button>
+                            </div>
+                        ) : slug === "stregone" ? (
+                            <div className="ms-4">
+                                <button type="button" className="btn btn-primary mt-2 " onClick={() => navigate(`/classe/${slug}/metamagia`)} >
+                                    Metamagia
+                                </button>
+                            </div>) : slug === "guerriero" ? (
+                                <div className="ms-4">
+                                    <button type="button" className="btn btn-primary mt-2 " onClick={() => navigate(`/classe/${slug}/tattiche`)} >
+                                        Tattiche
+                                    </button>
+                                </div>) : null
+                        }
+                    </div>
                 </div>
-
-
                 {/* PARTE SINISTRA */}
                 <div
                     className={
