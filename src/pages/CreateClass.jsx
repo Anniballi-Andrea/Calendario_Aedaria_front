@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useCalendar } from "../context/CalendarContext";
 
 
 
 export default function CreateClass() {
 
-    const API_URL = "http://localhost:8080/api/class/create";
+    const { setClassLoader } = useCalendar()
+
+    const API_URL = `${import.meta.env.VITE_API_URL}/class/create`;
 
     const navigate = useNavigate();
 
@@ -40,8 +43,10 @@ export default function CreateClass() {
 
                 setError("Impossibile creare la classe.");
 
+            })
+            .finally(() => {
+                setClassLoader(prev => !prev)
             });
-
     }
 
 
@@ -108,7 +113,7 @@ export default function CreateClass() {
                     <button
                         type="button"
                         className="btn btn-outline-success border-3 fw-bold"
-                        onClick={() => navigate("/classi")} >
+                        onClick={() => navigate("/")} >
                         ← Torna alle classi
                     </button>
                 </div>

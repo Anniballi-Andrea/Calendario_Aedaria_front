@@ -9,7 +9,8 @@ import PageSectionRight from "../Components/PgeSectionRight";
 
 export default function ClassPage() {
 
-    const API_URL = "http://localhost:8080/api/class";
+    const API_URL = `${import.meta.env.VITE_API_URL}/class`;
+
     const { slug } = useParams();
     const [classData, setClassData] = useState(null);
     const [loading, setLoading] = useState(true);

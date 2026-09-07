@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import SpellDetail from "../Components/SpellDetail";
 
 export default function PageTest() {
-    const API_URL = "http://localhost:8080/api/spells";
+    const API_URL = `${import.meta.env.VITE_API_URL}/spells`;
 
     const [spells, setSpells] = useState([]);
     const [selectedSpell, setSelectedSpell] = useState(null);

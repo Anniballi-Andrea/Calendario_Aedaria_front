@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 export default function CreateSubClass() {
-    const API_URL = "http://localhost:8080/api/subClass";
-    const CLASS_API_URL = "http://localhost:8080/api/class";
+    const API_URL = `${import.meta.env.VITE_API_URL}/subClass`;
+    const CLASS_API_URL = `${import.meta.env.VITE_API_URL}/class`;
 
     const navigate = useNavigate();
     const { slug } = useParams();

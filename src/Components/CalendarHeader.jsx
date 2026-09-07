@@ -7,6 +7,8 @@ import { useCalendar } from "../context/CalendarContext"
 
 export default function CalendarHeader({ season }) {
 
+    const API_URL = `${import.meta.env.VITE_API_URL}/days/addDay`;
+
     const { displayYear, getDay } = useCalendar()
 
 
@@ -19,7 +21,7 @@ export default function CalendarHeader({ season }) {
     function changeDays(quantity) {
 
         axios
-            .post("http://localhost:8080/api/days/addDay", {
+            .post(`${API_URL}`, {
                 quantity: quantity
             })
             .then(() => {

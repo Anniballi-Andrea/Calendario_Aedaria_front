@@ -11,7 +11,7 @@ export default function ClassFeaturePage() {
     const { slug } = useParams();
     const featureName = slug === "warlock" ? "Suppliche Occulte" : slug === "stregone" ? "Metamagia" : slug === "guerriero" ? "Tattiche" : null;
 
-    const API_URL = `http://localhost:8080/api/class-features`
+    const API_URL = `${import.meta.env.VITE_API_URL}/class-features`;
 
     const [feature, setFeature] = useState([]);
     const [selectedFeature, setSelectedFeature] = useState(null);

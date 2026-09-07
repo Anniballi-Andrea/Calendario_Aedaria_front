@@ -1,6 +1,5 @@
 import { useResource } from "../context/ResourceContext"
 
-
 export default function SurvivolPannel() {
 
     const

@@ -2,16 +2,21 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useCalendar } from "../context/CalendarContext";
 
 
 export default function Header() {
+
+    const { classLoader } = useCalendar()
+
+    const API_URL = `${import.meta.env.VITE_API_URL}/class`;
 
     const [classes, setClasses] = useState([])
 
     useEffect(() => {
 
         axios
-            .get("http://localhost:8080/api/class/get-all-summary")
+            .get(`${API_URL}/get-all-summary`)
             .then(response => {
                 setClasses(response.data)
             })
@@ -19,7 +24,7 @@ export default function Header() {
                 console.error("Errore nel recupero delle classi:", error)
             })
 
-    }, [])
+    }, [classLoader])
 
     return (
         <header>

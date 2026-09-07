@@ -9,11 +9,15 @@ const CalendarContext = createContext();
 
 export function CalendarProvider({ children }) {
 
+    const API_URL = `${import.meta.env.VITE_API_URL}/days/get`;
+
+    const [classLoader, setClassLoader] = useState(false);
+
     const [dayCount, setDayCount] = useState();
 
     function getDay() {
         axios
-            .get("http://localhost:8080/api/days/get")
+            .get(`${API_URL}`)
             .then((response) => {
                 const data = response.data;
                 setDayCount(data);
@@ -117,7 +121,9 @@ export function CalendarProvider({ children }) {
                 displayYear,
                 setDisplayYear,
 
-                carouselRef
+                carouselRef,
+                classLoader,
+                setClassLoader
             }}
         >
             {children}

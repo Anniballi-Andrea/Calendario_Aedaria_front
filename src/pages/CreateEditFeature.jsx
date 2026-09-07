@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 export default function CreateEditFeature() {
 
-    const API_URL = "http://localhost:8080/api/class-features";
+    const API_URL = `${import.meta.env.VITE_API_URL}/class-features`;
 
 
     const navigate = useNavigate()

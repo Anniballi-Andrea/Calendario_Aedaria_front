@@ -19,8 +19,7 @@ export default function InitiativePage() {
     const [turnCount, setTurnCount] = useState(0)
     const [round, setRound] = useState(1)
 
-
-    const API_URL = "http://localhost:8080/api/initiative"
+    const API_URL = `${import.meta.env.VITE_API_URL}/initiative`
 
 
     useEffect(() => {
