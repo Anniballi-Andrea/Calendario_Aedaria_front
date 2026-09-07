@@ -20,6 +20,7 @@ export default function ClassPage() {
 
     const [searchValue, setSearchValue] = useState("");
     const [selectedLevel, setSelectedLevel] = useState(null);
+    const showFeatureButton = true
 
     const levels = Array.from(
         { length: 20 },
@@ -145,6 +146,7 @@ export default function ClassPage() {
                         levels={levels}
                         showDetail={showDetail}
                         slug={slug}
+                        showFeatureButton={showFeatureButton}
                     />
                     <div className=" row justify-content-between ">
 
@@ -171,7 +173,7 @@ export default function ClassPage() {
                                 selectedItem={selectedSkill}
                                 setSelectedItem={setSelectedSkill}
                                 setShowDetail={setShowDetail}
-                                updateSlgLink={"skill"}
+                                updateSlugLink={"skill"}
                                 deleteItem={deleteSkill}
                                 slug={slug} />
                         </div>

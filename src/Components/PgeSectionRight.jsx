@@ -28,16 +28,21 @@ export default function PageSectionRight({ selectedItem, setSelectedItem, setSho
                                 {selectedItem.name}
                             </h5>
 
-                            <div className="">
-                                <span className="badge text-bg-primary me-1">
-                                    Livello {selectedItem.level}
-                                </span>
+                            <div >
+
+                                {selectedItem.level !== undefined &&
+                                    selectedItem.level !== null && (
+                                        <span className="badge text-bg-primary me-1">
+                                            Livello {selectedItem.level}
+                                        </span>
+                                    )}
 
                                 {selectedItem.isSubClassSkill && (
                                     <span className="badge text-bg-secondary">
                                         Sottoclasse
                                     </span>
                                 )}
+
                             </div>
 
                             <button
@@ -51,6 +56,19 @@ export default function PageSectionRight({ selectedItem, setSelectedItem, setSho
                             ></button>
                         </div>
                         <div className="card-body">
+                            {selectedItem.requisite && (
+                                <div className="mb-3 border-bottom pb-2">
+
+                                    <h5 className="fs-6">
+                                        Requisiti:
+                                    </h5>
+
+                                    <div className="text-muted">
+                                        {selectedItem.requisite}
+                                    </div>
+
+                                </div>
+                            )}
                             <h5>Descrizione:</h5>
                             <div>
                                 {selectedItem.description}

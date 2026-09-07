@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom"
 
 export default function PageHeader({
@@ -9,7 +8,8 @@ export default function PageHeader({
     setSelectedLevel,
     levels,
     showDetail,
-    slug
+    slug,
+    showFeatureButton
 }) {
 
     const navigate = useNavigate()
@@ -23,24 +23,29 @@ export default function PageHeader({
                         <h1 className="mb-0">
                             {name}
                         </h1>
-                        {slug === "warlock" ? (
-                            <div className="ms-4">
-                                <button type="button" className="btn btn-primary mt-2 " onClick={() => navigate(`/classe/${slug}/feature`)} >
-                                    Suppliche Occulte
-                                </button>
-                            </div>
-                        ) : slug === "stregone" ? (
-                            <div className="ms-4">
-                                <button type="button" className="btn btn-primary mt-2 " onClick={() => navigate(`/classe/${slug}/feature`)} >
-                                    Metamagia
-                                </button>
-                            </div>) : slug === "guerriero" ? (
-                                <div className="ms-4">
-                                    <button type="button" className="btn btn-primary mt-2 " onClick={() => navigate(`/classe/${slug}/feature`)} >
-                                        Tattiche
-                                    </button>
-                                </div>) : null
-                        }
+                        {showFeatureButton && (
+                            <>
+                                {slug === "warlock" ? (
+                                    <div className="ms-4">
+                                        <button type="button" className="btn btn-primary mt-2 " onClick={() => navigate(`/classe/${slug}/feature`)} >
+                                            Suppliche Occulte
+                                        </button>
+                                    </div>
+                                ) : slug === "stregone" ? (
+                                    <div className="ms-4">
+                                        <button type="button" className="btn btn-primary mt-2 " onClick={() => navigate(`/classe/${slug}/feature`)} >
+                                            Metamagia
+                                        </button>
+                                    </div>) : slug === "guerriero" ? (
+                                        <div className="ms-4">
+                                            <button type="button" className="btn btn-primary mt-2 " onClick={() => navigate(`/classe/${slug}/feature`)} >
+                                                Tattiche
+                                            </button>
+                                        </div>) : null
+                                }
+                            </>
+                        )}
+
                     </div>
                 </div>
                 {/* PARTE SINISTRA */}
@@ -66,46 +71,47 @@ export default function PageHeader({
                         />
 
                         {/* LIVELLI */}
-                        <div className="dropdown">
-                            <button
-                                type="button"
-                                className="btn btn-outline-primary dropdown-toggle text-nowrap"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                            >
-                                {selectedLevel === null
-                                    ? "Tutti i livelli"
-                                    : `Livello ${selectedLevel}`}
-                            </button>
+                        {levels && levels.length > 0 &&
+                            <div className="dropdown">
+                                <button
+                                    type="button"
+                                    className="btn btn-outline-primary dropdown-toggle text-nowrap"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                    {selectedLevel === null
+                                        ? "Tutti i livelli"
+                                        : `Livello ${selectedLevel}`}
+                                </button>
 
-                            <ul className="dropdown-menu dropdown-menu-end overflow-auto level-dropdown">
-                                <li>
-                                    <button
-                                        type="button"
-                                        className="dropdown-item"
-                                        onClick={() =>
-                                            setSelectedLevel(null)
-                                        }
-                                    >
-                                        Tutti i livelli
-                                    </button>
-                                </li>
-
-                                {levels.map((level) => (
-                                    <li key={level}>
+                                <ul className="dropdown-menu dropdown-menu-end overflow-auto level-dropdown">
+                                    <li>
                                         <button
                                             type="button"
                                             className="dropdown-item"
                                             onClick={() =>
-                                                setSelectedLevel(level)
+                                                setSelectedLevel(null)
                                             }
                                         >
-                                            {level === 0 ? "Trucchetti" : `Livello ${level}`}
+                                            Tutti i livelli
                                         </button>
                                     </li>
-                                ))}
-                            </ul>
-                        </div>
+
+                                    {levels.map((level) => (
+                                        <li key={level}>
+                                            <button
+                                                type="button"
+                                                className="dropdown-item"
+                                                onClick={() =>
+                                                    setSelectedLevel(level)
+                                                }
+                                            >
+                                                {level === 0 ? "Trucchetti" : `Livello ${level}`}
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>}
 
                     </div>
 

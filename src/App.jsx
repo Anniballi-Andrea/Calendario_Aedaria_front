@@ -13,6 +13,7 @@ import CreateSubClass from "./pages/CreateSubClass"
 import NotFound from "./pages/NotFound"
 import InitiativePage from "./pages/InitiativePage"
 import ClassFeaturePage from "./pages/ClassFeaturePage"
+import CreateEditFeature from "./pages/CreateEditFeature"
 
 
 function App() {
@@ -30,6 +31,8 @@ function App() {
               <Route path="/classe/crea-classe" element={<CreateClass />} />
               <Route path="/classe/:slug" element={<ClassPage />} />
               <Route path="/classe/:slug/feature" element={<ClassFeaturePage />} />
+              <Route path="/classe/:slug/feature/aggiungi-feature" element={<CreateEditFeature />} />
+              <Route path="/classe/:slug/feature/:id/modifica" element={<CreateEditFeature />} />
               <Route path="/classe/:slug/sotto-classe/nuova" element={<CreateSubClass />} />
               <Route path="/classe/:slug/skill/nuova" element={<CreateSkill />} />
               <Route path="/classe/:slug/sotto-classe/:subClassId/skill/nuova" element={<CreateSkill />} />

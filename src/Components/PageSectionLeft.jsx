@@ -1,20 +1,25 @@
 import { useNavigate } from "react-router-dom"
 
-export default function PageSectionLeft({ name, navigateTo, item, selectedItem, setSelectedItem, deleteItem, updateSlgLink, slug, setShowDetail, editPath }) {
+export default function PageSectionLeft({ name, navigateTo, item, selectedItem, setSelectedItem, deleteItem, updateSlugLink, slug, setShowDetail, editPath }) {
 
     const navigate = useNavigate()
 
-    const groupedItems = item?.reduce((groups, currentItem) => {
-        const level = currentItem.level;
+    const hasLevel = item?.some(
+        (currentItem) => currentItem.level !== undefined && currentItem.level !== null
+    );
+    const groupedItems = hasLevel
+        ? item.reduce((groups, currentItem) => {
+            const level = currentItem.level;
 
-        if (!groups[level]) {
-            groups[level] = [];
-        }
+            if (!groups[level]) {
+                groups[level] = [];
+            }
 
-        groups[level].push(currentItem);
+            groups[level].push(currentItem);
 
-        return groups;
-    }, {});
+            return groups;
+        }, {})
+        : null;;
 
     return (
         <div className="data-page-section">
@@ -44,74 +49,135 @@ export default function PageSectionLeft({ name, navigateTo, item, selectedItem, 
                         Nessuna abilità presente.
                     </div>
                 )}
-                {Object.entries(groupedItems).map(([level, items]) => (
-                    <div key={level}>
+                {hasLevel ? (
+                    Object.entries(groupedItems).map(([level, items]) => (
+                        <div key={level}>
 
-                        <h5 className="mt-3">
-                            {level === "0" ? "Trucchetti" : `Livello ${level}`}
-                        </h5>
+                            <h5 className="mt-3">
+                                {level === "0" ? "Trucchetti" : `Livello ${level}`}
+                            </h5>
 
-                        {items.map((item) => (
-                            <div
-                                className="d-flex align-items-center"
-                                key={item.id}
-                            >
-                                <div className="col-12 col-lg-7">
-                                    <div className="card mt-2">
+                            {items.map((item) => (
+                                <div
+                                    className="d-flex align-items-center"
+                                    key={item.id}
+                                >
+                                    <div className="col-12 col-lg-7">
+                                        <div className="card mt-2">
+                                            <button
+                                                type="button"
+                                                className={`btn spell-list-button w-100 text-center ${selectedItem?.id === item.id
+                                                    ? "active"
+                                                    : ""
+                                                    }`}
+                                                onClick={() => {
+                                                    setSelectedItem(item);
+                                                    setShowDetail(true);
+                                                }}
+                                            >
+                                                {item.name}
+                                                {item.isSubClassSkill && (
+                                                    <span className="badge bg-secondary ms-2">
+                                                        Sottoclasse
+                                                    </span>
+                                                )}
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div className="col-12 col-lg-5">
+                                        <div className="d-none d-lg-flex justify-content-end">
+                                            <div>
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-outline-primary"
+                                                    onClick={() =>
+                                                        navigate(
+                                                            editPath
+                                                                ? editPath(item.id)
+                                                                : `/classe/${slug}/${updateSlugLink}/${item.id}/modifica`
+                                                        )
+                                                    }
+                                                >
+                                                    <i className="bi bi-pencil"></i>
+                                                </button>
+                                            </div>
+
+                                            <div className="ms-lg-2">
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-outline-danger"
+                                                    onClick={() => deleteItem(item.id)}
+                                                >
+                                                    <i className="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ))) : (
+                    item?.map((item) => (
+                        <div
+                            className="d-flex align-items-center"
+                            key={item.id}
+                        >
+                            <div className="col-12 col-lg-7">
+                                <div className="card mt-2">
+                                    <button
+                                        type="button"
+                                        className={`btn spell-list-button w-100 text-center ${selectedItem?.id === item.id
+                                            ? "active"
+                                            : ""
+                                            }`}
+                                        onClick={() => {
+                                            setSelectedItem(item);
+                                            setShowDetail(true);
+                                        }}
+                                    >
+                                        {item.name}
+                                        {item.isSubClassSkill && (
+                                            <span className="badge bg-secondary ms-2">
+                                                Sottoclasse
+                                            </span>
+                                        )}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="col-12 col-lg-5">
+                                <div className="d-none d-lg-flex justify-content-end">
+                                    <div>
                                         <button
                                             type="button"
-                                            className={`btn spell-list-button w-100 text-center ${selectedItem?.id === item.id
-                                                ? "active"
-                                                : ""
-                                                }`}
-                                            onClick={() => {
-                                                setSelectedItem(item);
-                                                setShowDetail(true);
-                                            }}
+                                            className="btn btn-outline-primary"
+                                            onClick={() =>
+                                                navigate(
+                                                    editPath
+                                                        ? editPath(item.id)
+                                                        : `/classe/${slug}/${updateSlugLink}/${item.id}/modifica`
+                                                )
+                                            }
                                         >
-                                            {item.name}
-                                            {item.isSubClassSkill && (
-                                                <span className="badge bg-secondary ms-2">
-                                                    Sottoclasse
-                                                </span>
-                                            )}
+                                            <i className="bi bi-pencil"></i>
+                                        </button>
+                                    </div>
+
+                                    <div className="ms-lg-2">
+                                        <button
+                                            type="button"
+                                            className="btn btn-outline-danger"
+                                            onClick={() => deleteItem(item.id)}
+                                        >
+                                            <i className="bi bi-trash"></i>
                                         </button>
                                     </div>
                                 </div>
-
-                                <div className="col-12 col-lg-5">
-                                    <div className="d-none d-lg-flex justify-content-end">
-                                        <div>
-                                            <button
-                                                type="button"
-                                                className="btn btn-outline-primary"
-                                                onClick={() =>
-                                                    navigate(
-                                                        editPath
-                                                            ? editPath(item.id)
-                                                            : `/classe/${slug}/${updateSlgLink}/${item.id}/modifica`
-                                                    )
-                                                }
-                                            >
-                                                <i className="bi bi-pencil"></i>
-                                            </button>
-                                        </div>
-
-                                        <div className="ms-lg-2">
-                                            <button
-                                                type="button"
-                                                className="btn btn-outline-danger"
-                                                onClick={() => deleteItem(item.id)}
-                                            >
-                                                <i className="bi bi-trash"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
-                        ))}
-                    </div>
-                ))}
+                        </div>
+                    ))
+                )}
 
             </div>
         </div>

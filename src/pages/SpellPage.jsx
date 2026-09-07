@@ -16,6 +16,7 @@ export default function PageTest() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [showDetail, setShowDetail] = useState(false);
+    const showFeatureButton = false;
 
     const levels = Array.from(
         { length: 10 },
@@ -144,6 +145,7 @@ export default function PageTest() {
                         setSelectedLevel={setSelectedLevel}
                         levels={levels}
                         showDetail={showDetail}
+                        showFeatureButton={showFeatureButton}
                     />
 
                     <div className="row justify-content-between">
@@ -163,7 +165,7 @@ export default function PageTest() {
                                 selectedItem={selectedSpell}
                                 setSelectedItem={setSelectedSpell}
                                 setShowDetail={setShowDetail}
-                                updateSlgLink={"incantesimo"}
+                                updateSlugLink={"incantesimo"}
                                 deleteItem={deleteSpell}
                                 editPath={(id) => `/incantesimi/modifica/${id}`}
                             />
