@@ -7,7 +7,7 @@ import InitiativeInput from "../Components/InitiativeImput"
 import InitiativeCards from "../Components/InitiativeCards"
 import RemoveFromInitiative from "../Components/RemoveFromInitiative"
 
-export default function Initiative() {
+export default function InitiativePage() {
 
     const [playerName, setPlayerName] = useState("")
     const [playerDex, setPlayerDex] = useState(0)
@@ -17,11 +17,8 @@ export default function Initiative() {
     const [playerToRemove, setPlayerToRemove] = useState(null)
     const [initiative, setInitiative] = useState([])
     const [turnCount, setTurnCount] = useState(0)
-    const [round, setRound] = useState(() => {
-        const savedRound = localStorage.getItem("initiativeRound")
+    const [round, setRound] = useState(1)
 
-        return savedRound ? Number(savedRound) : 1
-    })
 
     const API_URL = "http://localhost:8080/api/initiative"
 
@@ -32,8 +29,24 @@ export default function Initiative() {
     }, [])
 
     useEffect(() => {
-        localStorage.setItem("initiativeRound", round)
-    }, [round])
+        const interval = setInterval(() => {
+            if (!document.hidden) {
+                getTurnCount()
+            }
+        }, 3000)
+
+        return () => clearInterval(interval)
+    }, [])
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (!document.hidden) {
+                getPlayerList()
+            }
+        }, 10000)
+
+        return () => clearInterval(interval)
+    }, [])
 
 
     function getPlayerList() {
@@ -44,7 +57,11 @@ export default function Initiative() {
                 setInitiative(data)
             })
             .catch((error) => {
-                console.error("Errore:", error)
+                console.error(
+                    "ERRORE getPlayerList:",
+                    error.response?.status,
+                    error.response?.data
+                )
             })
     }
 
@@ -91,16 +108,18 @@ export default function Initiative() {
 
 
     function getTurnCount() {
-
         axios
             .get(`${API_URL}/getRound`)
             .then((response) => {
-
-                setTurnCount(response.data)
-
+                setTurnCount(response.data.count)
+                setRound(response.data.round)
             })
             .catch((error) => {
-                console.error("Errore:", error)
+                console.error(
+                    "ERRORE getRound:",
+                    error.response?.status,
+                    error.response?.data
+                )
             })
     }
 
@@ -108,34 +127,40 @@ export default function Initiative() {
     function changeTurn(n) {
         if (initiative.length === 0) return
 
-        const currentPlayerIndex =
-            ((turnCount % initiative.length) + initiative.length) %
-            initiative.length
+        const isLastPlayer =
+            currentPlayerIndex === initiative.length - 1
 
-        if (n === 1 && currentPlayerIndex === initiative.length - 1) {
-            setRound(prev => prev + 1)
-        }
-
-        if (n === -1 && currentPlayerIndex === 0 && round > 1) {
-            setRound(prev => prev - 1)
-        }
+        const isFirstPlayer =
+            currentPlayerIndex === 0
 
         axios
             .post(`${API_URL}/changeTurn`, { quantity: n })
+            .then(() => {
+                if (n === 1 && isLastPlayer) {
+                    return axios.post(`${API_URL}/addRound`, {
+                        quantity: 1
+                    })
+                }
+
+                if (n === -1 && isFirstPlayer && round > 1) {
+                    return axios.post(`${API_URL}/removeRound`, {
+                        quantity: -1
+                    })
+                }
+            })
             .then(() => {
                 getTurnCount()
             })
             .catch((error) => {
                 console.error("Errore:", error)
             })
-    }
 
+    }
 
     function restartTurn() {
         axios
             .post(`${API_URL}/restartTurn/1`)
             .then(async () => {
-
                 const updateRequests = initiative.map(player =>
                     axios.put(`${API_URL}/changePlayer`, {
                         ...player,
@@ -144,8 +169,6 @@ export default function Initiative() {
                 )
 
                 await Promise.all(updateRequests)
-
-                setRound(1)
 
                 getTurnCount()
                 getPlayerList()
@@ -156,11 +179,14 @@ export default function Initiative() {
     }
 
 
+
     const currentPlayerIndex =
         initiative.length > 0
             ? ((turnCount % initiative.length) + initiative.length) %
             initiative.length
             : 0
+
+
 
     function handlePlayerChange(id, field, value) {
         setEditedPlayers(prev => ({
