@@ -11,10 +11,8 @@ import CreateSkill from "./pages/CreteSkill"
 import PageTest from "./pages/PageTest"
 import CreateSubClass from "./pages/CreateSubClass"
 import NotFound from "./pages/NotFound"
-import EldritchInvocationsPage from "./pages/EldritchInvocationsPage"
-import MetamagicPage from "./pages/MetamagicPage"
-import TacticsPage from "./pages/TacticsPage"
 import InitiativePage from "./pages/InitiativePage"
+import ClassFeaturePage from "./pages/ClassFeaturePage"
 
 
 function App() {
@@ -31,9 +29,7 @@ function App() {
               <Route path="/incantesimi/modifica/:id" element={<CreateSpell />} />
               <Route path="/classe/crea-classe" element={<CreateClass />} />
               <Route path="/classe/:slug" element={<ClassPage />} />
-              <Route path="/classe/:slug/suppliche-occulte" element={<EldritchInvocationsPage />} />
-              <Route path="/classe/:slug/metamagia" element={<MetamagicPage />} />
-              <Route path="/classe/:slug/tattiche" element={<TacticsPage />} />
+              <Route path="/classe/:slug/feature" element={<ClassFeaturePage />} />
               <Route path="/classe/:slug/sotto-classe/nuova" element={<CreateSubClass />} />
               <Route path="/classe/:slug/skill/nuova" element={<CreateSkill />} />
               <Route path="/classe/:slug/sotto-classe/:subClassId/skill/nuova" element={<CreateSkill />} />

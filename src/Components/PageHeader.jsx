@@ -25,18 +25,18 @@ export default function PageHeader({
                         </h1>
                         {slug === "warlock" ? (
                             <div className="ms-4">
-                                <button type="button" className="btn btn-primary mt-2 " onClick={() => navigate(`/classe/${slug}/suppliche-occulte`)} >
+                                <button type="button" className="btn btn-primary mt-2 " onClick={() => navigate(`/classe/${slug}/feature`)} >
                                     Suppliche Occulte
                                 </button>
                             </div>
                         ) : slug === "stregone" ? (
                             <div className="ms-4">
-                                <button type="button" className="btn btn-primary mt-2 " onClick={() => navigate(`/classe/${slug}/metamagia`)} >
+                                <button type="button" className="btn btn-primary mt-2 " onClick={() => navigate(`/classe/${slug}/feature`)} >
                                     Metamagia
                                 </button>
                             </div>) : slug === "guerriero" ? (
                                 <div className="ms-4">
-                                    <button type="button" className="btn btn-primary mt-2 " onClick={() => navigate(`/classe/${slug}/tattiche`)} >
+                                    <button type="button" className="btn btn-primary mt-2 " onClick={() => navigate(`/classe/${slug}/feature`)} >
                                         Tattiche
                                     </button>
                                 </div>) : null
