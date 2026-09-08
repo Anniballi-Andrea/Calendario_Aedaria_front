@@ -5,8 +5,8 @@ import { useNavigate, useParams } from "react-router-dom";
 
 export default function CreateSkill() {
 
-    const API_URL = "http://localhost:8080/api/class/skills";
-    const CLASS_API_URL = "http://localhost:8080/api/class";
+    const API_URL = `${import.meta.env.VITE_API_URL}/class/skills`;
+    const CLASS_API_URL = `${import.meta.env.VITE_API_URL}/class`;
 
     const navigate = useNavigate();
 
