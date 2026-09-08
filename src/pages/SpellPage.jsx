@@ -1,12 +1,14 @@
 import { useState } from "react";
 import PageHeader from "../Components/PageHeader";
 import PageSectionLeft from "../Components/PageSectionLeft";
-import PageSectionRight from "../Components/PgeSectionRight";
-import axios from "axios";
+import api from "../api/axiosConfig";
 import { useEffect } from "react";
 import SpellDetail from "../Components/SpellDetail";
+import { useAuth } from "../context/AuthContext";
 
 export default function PageTest() {
+
+    const { token } = useAuth()
 
     const API_URL = `${import.meta.env.VITE_API_URL}/spells`
 
@@ -29,7 +31,7 @@ export default function PageTest() {
         setLoading(true);
         setError("");
 
-        axios
+        api
             .get(API_URL)
             .then((response) => {
                 const data = response.data;
@@ -77,8 +79,9 @@ export default function PageTest() {
             return;
         }
 
-        axios
-            .delete(`${API_URL}/${spellId}`)
+        api
+            .delete(`${API_URL}/${spellId}`, {
+            })
             .then(() => {
 
                 if (selectedSpell?.id === spellId) {

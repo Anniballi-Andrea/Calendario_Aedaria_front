@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../api/axiosConfig";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -29,7 +29,7 @@ export default function CreateEditFeature() {
         setLoading(true);
         setError("");
 
-        axios
+        api
             .get(`${API_URL}/get/${id}`)
             .then((response) => {
                 const feature = response.data;
@@ -65,8 +65,8 @@ export default function CreateEditFeature() {
         };
 
         const request = isEditMode
-            ? axios.put(`${API_URL}/update/${id}`, feature)
-            : axios.post(`${API_URL}/create-by-slug/${slug}`, feature);
+            ? api.put(`${API_URL}/update/${id}`, feature)
+            : api.post(`${API_URL}/create-by-slug/${slug}`, feature);
 
         request
             .then(() => {

@@ -1,4 +1,4 @@
-import axios from "axios"
+import api from "../api/axiosConfig";
 import { useEffect } from "react"
 import { useState } from "react"
 import FormAddInitiativePlayer from "../Components/FormAddInitiativePlayers"
@@ -49,7 +49,7 @@ export default function InitiativePage() {
 
 
     function getPlayerList() {
-        axios
+        api
             .get(`${API_URL}/getPlayerList`)
             .then((response) => {
                 const data = response.data
@@ -76,7 +76,7 @@ export default function InitiativePage() {
             priority: Number(playerPriority)
         }
 
-        axios
+        api
             .post(`${API_URL}/addPlayer`, player)
             .then(() => {
 
@@ -95,7 +95,7 @@ export default function InitiativePage() {
 
 
     function removePlayer(id) {
-        axios
+        api
             .delete(`${API_URL}/deletePlayer/${id}`)
             .then(() => {
                 getPlayerList()
@@ -107,7 +107,7 @@ export default function InitiativePage() {
 
 
     function getTurnCount() {
-        axios
+        api
             .get(`${API_URL}/getRound`)
             .then((response) => {
                 setTurnCount(response.data.count)
@@ -132,17 +132,17 @@ export default function InitiativePage() {
         const isFirstPlayer =
             currentPlayerIndex === 0
 
-        axios
+        api
             .post(`${API_URL}/changeTurn`, { quantity: n })
             .then(() => {
                 if (n === 1 && isLastPlayer) {
-                    return axios.post(`${API_URL}/addRound`, {
+                    return api.post(`${API_URL}/addRound`, {
                         quantity: 1
                     })
                 }
 
                 if (n === -1 && isFirstPlayer && round > 1) {
-                    return axios.post(`${API_URL}/removeRound`, {
+                    return api.post(`${API_URL}/removeRound`, {
                         quantity: -1
                     })
                 }
@@ -157,11 +157,11 @@ export default function InitiativePage() {
     }
 
     function restartTurn() {
-        axios
+        api
             .post(`${API_URL}/restartTurn/1`)
             .then(async () => {
                 const updateRequests = initiative.map(player =>
-                    axios.put(`${API_URL}/changePlayer`, {
+                    api.put(`${API_URL}/changePlayer`, {
                         ...player,
                         initiative: 0,
                         priority: 0
@@ -212,7 +212,7 @@ export default function InitiativePage() {
             )
         }
 
-        axios
+        api
             .put(`${API_URL}/changePlayer`, editedPlayer)
             .then(() => {
                 setEditedPlayers(prev => {
