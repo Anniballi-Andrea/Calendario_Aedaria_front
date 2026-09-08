@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api/axiosConfig";
 import { useCalendar } from "../context/CalendarContext";
 
 
@@ -25,7 +25,7 @@ export default function CreateClass() {
             name: name
         };
 
-        axios
+        api
             .post(API_URL, classes)
             .then((response) => {
 

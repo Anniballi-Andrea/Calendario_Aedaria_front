@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../api/axiosConfig";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -31,7 +31,7 @@ export default function ClassPage() {
     function getClass() {
         setLoading(true);
         setError("");
-        axios
+        api
             .get(`${API_URL}/get-by-slug/${slug}`)
             .then((response) => {
                 const data = response.data;
@@ -55,7 +55,7 @@ export default function ClassPage() {
 
     function deleteSkill(skillId) {
 
-        axios
+        api
             .delete(`${API_URL}/skills/delete/${skillId}`)
             .then(() => {
 

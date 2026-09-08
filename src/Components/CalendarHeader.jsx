@@ -1,4 +1,4 @@
-import axios from "axios"
+import api from "../api/axiosConfig";
 import { useState } from "react"
 import Modal from "./Modal"
 import ButtonChangeDays from "./ButtonChangeDays"
@@ -20,7 +20,7 @@ export default function CalendarHeader({ season }) {
 
     function changeDays(quantity) {
 
-        axios
+        api
             .post(`${API_URL}`, {
                 quantity: quantity
             })

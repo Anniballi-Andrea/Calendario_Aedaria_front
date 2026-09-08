@@ -1,12 +1,14 @@
-import axios from "axios";
+import api from "../api/axiosConfig";
 import { useEffect } from "react";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useCalendar } from "../context/CalendarContext";
+import { useAuth } from "../context/AuthContext";
 
 
 export default function Header() {
 
+    const { isAuthenticated, isAdmin, logout } = useAuth();
     const { classLoader } = useCalendar()
 
     const API_URL = `${import.meta.env.VITE_API_URL}/class`;
@@ -15,7 +17,7 @@ export default function Header() {
 
     useEffect(() => {
 
-        axios
+        api
             .get(`${API_URL}/get-all-summary`)
             .then(response => {
                 setClasses(response.data)
@@ -117,6 +119,28 @@ export default function Header() {
                             </li>
 
                         </ul>
+                        <div className="ms-auto me-4">
+                            {isAuthenticated ? (
+
+                                <button
+                                    type="button"
+                                    className="nav-link text-light fs-4"
+                                    onClick={logout}
+                                >
+                                    Logout
+                                </button>
+
+                            ) : (
+
+                                <NavLink
+                                    className="nav-link text-light fs-4"
+                                    to="/login"
+                                >
+                                    Login
+                                </NavLink>
+
+                            )}
+                        </div>
                     </div>
 
                 </div>

@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../api/axiosConfig";
 import { useEffect } from "react";
 import { useRef } from "react";
 import { useState } from "react";
@@ -16,7 +16,7 @@ export function CalendarProvider({ children }) {
     const [dayCount, setDayCount] = useState();
 
     function getDay() {
-        axios
+        api
             .get(`${API_URL}`)
             .then((response) => {
                 const data = response.data;

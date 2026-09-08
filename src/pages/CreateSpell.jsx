@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../api/axiosConfig";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -31,7 +31,7 @@ export default function CreateSpell() {
             return;
         }
 
-        axios
+        api
             .get(`${API_URL}/${id}`)
             .then((response) => {
 
@@ -79,11 +79,11 @@ export default function CreateSpell() {
         };
 
         const request = isEditMode
-            ? axios.put(API_URL, {
+            ? api.put(API_URL, {
                 ...spell,
                 id: Number(id)
             })
-            : axios.post(API_URL, spell);
+            : api.post(API_URL, spell);
         request
             .then((response) => {
 

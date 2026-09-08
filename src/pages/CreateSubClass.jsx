@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../api/axiosConfig";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -14,7 +14,7 @@ export default function CreateSubClass() {
     const [error, setError] = useState("");
 
     useEffect(() => {
-        axios
+        api
             .get(`${CLASS_API_URL}/get-by-slug/${slug}`)
             .then((response) => {
                 const classData = response.data;
@@ -47,7 +47,7 @@ export default function CreateSubClass() {
             name: name
         };
 
-        axios
+        api
             .post(
                 `${API_URL}/create/${classId}`,
                 subClass

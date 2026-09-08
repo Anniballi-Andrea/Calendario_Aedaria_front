@@ -14,35 +14,40 @@ import NotFound from "./pages/NotFound"
 import InitiativePage from "./pages/InitiativePage"
 import ClassFeaturePage from "./pages/ClassFeaturePage"
 import CreateEditFeature from "./pages/CreateEditFeature"
+import { AuthProvider } from "./context/AuthContext"
+import Login from "./pages/Login"
 
 
 function App() {
   return (
     <BrowserRouter>
-      <ResourceProvider>
-        <CalendarProvider>
-          <Routes>
-            <Route element={<DefaultLayout />}>
-              <Route path="/" element={<Home />} />
-              <Route path="/iniziativa" element={<InitiativePage />} />
-              <Route path="/incantesimi" element={<SpellPage />} />
-              <Route path="/aggiungi-incantesimo" element={<CreateSpell />} />
-              <Route path="/incantesimi/modifica/:id" element={<CreateSpell />} />
-              <Route path="/classe/crea-classe" element={<CreateClass />} />
-              <Route path="/classe/:slug" element={<ClassPage />} />
-              <Route path="/classe/:slug/feature" element={<ClassFeaturePage />} />
-              <Route path="/classe/:slug/feature/aggiungi-feature" element={<CreateEditFeature />} />
-              <Route path="/classe/:slug/feature/:id/modifica" element={<CreateEditFeature />} />
-              <Route path="/classe/:slug/sotto-classe/nuova" element={<CreateSubClass />} />
-              <Route path="/classe/:slug/skill/nuova" element={<CreateSkill />} />
-              <Route path="/classe/:slug/sotto-classe/:subClassId/skill/nuova" element={<CreateSkill />} />
-              <Route path="/classe/:slug/skill/:id/modifica" element={<CreateSkill />} />
-              <Route path="/test" element={<PageTest />} />
-              <Route path="*" element={<NotFound />} />
-            </Route>
-          </Routes>
-        </CalendarProvider>
-      </ResourceProvider>
+      <AuthProvider>
+        <ResourceProvider>
+          <CalendarProvider>
+            <Routes>
+              <Route element={<DefaultLayout />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/iniziativa" element={<InitiativePage />} />
+                <Route path="/incantesimi" element={<SpellPage />} />
+                <Route path="/aggiungi-incantesimo" element={<CreateSpell />} />
+                <Route path="/incantesimi/modifica/:id" element={<CreateSpell />} />
+                <Route path="/classe/crea-classe" element={<CreateClass />} />
+                <Route path="/classe/:slug" element={<ClassPage />} />
+                <Route path="/classe/:slug/feature" element={<ClassFeaturePage />} />
+                <Route path="/classe/:slug/feature/aggiungi-feature" element={<CreateEditFeature />} />
+                <Route path="/classe/:slug/feature/:id/modifica" element={<CreateEditFeature />} />
+                <Route path="/classe/:slug/sotto-classe/nuova" element={<CreateSubClass />} />
+                <Route path="/classe/:slug/skill/nuova" element={<CreateSkill />} />
+                <Route path="/classe/:slug/sotto-classe/:subClassId/skill/nuova" element={<CreateSkill />} />
+                <Route path="/classe/:slug/skill/:id/modifica" element={<CreateSkill />} />
+                <Route path="/test" element={<PageTest />} />
+                <Route path="*" element={<NotFound />} />
+              </Route>
+            </Routes>
+          </CalendarProvider>
+        </ResourceProvider>
+      </AuthProvider>
     </BrowserRouter>
 
   )

@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../api/axiosConfig";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -24,7 +24,7 @@ export default function CreateSkill() {
     useEffect(() => {
 
         // Carica la classe tramite lo slug
-        axios
+        api
             .get(`${CLASS_API_URL}/get-by-slug/${slug}`)
             .then((response) => {
 
@@ -51,7 +51,7 @@ export default function CreateSkill() {
         }
 
         // Carica la Skill tramite il suo ID
-        axios
+        api
             .get(`${API_URL}/get/${id}`)
             .then((response) => {
 
@@ -93,16 +93,16 @@ export default function CreateSkill() {
         };
 
         const request = isEditMode
-            ? axios.put(
+            ? api.put(
                 `${API_URL}/update/${id}`,
                 skill
             )
             : isSubClassSkill
-                ? axios.post(
+                ? api.post(
                     `${API_URL}/create/sub-class/${subClassId}`,
                     skill
                 )
-                : axios.post(
+                : api.post(
                     `${API_URL}/create/${classId}`,
                     skill
                 );

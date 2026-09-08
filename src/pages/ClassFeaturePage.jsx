@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../api/axiosConfig";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
@@ -25,7 +25,7 @@ export default function ClassFeaturePage() {
         setLoading(true);
         setError("");
 
-        axios
+        api
             .get(`${API_URL}/by-class/${slug}`)
             .then((response) => {
                 const data = response.data;
@@ -56,7 +56,7 @@ export default function ClassFeaturePage() {
             return;
         }
 
-        axios
+        api
             .delete(`${API_URL}/delete/${id}`)
             .then(() => {
                 if (selectedFeature?.id === id) {
