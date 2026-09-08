@@ -163,7 +163,8 @@ export default function InitiativePage() {
                 const updateRequests = initiative.map(player =>
                     axios.put(`${API_URL}/changePlayer`, {
                         ...player,
-                        initiative: 0
+                        initiative: 0,
+                        priority: 0
                     })
                 )
 

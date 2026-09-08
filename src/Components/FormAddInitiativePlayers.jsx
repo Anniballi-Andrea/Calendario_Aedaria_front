@@ -30,27 +30,6 @@ export default function FormAddInitiativePlayer({ addPlayer, playerName, setPlay
 
                     <div className="col-2">
                         <label
-                            htmlFor="player-dex"
-                            className="form-label mb-1"
-                        >
-                            Dex
-                        </label>
-                        <input
-                            id="player-dex"
-                            className="form-control"
-                            type="number"
-                            value={playerDex}
-                            onChange={event =>
-                                setPlayerDex(event.target.value)
-                            }
-                            placeholder="Destrezza"
-                            required
-                        />
-                    </div>
-
-
-                    <div className="col-2">
-                        <label
                             htmlFor="player-init"
                             className="form-label mb-1"
                         >
@@ -65,6 +44,27 @@ export default function FormAddInitiativePlayer({ addPlayer, playerName, setPlay
                                 setPlayerInit(event.target.value)
                             }
                             placeholder="Iniziativa"
+                            required
+                        />
+                    </div>
+
+
+                    <div className="col-2">
+                        <label
+                            htmlFor="player-dex"
+                            className="form-label mb-1"
+                        >
+                            Dex
+                        </label>
+                        <input
+                            id="player-dex"
+                            className="form-control"
+                            type="number"
+                            value={playerDex}
+                            onChange={event =>
+                                setPlayerDex(event.target.value)
+                            }
+                            placeholder="Destrezza"
                             required
                         />
                     </div>

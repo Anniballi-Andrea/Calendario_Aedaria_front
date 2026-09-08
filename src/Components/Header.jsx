@@ -77,6 +77,14 @@ export default function Header() {
                                     Magia
                                 </NavLink>
                             </li>
+                            <li className="nav-item">
+                                <NavLink
+                                    className="nav-link text-light fs-4 btn "
+                                    to="/classe/crea-classe"
+                                >
+                                    Classe +
+                                </NavLink>
+                            </li>
 
                             <li className="nav-item dropdown">
 
@@ -107,14 +115,7 @@ export default function Header() {
                                 </ul>
 
                             </li>
-                            <li className="nav-item">
-                                <NavLink
-                                    className="nav-link text-light fs-4 btn "
-                                    to="/classe/crea-classe"
-                                >
-                                    Classe +
-                                </NavLink>
-                            </li>
+
                         </ul>
                     </div>
 

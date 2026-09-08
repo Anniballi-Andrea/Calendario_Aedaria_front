@@ -143,7 +143,7 @@ export default function ClassFeaturePage() {
                             selectedItem={selectedFeature}
                             setSelectedItem={setSelectedFeature}
                             setShowDetail={setShowDetail}
-                            emptyMessage={`Seleziona una ${featureName} per visualizzarne i dettagli.`}
+                            emptyMessage={`Seleziona un opzione per visualizzarne i dettagli.`}
                         />
 
                     </div>
