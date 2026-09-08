@@ -46,7 +46,12 @@ export default function ClassPage() {
 
 
 
-    useEffect(() => { getClass(); }, [slug]);
+    useEffect(() => {
+        getClass();
+        setSelectedSubClass(null);
+        setSelectedSkill(null);
+        setShowDetail(false);
+    }, [slug]);
 
     function deleteSkill(skillId) {
 
