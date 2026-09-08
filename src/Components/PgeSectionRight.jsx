@@ -2,9 +2,6 @@ import { useEffect } from "react"
 
 export default function PageSectionRight({ selectedItem, setSelectedItem, setShowDetail, emptyMessage }) {
 
-    useEffect(() => {
-        console.log("Incantesimo selezionato:", selectedItem);
-    }, [selectedItem]);
 
     return (
         <div className="col-12 col-lg-7">
