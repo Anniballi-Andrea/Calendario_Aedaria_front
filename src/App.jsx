@@ -16,6 +16,7 @@ import ClassFeaturePage from "./pages/ClassFeaturePage"
 import CreateEditFeature from "./pages/CreateEditFeature"
 import { AuthProvider } from "./context/AuthContext"
 import Login from "./pages/Login"
+import Register from "./pages/Register"
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
               <Route element={<DefaultLayout />}>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
                 <Route path="/iniziativa" element={<InitiativePage />} />
                 <Route path="/incantesimi" element={<SpellPage />} />
                 <Route path="/aggiungi-incantesimo" element={<CreateSpell />} />
