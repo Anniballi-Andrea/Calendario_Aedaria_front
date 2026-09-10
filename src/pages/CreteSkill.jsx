@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import ContentNotPermitted from "../Components/ContentNotPermitted";
 
 export default function CreateSkill() {
 
@@ -298,9 +299,7 @@ export default function CreateSkill() {
 
                             </form>
                             :
-                            <div className="text-center">
-                                <h1>Non dovresti essere qui, torna indietro!!</h1>
-                            </div>
+                            <ContentNotPermitted />
 
                     }
 

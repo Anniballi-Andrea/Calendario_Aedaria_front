@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import ContentNotPermitted from "../Components/ContentNotPermitted";
 export default function CreateSubClass() {
     const API_URL = `${import.meta.env.VITE_API_URL}/subClass`;
     const CLASS_API_URL = `${import.meta.env.VITE_API_URL}/class`;
@@ -164,9 +165,7 @@ export default function CreateSubClass() {
 
                             </form>
                             :
-                            <div className="text-center">
-                                <h1>Non dovresti essere qui, torna indietro!!</h1>
-                            </div>
+                            <ContentNotPermitted />
                     }
 
 

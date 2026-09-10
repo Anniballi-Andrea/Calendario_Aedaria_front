@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../api/axiosConfig";
 import { useCalendar } from "../context/CalendarContext";
 import { useAuth } from "../context/AuthContext";
+import ContentNotPermitted from "../Components/ContentNotPermitted";
 
 
 
@@ -107,9 +108,7 @@ export default function CreateClass() {
                                 </div>
                             </form>
                             :
-                            <div className="text-center">
-                                <h1>Non dovresti essere qui, torna indietro!!</h1>
-                            </div>
+                            <ContentNotPermitted />
                     }
 
                 </div>
