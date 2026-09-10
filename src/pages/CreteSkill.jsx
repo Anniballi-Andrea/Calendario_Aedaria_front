@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import ContentNotPermitted from "../Components/ContentNotPermitted";
+import HtmlForNubs from "../Components/HtmlForNub";
 
 export default function CreateSkill() {
 
@@ -251,14 +252,10 @@ export default function CreateSkill() {
                                     <h2>
                                         Descrizione
                                     </h2>
-
+                                    <HtmlForNubs />
                                     <div className="mb-3">
-
-                                        <label className="form-label">
-                                            Descrizione dell'abilità
-                                        </label>
-
                                         <textarea
+                                            rows="7"
                                             className="form-control skill-textarea-description"
                                             value={description}
                                             onChange={(event) =>

@@ -1,4 +1,5 @@
 import { useEffect } from "react"
+import SafeHtml from "./SafeHtml"
 
 export default function PageSectionRight({ selectedItem, setSelectedItem, setShowDetail, emptyMessage }) {
 
@@ -67,9 +68,10 @@ export default function PageSectionRight({ selectedItem, setSelectedItem, setSho
                                 </div>
                             )}
                             <h5>Descrizione:</h5>
-                            <div>
-                                {selectedItem.description}
-                            </div>
+                            <p>
+                                <SafeHtml html={selectedItem.description} />
+                            </p>
+
                         </div>
 
                     </div>

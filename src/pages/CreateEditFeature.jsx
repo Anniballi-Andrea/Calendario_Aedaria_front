@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import ContentNotPermitted from "../Components/ContentNotPermitted";
+import HtmlForNubs from "../Components/HtmlForNub";
 
 export default function CreateEditFeature() {
 
@@ -144,6 +145,7 @@ export default function CreateEditFeature() {
                                     </div>
 
                                 </div>
+                                <HtmlForNubs />
                                 <label className="form-label">
                                     Descrizione
                                 </label>
@@ -165,7 +167,7 @@ export default function CreateEditFeature() {
 
                                 <textarea
                                     className="form-control"
-                                    rows="3"
+                                    rows="4"
                                     value={requisite}
                                     onChange={(event) =>
                                         setRequisite(event.target.value)

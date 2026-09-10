@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import ContentNotPermitted from "../Components/ContentNotPermitted";
+import HtmlForNubs from "../Components/HtmlForNub";
 
 export default function CreateSpell() {
 
@@ -312,7 +313,7 @@ export default function CreateSpell() {
                                 <div className="create-form-section">
 
                                     <h2>Descrizione</h2>
-
+                                    <HtmlForNubs />
                                     <div className="mb-3">
 
                                         <label className="form-label">
@@ -320,6 +321,7 @@ export default function CreateSpell() {
                                         </label>
 
                                         <textarea
+                                            rows="7"
                                             className="form-control spell-textarea-effect"
                                             value={effect}
                                             onChange={(event) =>
@@ -369,6 +371,7 @@ export default function CreateSpell() {
                                     </div>
 
                                 </div>
+
 
 
                                 {/* AZIONI */}

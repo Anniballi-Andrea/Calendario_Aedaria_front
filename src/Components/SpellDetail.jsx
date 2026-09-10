@@ -1,3 +1,4 @@
+import SafeHtml from "./SafeHtml";
 
 export default function SpellDetail({
     selectedSpell,
@@ -87,7 +88,7 @@ export default function SpellDetail({
 
                         <h6>Descrizione:</h6>
                         <p>
-                            {selectedSpell.effect}
+                            <SafeHtml html={selectedSpell.effect} />
                         </p>
 
 
