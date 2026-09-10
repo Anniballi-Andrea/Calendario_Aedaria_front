@@ -236,9 +236,9 @@ export default function InitiativePage() {
     }
 
     return (
-        <div className="initiative-pannel">
+        <div className="row justify-content-center mt-5">
 
-            <div className="col text-center mt-3">
+            <div className="col text-center mt-3 data-page">
 
                 <h2>Iniziativa</h2>
 
