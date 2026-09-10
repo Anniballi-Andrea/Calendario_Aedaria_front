@@ -100,7 +100,7 @@ export default function ClassPage() {
 
             const matchLevel =
                 selectedLevel === null ||
-                skill.level === selectedLevel;
+                skill.level <= selectedLevel;
 
             return matchName && matchLevel;
         })
