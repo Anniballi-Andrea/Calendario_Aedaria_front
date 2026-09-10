@@ -39,10 +39,6 @@ export default function Login() {
 
             const responseText = await response.text();
 
-            console.log("Login URL:", API_URL);
-            console.log("Login status:", response.status);
-            console.log("Login response:", responseText);
-
             if (!response.ok) {
                 throw new Error(
                     `Login fallito: HTTP ${response.status}`
@@ -50,8 +46,6 @@ export default function Login() {
             }
 
             const data = JSON.parse(responseText);
-
-            console.log("Login data:", data);
 
             login(data);
 

@@ -2,8 +2,11 @@ import api from "../api/axiosConfig";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function CreateSpell() {
+
+    const { isAdmin } = useAuth()
 
     const API_URL = `${import.meta.env.VITE_API_URL}/spells`;
 
@@ -87,13 +90,6 @@ export default function CreateSpell() {
         request
             .then((response) => {
 
-                console.log(
-                    isEditMode
-                        ? "Incantesimo modificato:"
-                        : "Incantesimo creato:",
-                    response.data
-                );
-
                 navigate("/incantesimi");
             })
             .catch((error) => {
@@ -134,9 +130,9 @@ export default function CreateSpell() {
                         </button>
 
                         <h1>
-                            {isEditMode
+                            {isEditMode && isAdmin
                                 ? "Modifica incantesimo"
-                                : "Nuovo incantesimo"}
+                                : isAdmin && "Nuovo incantesimo"}
                         </h1>
 
                     </div>
@@ -147,256 +143,263 @@ export default function CreateSpell() {
                             {error}
                         </div>
                     )}
+                    {
+                        isAdmin ?
+                            <form onSubmit={saveSpell}>
+
+                                {/* DATI PRINCIPALI */}
+                                <div className="spell-form-section">
+
+                                    <h2>Informazioni principali</h2>
+
+                                    <div className="row">
+
+                                        <div className="col-md-8 mb-3">
+
+                                            <label className="form-label">
+                                                Nome
+                                            </label>
+
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                value={name}
+                                                onChange={(event) =>
+                                                    setName(event.target.value)
+                                                }
+                                                required
+                                            />
+
+                                        </div>
 
 
-                    <form onSubmit={saveSpell}>
+                                        <div className="col-md-4 mb-3">
 
-                        {/* DATI PRINCIPALI */}
-                        <div className="spell-form-section">
+                                            <label className="form-label">
+                                                Livello
+                                            </label>
 
-                            <h2>Informazioni principali</h2>
+                                            <select
+                                                className="form-select"
+                                                value={level}
+                                                onChange={(event) =>
+                                                    setLevel(event.target.value)
+                                                }
+                                            >
+                                                {Array.from(
+                                                    { length: 10 },
+                                                    (_, index) => (
+                                                        <option
+                                                            key={index}
+                                                            value={index}
+                                                        >
+                                                            {index === 0
+                                                                ? "0 - Trucchetto"
+                                                                : `Livello ${index}`
+                                                            }
+                                                        </option>
+                                                    )
+                                                )}
+                                            </select>
 
-                            <div className="row">
+                                        </div>
 
-                                <div className="col-md-8 mb-3">
 
-                                    <label className="form-label">
-                                        Nome
-                                    </label>
+                                        <div className="col-md-6 mb-3">
 
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        value={name}
-                                        onChange={(event) =>
-                                            setName(event.target.value)
-                                        }
-                                        required
-                                    />
+                                            <label className="form-label">
+                                                Scuola
+                                            </label>
+
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                value={school}
+                                                onChange={(event) =>
+                                                    setSchool(event.target.value)
+                                                }
+                                                required
+                                            />
+
+                                        </div>
+
+
+                                        <div className="col-md-6 mb-3">
+
+                                            <label className="form-label">
+                                                Tempo di lancio
+                                            </label>
+
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                placeholder="Es. 1 azione"
+                                                value={castMethod}
+                                                onChange={(event) =>
+                                                    setCastMethod(event.target.value)
+                                                }
+                                                required
+                                            />
+
+                                        </div>
+
+
+                                        <div className="col-md-6 mb-3">
+
+                                            <label className="form-label">
+                                                Gittata
+                                            </label>
+
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                placeholder="Es. 18 metri"
+                                                value={castRange}
+                                                onChange={(event) =>
+                                                    setCastRange(event.target.value)
+                                                }
+                                                required
+                                            />
+
+                                        </div>
+
+
+                                        <div className="col-md-6 mb-3">
+
+                                            <label className="form-label">
+                                                Durata
+                                            </label>
+
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                placeholder="Es. Istantanea"
+                                                value={duration}
+                                                onChange={(event) =>
+                                                    setDuration(event.target.value)
+                                                }
+                                                required
+                                            />
+
+                                        </div>
+
+
+                                        <div className="col-12 mb-3">
+
+                                            <label className="form-label">
+                                                Componenti
+                                            </label>
+
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                placeholder="Es. V, S, M"
+                                                value={components}
+                                                onChange={(event) =>
+                                                    setComponents(event.target.value)
+                                                }
+                                            />
+
+                                        </div>
+
+                                    </div>
 
                                 </div>
 
 
-                                <div className="col-md-4 mb-3">
+                                {/* DESCRIZIONE */}
+                                <div className="create-form-section">
 
-                                    <label className="form-label">
-                                        Livello
-                                    </label>
+                                    <h2>Descrizione</h2>
 
-                                    <select
-                                        className="form-select"
-                                        value={level}
-                                        onChange={(event) =>
-                                            setLevel(event.target.value)
-                                        }
+                                    <div className="mb-3">
+
+                                        <label className="form-label">
+                                            Effetto
+                                        </label>
+
+                                        <textarea
+                                            className="form-control spell-textarea-effect"
+                                            value={effect}
+                                            onChange={(event) =>
+                                                setEffect(event.target.value)
+                                            }
+                                            required
+                                        />
+
+                                    </div>
+
+
+                                    <div className="mb-3">
+
+                                        <label className="form-label">
+                                            Materiali
+                                        </label>
+
+                                        <textarea
+                                            className="form-control"
+                                            rows="3"
+                                            placeholder="Materiali necessari per il lancio..."
+                                            value={materials}
+                                            onChange={(event) =>
+                                                setMaterials(event.target.value)
+                                            }
+                                        />
+
+                                    </div>
+
+
+                                    <div className="mb-3">
+
+                                        <label className="form-label">
+                                            Ai livelli superiori
+                                        </label>
+
+                                        <textarea
+                                            className="form-control"
+                                            rows="4"
+                                            placeholder="Effetti dell'incantesimo quando lanciato utilizzando uno slot di livello superiore..."
+                                            value={upgrade}
+                                            onChange={(event) =>
+                                                setUpgrade(event.target.value)
+                                            }
+                                        />
+
+                                    </div>
+
+                                </div>
+
+
+                                {/* AZIONI */}
+                                <div className="create-page-actions">
+
+                                    <button
+                                        type="button"
+                                        className="btn btn-outline-success border-3 fw-bold"
+                                        onClick={() => navigate("/incantesimi")}
                                     >
-                                        {Array.from(
-                                            { length: 10 },
-                                            (_, index) => (
-                                                <option
-                                                    key={index}
-                                                    value={index}
-                                                >
-                                                    {index === 0
-                                                        ? "0 - Trucchetto"
-                                                        : `Livello ${index}`
-                                                    }
-                                                </option>
-                                            )
-                                        )}
-                                    </select>
+                                        Annulla
+                                    </button>
+
+                                    <button
+                                        type="submit"
+                                        className="btn btn-primary"
+                                    >
+                                        {isEditMode
+                                            ? "Salva modifiche"
+                                            : "Crea incantesimo"}
+                                    </button>
 
                                 </div>
 
-
-                                <div className="col-md-6 mb-3">
-
-                                    <label className="form-label">
-                                        Scuola
-                                    </label>
-
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        value={school}
-                                        onChange={(event) =>
-                                            setSchool(event.target.value)
-                                        }
-                                        required
-                                    />
-
-                                </div>
-
-
-                                <div className="col-md-6 mb-3">
-
-                                    <label className="form-label">
-                                        Tempo di lancio
-                                    </label>
-
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        placeholder="Es. 1 azione"
-                                        value={castMethod}
-                                        onChange={(event) =>
-                                            setCastMethod(event.target.value)
-                                        }
-                                        required
-                                    />
-
-                                </div>
-
-
-                                <div className="col-md-6 mb-3">
-
-                                    <label className="form-label">
-                                        Gittata
-                                    </label>
-
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        placeholder="Es. 18 metri"
-                                        value={castRange}
-                                        onChange={(event) =>
-                                            setCastRange(event.target.value)
-                                        }
-                                        required
-                                    />
-
-                                </div>
-
-
-                                <div className="col-md-6 mb-3">
-
-                                    <label className="form-label">
-                                        Durata
-                                    </label>
-
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        placeholder="Es. Istantanea"
-                                        value={duration}
-                                        onChange={(event) =>
-                                            setDuration(event.target.value)
-                                        }
-                                        required
-                                    />
-
-                                </div>
-
-
-                                <div className="col-12 mb-3">
-
-                                    <label className="form-label">
-                                        Componenti
-                                    </label>
-
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        placeholder="Es. V, S, M"
-                                        value={components}
-                                        onChange={(event) =>
-                                            setComponents(event.target.value)
-                                        }
-                                    />
-
-                                </div>
-
+                            </form> :
+                            <div className="text-center">
+                                <h1>Non dovresti essere qui, torna indietro!!</h1>
                             </div>
 
-                        </div>
+                    }
 
 
-                        {/* DESCRIZIONE */}
-                        <div className="create-form-section">
-
-                            <h2>Descrizione</h2>
-
-                            <div className="mb-3">
-
-                                <label className="form-label">
-                                    Effetto
-                                </label>
-
-                                <textarea
-                                    className="form-control spell-textarea-effect"
-                                    value={effect}
-                                    onChange={(event) =>
-                                        setEffect(event.target.value)
-                                    }
-                                    required
-                                />
-
-                            </div>
-
-
-                            <div className="mb-3">
-
-                                <label className="form-label">
-                                    Materiali
-                                </label>
-
-                                <textarea
-                                    className="form-control"
-                                    rows="3"
-                                    placeholder="Materiali necessari per il lancio..."
-                                    value={materials}
-                                    onChange={(event) =>
-                                        setMaterials(event.target.value)
-                                    }
-                                />
-
-                            </div>
-
-
-                            <div className="mb-3">
-
-                                <label className="form-label">
-                                    Ai livelli superiori
-                                </label>
-
-                                <textarea
-                                    className="form-control"
-                                    rows="4"
-                                    placeholder="Effetti dell'incantesimo quando lanciato utilizzando uno slot di livello superiore..."
-                                    value={upgrade}
-                                    onChange={(event) =>
-                                        setUpgrade(event.target.value)
-                                    }
-                                />
-
-                            </div>
-
-                        </div>
-
-
-                        {/* AZIONI */}
-                        <div className="create-page-actions">
-
-                            <button
-                                type="button"
-                                className="btn btn-outline-success border-3 fw-bold"
-                                onClick={() => navigate("/incantesimi")}
-                            >
-                                Annulla
-                            </button>
-
-                            <button
-                                type="submit"
-                                className="btn btn-primary"
-                            >
-                                {isEditMode
-                                    ? "Salva modifiche"
-                                    : "Crea incantesimo"}
-                            </button>
-
-                        </div>
-
-                    </form>
 
                 </div>
 

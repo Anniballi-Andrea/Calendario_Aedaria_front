@@ -2,8 +2,11 @@ import api from "../api/axiosConfig";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function CreateSkill() {
+
+    const { isAdmin } = useAuth()
 
     const API_URL = `${import.meta.env.VITE_API_URL}/class/skills`;
     const CLASS_API_URL = `${import.meta.env.VITE_API_URL}/class`;
@@ -109,13 +112,6 @@ export default function CreateSkill() {
         request
             .then((response) => {
 
-                console.log(
-                    isEditMode
-                        ? "Abilità modificata:"
-                        : "Abilità creata:",
-                    response.data
-                );
-
                 navigate(`/classe/${slug}`);
             })
             .catch((error) => {
@@ -158,11 +154,11 @@ export default function CreateSkill() {
                         </button>
 
                         <h1>
-                            {isEditMode
+                            {isEditMode && isAdmin
                                 ? "Modifica abilità"
-                                : isSubClassSkill
+                                : isSubClassSkill && isAdmin
                                     ? "Nuova abilità della sottoclasse"
-                                    : "Nuova abilità"}
+                                    : isAdmin && "Nuova abilità"}
                         </h1>
 
                     </div>
@@ -172,134 +168,143 @@ export default function CreateSkill() {
                             {error}
                         </div>
                     )}
+                    {
+                        isAdmin ?
+                            <form onSubmit={saveSkill}>
 
-                    <form onSubmit={saveSkill}>
+                                {/* DATI PRINCIPALI */}
+                                <div className="create-form-section">
 
-                        {/* DATI PRINCIPALI */}
-                        <div className="create-form-section">
+                                    <h2>
+                                        Informazioni principali
+                                    </h2>
 
-                            <h2>
-                                Informazioni principali
-                            </h2>
+                                    <div className="row">
 
-                            <div className="row">
+                                        <div className="col-md-8 mb-3">
 
-                                <div className="col-md-8 mb-3">
+                                            <label className="form-label">
+                                                Nome
+                                            </label>
 
-                                    <label className="form-label">
-                                        Nome
-                                    </label>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                value={name}
+                                                onChange={(event) =>
+                                                    setName(
+                                                        event.target.value
+                                                    )
+                                                }
+                                                required
+                                            />
 
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        value={name}
-                                        onChange={(event) =>
-                                            setName(
-                                                event.target.value
-                                            )
-                                        }
-                                        required
-                                    />
+                                        </div>
+
+                                        <div className="col-md-4 mb-3">
+
+                                            <label className="form-label">
+                                                Livello
+                                            </label>
+
+                                            <select
+                                                className="form-select"
+                                                value={level}
+                                                onChange={(event) =>
+                                                    setLevel(
+                                                        event.target.value
+                                                    )
+                                                }
+                                            >
+
+                                                {Array.from(
+                                                    { length: 20 },
+                                                    (_, index) => {
+
+                                                        const skillLevel =
+                                                            index + 1;
+
+                                                        return (
+                                                            <option
+                                                                key={skillLevel}
+                                                                value={skillLevel}
+                                                            >
+                                                                Livello{" "}
+                                                                {skillLevel}
+                                                            </option>
+                                                        );
+                                                    }
+                                                )}
+
+                                            </select>
+
+                                        </div>
+
+                                    </div>
 
                                 </div>
 
-                                <div className="col-md-4 mb-3">
+                                {/* DESCRIZIONE */}
+                                <div className="create-form-section">
 
-                                    <label className="form-label">
-                                        Livello
-                                    </label>
+                                    <h2>
+                                        Descrizione
+                                    </h2>
 
-                                    <select
-                                        className="form-select"
-                                        value={level}
-                                        onChange={(event) =>
-                                            setLevel(
-                                                event.target.value
-                                            )
+                                    <div className="mb-3">
+
+                                        <label className="form-label">
+                                            Descrizione dell'abilità
+                                        </label>
+
+                                        <textarea
+                                            className="form-control skill-textarea-description"
+                                            value={description}
+                                            onChange={(event) =>
+                                                setDescription(
+                                                    event.target.value
+                                                )
+                                            }
+                                            required
+                                        />
+
+                                    </div>
+
+                                </div>
+
+                                {/* AZIONI */}
+                                <div className="create-page-actions">
+
+                                    <button
+                                        type="button"
+                                        className="btn btn-outline-success border-3 fw-bold"
+                                        onClick={() =>
+                                            navigate(`/classe/${slug}`)
                                         }
                                     >
+                                        Annulla
+                                    </button>
 
-                                        {Array.from(
-                                            { length: 20 },
-                                            (_, index) => {
-
-                                                const skillLevel =
-                                                    index + 1;
-
-                                                return (
-                                                    <option
-                                                        key={skillLevel}
-                                                        value={skillLevel}
-                                                    >
-                                                        Livello{" "}
-                                                        {skillLevel}
-                                                    </option>
-                                                );
-                                            }
-                                        )}
-
-                                    </select>
+                                    <button
+                                        type="submit"
+                                        className="btn btn-primary"
+                                    >
+                                        {isEditMode
+                                            ? "Salva modifiche"
+                                            : "Crea abilità"}
+                                    </button>
 
                                 </div>
 
+                            </form>
+                            :
+                            <div className="text-center">
+                                <h1>Non dovresti essere qui, torna indietro!!</h1>
                             </div>
 
-                        </div>
+                    }
 
-                        {/* DESCRIZIONE */}
-                        <div className="create-form-section">
 
-                            <h2>
-                                Descrizione
-                            </h2>
-
-                            <div className="mb-3">
-
-                                <label className="form-label">
-                                    Descrizione dell'abilità
-                                </label>
-
-                                <textarea
-                                    className="form-control skill-textarea-description"
-                                    value={description}
-                                    onChange={(event) =>
-                                        setDescription(
-                                            event.target.value
-                                        )
-                                    }
-                                    required
-                                />
-
-                            </div>
-
-                        </div>
-
-                        {/* AZIONI */}
-                        <div className="create-page-actions">
-
-                            <button
-                                type="button"
-                                className="btn btn-outline-success border-3 fw-bold"
-                                onClick={() =>
-                                    navigate(`/classe/${slug}`)
-                                }
-                            >
-                                Annulla
-                            </button>
-
-                            <button
-                                type="submit"
-                                className="btn btn-primary"
-                            >
-                                {isEditMode
-                                    ? "Salva modifiche"
-                                    : "Crea abilità"}
-                            </button>
-
-                        </div>
-
-                    </form>
 
                 </div>
 

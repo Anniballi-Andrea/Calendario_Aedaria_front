@@ -2,8 +2,11 @@ import api from "../api/axiosConfig";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function CreateEditFeature() {
+
+    const { isAdmin } = useAuth()
 
     const API_URL = `${import.meta.env.VITE_API_URL}/class-features`;
 
@@ -105,9 +108,9 @@ export default function CreateEditFeature() {
                         </button>
 
                         <h1>
-                            {isEditMode
+                            {isEditMode && isAdmin
                                 ? `Modifica ${featureName}`
-                                : `Aggiungi ${featureName}`}
+                                : isAdmin && `Aggiungi ${featureName}`}
                         </h1>
                     </div>
 
@@ -118,67 +121,76 @@ export default function CreateEditFeature() {
                         </div>
                     )}
 
-                    <form onSubmit={handleSubmit}>
-                        <div className="spell-form-section">
-                            <div className="row">
-                                <div className="col-md-8 mb-3">
+                    {isAdmin ?
+                        <form onSubmit={handleSubmit}>
+                            <div className="spell-form-section">
+                                <div className="row">
+                                    <div className="col-md-8 mb-3">
 
-                                    <label className="form-label">
-                                        Nome
-                                    </label>
+                                        <label className="form-label">
+                                            Nome
+                                        </label>
 
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        value={name}
-                                        onChange={(event) =>
-                                            setName(event.target.value)
-                                        }
-                                        required
-                                    />
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            value={name}
+                                            onChange={(event) =>
+                                                setName(event.target.value)
+                                            }
+                                            required
+                                        />
+                                    </div>
+
                                 </div>
+                                <label className="form-label">
+                                    Descrizione
+                                </label>
 
+                                <textarea
+                                    className="form-control"
+                                    rows="8"
+                                    value={description}
+                                    onChange={(event) =>
+                                        setDescription(event.target.value)
+                                    }
+                                />
                             </div>
-                            <label className="form-label">
-                                Descrizione
-                            </label>
 
-                            <textarea
-                                className="form-control"
-                                rows="8"
-                                value={description}
-                                onChange={(event) =>
-                                    setDescription(event.target.value)
-                                }
-                            />
+                            <div className="mb-3">
+                                <label className="form-label">
+                                    Requisito
+                                </label>
+
+                                <textarea
+                                    className="form-control"
+                                    rows="3"
+                                    value={requisite}
+                                    onChange={(event) =>
+                                        setRequisite(event.target.value)
+                                    }
+                                />
+                            </div>
+
+                            <button
+                                type="submit"
+                                className="btn btn-primary"
+                                disabled={loading}
+                            >
+                                {loading
+                                    ? "Salvataggio..."
+                                    : "Salva"}
+                            </button>
+
+                        </form>
+                        :
+                        <div className="text-center">
+                            <h1>Non dovresti essere qui, torna indietro!!</h1>
                         </div>
 
-                        <div className="mb-3">
-                            <label className="form-label">
-                                Requisito
-                            </label>
+                    }
 
-                            <textarea
-                                className="form-control"
-                                rows="3"
-                                value={requisite}
-                                onChange={(event) =>
-                                    setRequisite(event.target.value)
-                                }
-                            />
-                        </div>
 
-                        <button
-                            type="submit"
-                            className="btn btn-primary"
-                            disabled={loading}
-                        >
-                            {loading
-                                ? "Salvataggio..."
-                                : "Salva"}
-                        </button>
-
-                    </form>
 
                 </div>
 

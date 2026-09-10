@@ -2,12 +2,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axiosConfig";
 import { useCalendar } from "../context/CalendarContext";
+import { useAuth } from "../context/AuthContext";
 
 
 
 export default function CreateClass() {
 
     const { setClassLoader } = useCalendar()
+    const { isAdmin } = useAuth()
 
     const API_URL = `${import.meta.env.VITE_API_URL}/class/create`;
 
@@ -28,8 +30,6 @@ export default function CreateClass() {
         api
             .post(API_URL, classes)
             .then((response) => {
-
-                console.log("Classe creata:", response.data);
 
                 navigate("/");
 
@@ -52,9 +52,10 @@ export default function CreateClass() {
 
 
     return (
-        <div className="container-fluid pb-5">
+
+        < div className="container-fluid pb-5" >
             {/* DESKTOP */}
-            <div className="d-none d-lg-flex justify-content-center mt-4">
+            <div div className="d-none d-lg-flex justify-content-center mt-4" >
                 <div className="create-page">
                     {/* HEADER */}
                     <div className="create-page-header">
@@ -64,45 +65,57 @@ export default function CreateClass() {
                             onClick={() => navigate("/")} >
                             ← Torna alla Home
                         </button>
-                        <h1>Nuova classe</h1>
+                        {
+                            isAdmin &&
+                            <h1>Nuova classe</h1>
+                        }
+
                     </div>
                     {error && (<div className="alert alert-danger">
                         {error}
                     </div>)}
-                    <form onSubmit={createClass}>
-                        {/* DATI PRINCIPALI */}
-                        <div className="class-form-section">
-                            <h2>Informazioni principali</h2>
-                            <div className="row">
-                                <div className="col-12 mb-3">
-                                    <label className="form-label">
-                                        Nome
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        placeholder="Es. Monaco"
-                                        value={name}
-                                        onChange={(event) => setName(event.target.value)}
-                                        required />
+                    {
+                        isAdmin ?
+                            <form onSubmit={createClass}>
+                                {/* DATI PRINCIPALI */}
+                                <div className="class-form-section">
+                                    <h2>Informazioni principali</h2>
+                                    <div className="row">
+                                        <div className="col-12 mb-3">
+                                            <label className="form-label">
+                                                Nome
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                placeholder="Es. Monaco"
+                                                value={name}
+                                                onChange={(event) => setName(event.target.value)}
+                                                required />
+                                        </div>
+                                    </div>
                                 </div>
+                                {/* AZIONI */}
+                                <div className="create-page-actions">
+                                    <button
+                                        type="button"
+                                        className="btn btn-outline-success border-3 fw-bold"
+                                        onClick={() => navigate("/classi")} >
+                                        Annulla </button>
+                                    <button type="submit" className="btn btn-primary" >
+                                        Crea classe </button>
+                                </div>
+                            </form>
+                            :
+                            <div className="text-center">
+                                <h1>Non dovresti essere qui, torna indietro!!</h1>
                             </div>
-                        </div>
-                        {/* AZIONI */}
-                        <div className="create-page-actions">
-                            <button
-                                type="button"
-                                className="btn btn-outline-success border-3 fw-bold"
-                                onClick={() => navigate("/classi")} >
-                                Annulla </button>
-                            <button type="submit" className="btn btn-primary" >
-                                Crea classe </button>
-                        </div>
-                    </form>
+                    }
+
                 </div>
-            </div>
+            </div >
             {/* TABLET + SMARTPHONE */}
-            <div className="d-flex d-lg-none justify-content-center align-items-center text-center create-page">
+            <div div className="d-flex d-lg-none justify-content-center align-items-center text-center create-page" >
                 <div className="px-3 py-5">
                     <h1 className="mb-3">
                         Accesso non disponibile
@@ -117,7 +130,7 @@ export default function CreateClass() {
                         ← Torna alle classi
                     </button>
                 </div>
-            </div>
-        </div>);
+            </div >
+        </div >);
 
 }

@@ -21,9 +21,16 @@ export default function SpellDetail({
                         </h5>
 
                         <div>
-                            <span className="badge text-bg-primary">
-                                Livello {selectedSpell.level}
-                            </span>
+                            {selectedSpell.level === 0 ?
+                                <span className="badge text-bg-primary">
+                                    Trucchetto
+                                </span>
+                                :
+                                <span className="badge text-bg-primary">
+                                    Livello {selectedSpell.level}
+                                </span>
+                            }
+
 
                             <span className="badge text-bg-secondary ms-2">
                                 {selectedSpell.school}
@@ -43,27 +50,24 @@ export default function SpellDetail({
 
                     <div className="card-body">
 
-
-                        <hr />
-
                         <div className="row">
 
-                            <div className="col-12 col-md-6 col-lg-3 mt-2">
+                            <div className="col-12 col-md-6 col-xxl-3 mt-2">
                                 <strong>Tempo di lancio:</strong>
                                 <div>{selectedSpell.castMethod}</div>
                             </div>
 
-                            <div className="col-12 col-md-6 col-lg-3 mt-2">
+                            <div className="col-12 col-md-6 col-xxl-3 mt-2">
                                 <strong>Gittata:</strong>
                                 <div>{selectedSpell.castRange}</div>
                             </div>
 
-                            <div className="col-12 col-md-6 col-lg-3  mt-2">
+                            <div className="col-12 col-md-6 col-xxl-3  mt-2">
                                 <strong>Componenti:</strong>
                                 <div>{selectedSpell.components}</div>
                             </div>
 
-                            <div className="col-12 col-md-6 col-lg-3  mt-2">
+                            <div className="col-12 col-md-6 col-xxl-3 mt-2">
                                 <strong>Durata:</strong>
                                 <div>{selectedSpell.duration}</div>
                             </div>

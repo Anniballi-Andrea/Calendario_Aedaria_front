@@ -33,12 +33,12 @@ export default function Header() {
             <nav className="navbar navbar-expand-lg bg-body-tertiary bg_header">
                 <div className="container-fluid">
 
-                    <span className="fw-bold fs-4">
+                    <span className="font-fantasy fw-bold fs-4 me-3">
                         Aedaria
                     </span>
 
                     <button
-                        className="navbar-toggler"
+                        className="navbar-toggler ms-2"
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#navbarNav"
@@ -48,7 +48,28 @@ export default function Header() {
                     >
                         <span className="navbar-toggler-icon"></span>
                     </button>
+                    <div className="d-lg-none ms-auto me-4">
+                        {isAuthenticated ? (
 
+                            <button
+                                type="button"
+                                className="nav-link text-light fs-4"
+                                onClick={logout}
+                            >
+                                Logout
+                            </button>
+
+                        ) : (
+
+                            <NavLink
+                                className="nav-link text-light fs-4"
+                                to="/login"
+                            >
+                                Login
+                            </NavLink>
+
+                        )}
+                    </div>
                     <div
                         className="collapse navbar-collapse"
                         id="navbarNav"
@@ -79,14 +100,18 @@ export default function Header() {
                                     Magia
                                 </NavLink>
                             </li>
-                            <li className="nav-item">
-                                <NavLink
-                                    className="nav-link text-light fs-4 btn "
-                                    to="/classe/crea-classe"
-                                >
-                                    Classe +
-                                </NavLink>
-                            </li>
+                            {
+                                isAdmin &&
+                                <li className="d-none d-lg-block nav-item">
+                                    <NavLink
+                                        className="nav-link text-light fs-4"
+                                        to="/classe/crea-classe"
+                                    >
+                                        Classe +
+                                    </NavLink>
+                                </li>
+                            }
+
 
                             <li className="nav-item dropdown">
 
@@ -119,28 +144,29 @@ export default function Header() {
                             </li>
 
                         </ul>
-                        <div className="ms-auto me-4">
-                            {isAuthenticated ? (
 
-                                <button
-                                    type="button"
-                                    className="nav-link text-light fs-4"
-                                    onClick={logout}
-                                >
-                                    Logout
-                                </button>
+                    </div>
+                    <div className="d-none d-lg-block ms-auto me-4">
+                        {isAuthenticated ? (
 
-                            ) : (
+                            <button
+                                type="button"
+                                className="nav-link text-light fs-4"
+                                onClick={logout}
+                            >
+                                Logout
+                            </button>
 
-                                <NavLink
-                                    className="nav-link text-light fs-4"
-                                    to="/login"
-                                >
-                                    Login
-                                </NavLink>
+                        ) : (
 
-                            )}
-                        </div>
+                            <NavLink
+                                className="nav-link text-light fs-4"
+                                to="/login"
+                            >
+                                Login
+                            </NavLink>
+
+                        )}
                     </div>
 
                 </div>

@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom"
+import { useAuth } from "../context/AuthContext";
 
 export default function PageSectionLeft({ name, navigateTo, item, selectedItem, setSelectedItem, deleteItem, updateSlugLink, slug, setShowDetail, editPath }) {
 
+    const { isAdmin } = useAuth()
     const navigate = useNavigate()
 
     const hasLevel = item?.some(
@@ -29,17 +31,21 @@ export default function PageSectionLeft({ name, navigateTo, item, selectedItem, 
                         {name}
                     </h2>
                 </div>
-                <div className="d-none d-lg-block">
-                    <button
-                        type="button"
-                        className="btn btn-primary"
-                        onClick={() =>
-                            navigate(navigateTo)
-                        }
-                    >
-                        + Aggiungi
-                    </button>
-                </div>
+                {
+                    isAdmin &&
+                    <div className="d-none d-lg-block">
+                        <button
+                            type="button"
+                            className="btn btn-primary"
+                            onClick={() =>
+                                navigate(navigateTo)
+                            }
+                        >
+                            + Aggiungi
+                        </button>
+                    </div>
+                }
+
 
             </div>
 
@@ -85,35 +91,40 @@ export default function PageSectionLeft({ name, navigateTo, item, selectedItem, 
                                         </div>
                                     </div>
 
-                                    <div className="col-12 col-lg-5">
-                                        <div className="d-none d-lg-flex justify-content-end">
-                                            <div>
-                                                <button
-                                                    type="button"
-                                                    className="btn btn-outline-primary"
-                                                    onClick={() =>
-                                                        navigate(
-                                                            editPath
-                                                                ? editPath(item.id)
-                                                                : `/classe/${slug}/${updateSlugLink}/${item.id}/modifica`
-                                                        )
-                                                    }
-                                                >
-                                                    <i className="bi bi-pencil"></i>
-                                                </button>
-                                            </div>
+                                    {
+                                        isAdmin &&
+                                        <div className="col-12 col-lg-5">
+                                            <div className="d-none d-lg-flex justify-content-end">
+                                                <div>
+                                                    <button
+                                                        type="button"
+                                                        className="btn btn-outline-primary"
+                                                        onClick={() =>
+                                                            navigate(
+                                                                editPath
+                                                                    ? editPath(item.id)
+                                                                    : `/classe/${slug}/${updateSlugLink}/${item.id}/modifica`
+                                                            )
+                                                        }
+                                                    >
+                                                        <i className="bi bi-pencil"></i>
+                                                    </button>
+                                                </div>
 
-                                            <div className="ms-lg-2">
-                                                <button
-                                                    type="button"
-                                                    className="btn btn-outline-danger"
-                                                    onClick={() => deleteItem(item.id)}
-                                                >
-                                                    <i className="bi bi-trash"></i>
-                                                </button>
+                                                <div className="ms-lg-2">
+                                                    <button
+                                                        type="button"
+                                                        className="btn btn-outline-danger"
+                                                        onClick={() => deleteItem(item.id)}
+                                                    >
+                                                        <i className="bi bi-trash"></i>
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    }
+
+
                                 </div>
                             ))}
                         </div>
@@ -145,36 +156,39 @@ export default function PageSectionLeft({ name, navigateTo, item, selectedItem, 
                                     </button>
                                 </div>
                             </div>
+                            {
+                                isAdmin &&
+                                <div className="col-12 col-lg-5">
+                                    <div className="d-none d-lg-flex justify-content-end">
+                                        <div>
+                                            <button
+                                                type="button"
+                                                className="btn btn-outline-primary"
+                                                onClick={() =>
+                                                    navigate(
+                                                        editPath
+                                                            ? editPath(item.id)
+                                                            : `/classe/${slug}/${updateSlugLink}/${item.id}/modifica`
+                                                    )
+                                                }
+                                            >
+                                                <i className="bi bi-pencil"></i>
+                                            </button>
+                                        </div>
 
-                            <div className="col-12 col-lg-5">
-                                <div className="d-none d-lg-flex justify-content-end">
-                                    <div>
-                                        <button
-                                            type="button"
-                                            className="btn btn-outline-primary"
-                                            onClick={() =>
-                                                navigate(
-                                                    editPath
-                                                        ? editPath(item.id)
-                                                        : `/classe/${slug}/${updateSlugLink}/${item.id}/modifica`
-                                                )
-                                            }
-                                        >
-                                            <i className="bi bi-pencil"></i>
-                                        </button>
-                                    </div>
-
-                                    <div className="ms-lg-2">
-                                        <button
-                                            type="button"
-                                            className="btn btn-outline-danger"
-                                            onClick={() => deleteItem(item.id)}
-                                        >
-                                            <i className="bi bi-trash"></i>
-                                        </button>
+                                        <div className="ms-lg-2">
+                                            <button
+                                                type="button"
+                                                className="btn btn-outline-danger"
+                                                onClick={() => deleteItem(item.id)}
+                                            >
+                                                <i className="bi bi-trash"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
+
                         </div>
                     ))
                 )}

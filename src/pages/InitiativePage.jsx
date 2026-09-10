@@ -6,8 +6,11 @@ import TurnManager from "../Components/TurnManager"
 import InitiativeInput from "../Components/InitiativeImput"
 import InitiativeCards from "../Components/InitiativeCards"
 import RemoveFromInitiative from "../Components/RemoveFromInitiative"
+import { useAuth } from "../context/AuthContext";
 
 export default function InitiativePage() {
+
+    const { isAdmin } = useAuth()
 
     const [playerName, setPlayerName] = useState("")
     const [playerDex, setPlayerDex] = useState(0)
@@ -244,16 +247,19 @@ export default function InitiativePage() {
 
 
                 {/* Form aggiunta giocatore */}
+                {
+                    isAdmin &&
+                    <FormAddInitiativePlayer
+                        addPlayer={addPlayer}
+                        playerName={playerName}
+                        setPlayerName={setPlayerName}
+                        playerDex={playerDex}
+                        setPlayerDex={setPlayerDex}
+                        playerInit={playerInit}
+                        setPlayerInit={setPlayerInit}
+                    />
+                }
 
-                <FormAddInitiativePlayer
-                    addPlayer={addPlayer}
-                    playerName={playerName}
-                    setPlayerName={setPlayerName}
-                    playerDex={playerDex}
-                    setPlayerDex={setPlayerDex}
-                    playerInit={playerInit}
-                    setPlayerInit={setPlayerInit}
-                />
                 {/* Controlli turno */}
 
                 <TurnManager round={round} initiative={initiative} changeTurn={changeTurn} restartTurn={restartTurn} />

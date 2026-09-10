@@ -2,12 +2,14 @@ import api from "../api/axiosConfig";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 export default function CreateSubClass() {
     const API_URL = `${import.meta.env.VITE_API_URL}/subClass`;
     const CLASS_API_URL = `${import.meta.env.VITE_API_URL}/class`;
 
     const navigate = useNavigate();
     const { slug } = useParams();
+    const { isAdmin } = useAuth()
 
     const [name, setName] = useState("");
     const [classId, setClassId] = useState(null);
@@ -53,11 +55,6 @@ export default function CreateSubClass() {
                 subClass
             )
             .then((response) => {
-                console.log(
-                    "Sottoclasse creata:",
-                    response.data
-                );
-
                 navigate(`/classe/${slug}`);
             })
             .catch((error) => {
@@ -92,8 +89,10 @@ export default function CreateSubClass() {
                         >
                             ← Torna alla classe
                         </button>
-
-                        <h1>Nuova sottoclasse</h1>
+                        {
+                            isAdmin &&
+                            <h1>Nuova sottoclasse</h1>
+                        }
 
                     </div>
 
@@ -103,65 +102,74 @@ export default function CreateSubClass() {
                         </div>
                     )}
 
-                    <form onSubmit={createSubClass}>
+                    {
+                        isAdmin ?
+                            <form onSubmit={createSubClass}>
 
-                        {/* DATI PRINCIPALI */}
-                        <div className="create-form-section">
+                                {/* DATI PRINCIPALI */}
+                                <div className="create-form-section">
 
-                            <h2>
-                                Informazioni principali
-                            </h2>
+                                    <h2>
+                                        Informazioni principali
+                                    </h2>
 
-                            <div className="row">
+                                    <div className="row">
 
-                                <div className="col-12 mb-3">
+                                        <div className="col-12 mb-3">
 
-                                    <label className="form-label">
-                                        Nome
-                                    </label>
+                                            <label className="form-label">
+                                                Nome
+                                            </label>
 
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        placeholder="Es. Berserker"
-                                        value={name}
-                                        onChange={(event) =>
-                                            setName(
-                                                event.target.value
-                                            )
-                                        }
-                                        required
-                                    />
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                placeholder="Es. Berserker"
+                                                value={name}
+                                                onChange={(event) =>
+                                                    setName(
+                                                        event.target.value
+                                                    )
+                                                }
+                                                required
+                                            />
+
+                                        </div>
+
+                                    </div>
 
                                 </div>
 
+                                {/* AZIONI */}
+                                <div className="create-page-actions">
+
+                                    <button
+                                        type="button"
+                                        className="btn btn-outline-success border-3 fw-bold"
+                                        onClick={() =>
+                                            navigate(`/classe/${slug}`)
+                                        }
+                                    >
+                                        Annulla
+                                    </button>
+
+                                    <button
+                                        type="submit"
+                                        className="btn btn-primary"
+                                    >
+                                        Crea sottoclasse
+                                    </button>
+
+                                </div>
+
+                            </form>
+                            :
+                            <div className="text-center">
+                                <h1>Non dovresti essere qui, torna indietro!!</h1>
                             </div>
+                    }
 
-                        </div>
 
-                        {/* AZIONI */}
-                        <div className="create-page-actions">
-
-                            <button
-                                type="button"
-                                className="btn btn-outline-success border-3 fw-bold"
-                                onClick={() =>
-                                    navigate(`/classe/${slug}`)
-                                }
-                            >
-                                Annulla
-                            </button>
-
-                            <button
-                                type="submit"
-                                className="btn btn-primary"
-                            >
-                                Crea sottoclasse
-                            </button>
-
-                        </div>
-
-                    </form>
 
                 </div>
 

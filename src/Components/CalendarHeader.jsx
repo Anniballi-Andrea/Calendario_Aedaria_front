@@ -4,11 +4,13 @@ import Modal from "./Modal"
 import ButtonChangeDays from "./ButtonChangeDays"
 import { useResource } from "../context/ResourceContext"
 import { useCalendar } from "../context/CalendarContext"
+import { useAuth } from "../context/AuthContext";
 
 export default function CalendarHeader({ season }) {
 
     const API_URL = `${import.meta.env.VITE_API_URL}/days/addDay`;
 
+    const { isAdmin } = useAuth()
     const { displayYear, getDay } = useCalendar()
 
 
@@ -52,41 +54,45 @@ export default function CalendarHeader({ season }) {
                     Anno:{displayYear}-{season}
                 </h2>
             </div>
-            <div className="d-md-flex justify-content-between d-none " >
-                <ButtonChangeDays
-                    setDaysToAdd={setDaysToAdd}
-                    setShowModal={setShowModal}
-                    setModalName={setModalName}
-                    name={"Riposo"}
-                    title={"Riposo Lungo"}
-                    dayQuantity={1}
-                    buttonType={"primary"} />
-                <ButtonChangeDays
-                    setDaysToAdd={setDaysToAdd}
-                    setShowModal={setShowModal}
-                    setModalName={setModalName}
-                    name={"+ 7"}
-                    title={"Time Skip di 7 giorni"}
-                    dayQuantity={7}
-                    buttonType={"success"} />
-                <ButtonChangeDays
-                    setDaysToAdd={setDaysToAdd}
-                    setShowModal={setShowModal}
-                    setModalName={setModalName}
-                    name={"+ 30"}
-                    title={"Time Skip di 30 giorni"}
-                    dayQuantity={30}
-                    buttonType={"success"} />
-                <ButtonChangeDays
-                    setDaysToAdd={setDaysToAdd}
-                    setShowModal={setShowModal}
-                    setModalName={setModalName}
-                    name={"Indietro"}
-                    title={"Rimuovi 1 giorno"}
-                    dayQuantity={-1}
-                    buttonType={"danger"} />
+            {
+                isAdmin &&
+                <div className="d-md-flex justify-content-between d-none " >
+                    <ButtonChangeDays
+                        setDaysToAdd={setDaysToAdd}
+                        setShowModal={setShowModal}
+                        setModalName={setModalName}
+                        name={"Riposo"}
+                        title={"Riposo Lungo"}
+                        dayQuantity={1}
+                        buttonType={"primary"} />
+                    <ButtonChangeDays
+                        setDaysToAdd={setDaysToAdd}
+                        setShowModal={setShowModal}
+                        setModalName={setModalName}
+                        name={"+ 7"}
+                        title={"Time Skip di 7 giorni"}
+                        dayQuantity={7}
+                        buttonType={"success"} />
+                    <ButtonChangeDays
+                        setDaysToAdd={setDaysToAdd}
+                        setShowModal={setShowModal}
+                        setModalName={setModalName}
+                        name={"+ 30"}
+                        title={"Time Skip di 30 giorni"}
+                        dayQuantity={30}
+                        buttonType={"success"} />
+                    <ButtonChangeDays
+                        setDaysToAdd={setDaysToAdd}
+                        setShowModal={setShowModal}
+                        setModalName={setModalName}
+                        name={"Indietro"}
+                        title={"Rimuovi 1 giorno"}
+                        dayQuantity={-1}
+                        buttonType={"danger"} />
 
-            </div>
+                </div>
+            }
+
 
             {showModal && (
                 <Modal changeDays={changeDays} setShowModal={setShowModal} name={modalName} daysToAdd={daysToAdd} />

@@ -1,6 +1,9 @@
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function SubClassHeader({ selectedSubClass, setSelectedSubClass, subClasses, navigateTo, navigateToCreateSkill }) {
+
+    const { isAdmin } = useAuth();
 
     const navigate = useNavigate()
     return (
@@ -11,18 +14,21 @@ export default function SubClassHeader({ selectedSubClass, setSelectedSubClass, 
                         Sottoclassi
                     </h2>
                 </div>
+                {
+                    isAdmin &&
+                    <div className="d-none d-lg-block">
+                        <button
+                            type="button"
+                            className="btn btn-primary btn-sm"
+                            onClick={() =>
+                                navigate(navigateTo)
+                            }
+                        >
+                            +
+                        </button>
+                    </div>
+                }
 
-                <div className="d-none d-lg-block">
-                    <button
-                        type="button"
-                        className="btn btn-primary btn-sm"
-                        onClick={() =>
-                            navigate(navigateTo)
-                        }
-                    >
-                        +
-                    </button>
-                </div>
 
             </div>
             <div className="col-12 col-lg-7 col-xl-5">
@@ -58,7 +64,7 @@ export default function SubClassHeader({ selectedSubClass, setSelectedSubClass, 
                         ))}
                     </select>
 
-                    {selectedSubClass && (
+                    {selectedSubClass && isAdmin && (
                         <button
                             type="button"
                             className="btn btn-primary ms-2"

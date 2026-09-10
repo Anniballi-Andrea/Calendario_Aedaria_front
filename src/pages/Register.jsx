@@ -35,12 +35,6 @@ export default function Register() {
                 }
             );
 
-            const responseText = await response.text();
-
-            console.log("Register URL:", API_URL);
-            console.log("Register status:", response.status);
-            console.log("Register response:", responseText);
-
             if (!response.ok) {
 
                 if (response.status === 409) {

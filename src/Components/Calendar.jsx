@@ -7,8 +7,8 @@ import { useCalendar } from "../context/CalendarContext"
 import { useState } from "react"
 import DayCard from "./DayCard"
 
-
 export default function Calendar() {
+
 
     const { carouselRef, seasons, displaySeason } = useCalendar()
 
