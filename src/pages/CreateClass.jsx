@@ -116,17 +116,12 @@ export default function CreateClass() {
             {/* TABLET + SMARTPHONE */}
             <div div className="d-flex d-lg-none justify-content-center align-items-center text-center create-page" >
                 <div className="px-3 py-5">
-                    <h1 className="mb-3">
-                        Accesso non disponibile
-                    </h1>
-                    <p className="lead mb-4">
-                        Non puoi accedere alla pagina da telefono.
-                    </p>
+                    <ContentNotPermitted />
                     <button
                         type="button"
-                        className="btn btn-outline-success border-3 fw-bold"
+                        className="mt-3 btn btn-outline-success border-3 fw-bold"
                         onClick={() => navigate("/")} >
-                        ← Torna alle classi
+                        ← Torna alla home
                     </button>
                 </div>
             </div >

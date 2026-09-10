@@ -189,11 +189,20 @@ export default function CreateEditFeature() {
 
                     }
 
-
-
                 </div>
+            </div >
+            {/* TABLET + SMARTPHONE */}
+            <div div className="d-flex d-lg-none justify-content-center align-items-center text-center create-page" >
+                <div className="px-3 py-5">
+                    <ContentNotPermitted />
+                    <button
+                        type="button"
+                        className="mt-3 btn btn-outline-success border-3 fw-bold"
+                        onClick={() => navigate("/")} >
+                        ← Torna alla home
+                    </button>
+                </div>
+            </div >
+        </div >);
 
-            </div>
-        </div>
-    );
 }

@@ -4,8 +4,9 @@ export default function ContentNotPermitted() {
         <div className="text-center">
             <h1>Non dovresti essere qui, torna indietro!!</h1>
 
-            <div>
+            <div >
                 <img
+                    className="w-100"
                     src={gandalf}
                     alt="Gandalf"
                 />
