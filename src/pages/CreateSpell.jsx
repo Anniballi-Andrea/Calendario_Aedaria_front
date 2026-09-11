@@ -28,6 +28,12 @@ export default function CreateSpell() {
     const [upgrade, setUpgrade] = useState("");
     const [materials, setMaterials] = useState("");
 
+    const [classes, setClasses] = useState([]);
+
+    const [selectedClasses, setSelectedClasses] = useState([]);
+
+    const [showClasses, setShowClasses] = useState(false);
+
     const [error, setError] = useState("");
 
     useEffect(() => {
@@ -52,7 +58,9 @@ export default function CreateSpell() {
                 setEffect(spell.effect ?? "");
                 setUpgrade(spell.upgrade ?? "");
                 setMaterials(spell.materials ?? "");
-
+                setSelectedClasses(
+                    spell.classes?.map((spellClass) => spellClass.id) ?? []
+                );
             })
             .catch((error) => {
 
@@ -65,6 +73,39 @@ export default function CreateSpell() {
             });
 
     }, [id]);
+
+    useEffect(() => {
+
+        api
+            .get(`${import.meta.env.VITE_API_URL}/class/get-all-summary`)
+            .then((response) => {
+                setClasses(response.data);
+            })
+            .catch((error) => {
+                console.error(
+                    "Errore nel caricamento delle classi:",
+                    error
+                );
+                setError("Impossibile caricare le classi.");
+            });
+
+    }, []);
+
+    function toggleClass(classId) {
+
+        setSelectedClasses((currentClasses) => {
+
+            if (currentClasses.includes(classId)) {
+                return currentClasses.filter(
+                    (id) => id !== classId
+                );
+            }
+
+            return [...currentClasses, classId];
+        });
+    }
+
+
 
     function saveSpell(event) {
 
@@ -80,7 +121,10 @@ export default function CreateSpell() {
             duration: duration,
             effect: effect,
             upgrade: upgrade,
-            materials: materials
+            materials: materials,
+            classes: selectedClasses.map((classId) => ({
+                id: classId
+            }))
         };
 
         const request = isEditMode
@@ -156,7 +200,7 @@ export default function CreateSpell() {
 
                                     <div className="row">
 
-                                        <div className="col-md-8 mb-3">
+                                        <div className="col-md-4 mb-3">
 
                                             <label className="form-label">
                                                 Nome
@@ -205,7 +249,64 @@ export default function CreateSpell() {
                                             </select>
 
                                         </div>
+                                        <div className="col-md-4 mb-3">
 
+                                            <label className="form-label">
+                                                Classi
+                                            </label>
+
+                                            <div className="dropdown">
+
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-outline-primary dropdown-toggle w-100"
+                                                    onClick={() => setShowClasses(!showClasses)}
+                                                >
+                                                    {selectedClasses.length === 0
+                                                        ? "Seleziona classi"
+                                                        : `${selectedClasses.length} classi selezionate`}
+                                                </button>
+
+                                                {showClasses && (
+                                                    <div
+                                                        className="dropdown-menu show w-100 p-2"
+                                                        style={{ maxHeight: "250px", overflowY: "auto" }}
+                                                    >
+
+                                                        {classes.map((classItem) => (
+
+                                                            <div
+                                                                className="form-check"
+                                                                key={classItem.id}
+                                                            >
+                                                                <input
+                                                                    className="form-check-input"
+                                                                    type="checkbox"
+                                                                    id={`class-${classItem.id}`}
+                                                                    checked={selectedClasses.includes(
+                                                                        classItem.id
+                                                                    )}
+                                                                    onChange={() =>
+                                                                        toggleClass(classItem.id)
+                                                                    }
+                                                                />
+
+                                                                <label
+                                                                    className="form-check-label"
+                                                                    htmlFor={`class-${classItem.id}`}
+                                                                >
+                                                                    {classItem.name}
+                                                                </label>
+                                                            </div>
+
+                                                        ))}
+
+                                                    </div>
+                                                )}
+
+                                            </div>
+
+                                        </div>
 
                                         <div className="col-md-6 mb-3">
 
@@ -331,8 +432,6 @@ export default function CreateSpell() {
                                         />
 
                                     </div>
-
-
                                     <div className="mb-3">
 
                                         <label className="form-label">

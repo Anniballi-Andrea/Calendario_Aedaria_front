@@ -19,6 +19,9 @@ export default function PageTest() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [showDetail, setShowDetail] = useState(false);
+    const [classes, setClasses] = useState([]);
+    const [selectedClass, setSelectedClass] = useState(null);
+
     const showFeatureButton = false;
 
     const levels = Array.from(
@@ -53,6 +56,24 @@ export default function PageTest() {
         getSpells();
     }, []);
 
+    useEffect(() => {
+        api
+            .get(`${import.meta.env.VITE_API_URL}/class/get-all-summary`)
+            .then((response) => {
+                setClasses(response.data);
+            })
+            .catch((error) => {
+                console.error(
+                    "Errore nel recupero delle classi:",
+                    error
+                );
+
+                setError(
+                    "Impossibile recuperare le classi."
+                );
+            });
+    }, []);
+
     const filteredSpells = spells.filter((spell) => {
 
         const matchName = spell.name
@@ -63,7 +84,14 @@ export default function PageTest() {
             selectedLevel === null ||
             spell.level === selectedLevel;
 
-        return matchName && matchLevel;
+        const matchClass =
+            selectedClass === null ||
+            spell.classes?.some(
+                (spellClass) => spellClass.id === selectedClass
+            );
+
+
+        return matchName && matchLevel && matchClass;
     });
 
     // Recupera il dettaglio di un incantesimo
@@ -151,6 +179,57 @@ export default function PageTest() {
                         showDetail={showDetail}
                         showFeatureButton={showFeatureButton}
                     />
+
+                    <div className="dropdown">
+
+                        <button
+                            className="btn btn-primary dropdown-toggle mt-4"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                        >
+                            {selectedClass === null
+                                ? "Tutte le classi"
+                                : classes.find(
+                                    (dndClass) =>
+                                        dndClass.id === selectedClass
+                                )?.name
+                            }
+                        </button>
+
+                        <ul className="dropdown-menu class-dropdown">
+
+                            <li>
+                                <button
+                                    type="button"
+                                    className="dropdown-item"
+                                    onClick={() => setSelectedClass(null)}
+                                >
+                                    Tutte le classi
+                                </button>
+                            </li>
+
+                            {classes.map((dndClass) => (
+
+                                <li key={dndClass.id}>
+
+                                    <button
+                                        type="button"
+                                        className="dropdown-item"
+                                        onClick={() =>
+                                            setSelectedClass(dndClass.id)
+                                        }
+                                    >
+                                        {dndClass.name}
+                                    </button>
+
+                                </li>
+
+                            ))}
+
+                        </ul>
+
+                    </div>
 
                     <div className="row justify-content-between">
 
