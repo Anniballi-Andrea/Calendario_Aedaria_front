@@ -96,7 +96,7 @@ export default function SpellDetail({
                             <>
                                 <hr />
 
-                                <h6>Potenzia a livelli superiori:</h6>
+                                <h6>A livelli superiori:</h6>
                                 <p>
                                     {selectedSpell.upgrade}
                                 </p>

@@ -580,7 +580,7 @@ textarea,
    ========================================================= */
 
 .class-dropdown {
-  min-width: 120px !important;
+  min-width: 100% !important;
   max-width: 150px !important;
   max-height: 15vh;
   overflow-y: auto;

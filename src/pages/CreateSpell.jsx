@@ -259,7 +259,7 @@ export default function CreateSpell() {
 
                                                 <button
                                                     type="button"
-                                                    className="btn btn-outline-primary dropdown-toggle w-100"
+                                                    className="btn btn-outline-primary border-3 fw-bold dropdown-toggle w-100"
                                                     onClick={() => setShowClasses(!showClasses)}
                                                 >
                                                     {selectedClasses.length === 0
@@ -269,8 +269,8 @@ export default function CreateSpell() {
 
                                                 {showClasses && (
                                                     <div
-                                                        className="dropdown-menu show w-100 p-2"
-                                                        style={{ maxHeight: "250px", overflowY: "auto" }}
+                                                        className="dropdown-menu show class-dropdown  p-2"
+                                                        style={{ overflowY: "auto" }}
                                                     >
 
                                                         {classes.map((classItem) => (
