@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import api from "../api/api";
+import api from "../api/axiosConfig";
 
 export default function BackendLoader({ children }) {
 
