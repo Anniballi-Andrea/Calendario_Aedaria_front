@@ -73,24 +73,28 @@ export default function BackendLoader({ children }) {
     if (!backendReady) {
 
         return (
-            <div className="backend-loader">
+            <div className="d-lg-flex justify-content-center mt-5">
 
-                <h1>
-                    Aedaria
-                </h1>
+                <div className="create-page text-center w-50 mt-5">
+                    <h1>
+                        Aedaria
+                    </h1>
 
-                <p>
-                    Il regno si sta risvegliando...
-                </p>
+                    <p>
+                        Il regno si sta risvegliando...
+                    </p>
 
-                <div
-                    className="spinner-border"
-                    role="status"
-                >
-                    <span className="visually-hidden">
-                        Caricamento...
-                    </span>
+                    <div
+                        className="spinner-border"
+                        role="status"
+                    >
+                        <span className="visually-hidden">
+                            Caricamento...
+                        </span>
+                    </div>
+
                 </div>
+
 
             </div>
         );
