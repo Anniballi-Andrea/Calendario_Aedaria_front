@@ -16,19 +16,7 @@ export default function CauroselBotton() {
         SEASONS_IN_YEAR
     } = useCalendar();
 
-    useEffect(() => {
 
-        if (carouselRef.current) {
-
-            new Carousel(carouselRef.current, {
-                interval: false,
-                wrap: true,
-                touch: true
-            });
-
-        }
-
-    }, []);
 
     useEffect(() => {
 
