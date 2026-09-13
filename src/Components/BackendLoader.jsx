@@ -14,6 +14,7 @@ export default function BackendLoader({ children }) {
 
         const reloadPending =
             sessionStorage.getItem("backendWakeupReload");
+
         if (reloadPending === "true") {
 
             sessionStorage.removeItem("backendWakeupReload");
@@ -22,11 +23,21 @@ export default function BackendLoader({ children }) {
 
             return;
         }
+
+        const savedResponseTime =
+            sessionStorage.getItem("backendResponseTime");
+
+        const waitTime = savedResponseTime
+            ? Number(savedResponseTime) + 1000
+            : 3000;
+
+        const requestStart = performance.now();
+
         const slowRequestTimer = setTimeout(() => {
 
             slowRequest.current = true;
 
-        }, 3000);
+        }, waitTime);
 
         api
 
@@ -35,6 +46,20 @@ export default function BackendLoader({ children }) {
             .then(() => {
 
                 clearTimeout(slowRequestTimer);
+
+
+                const requestEnd = performance.now();
+                const responseTime = requestEnd - requestStart;
+
+                console.log(
+                    `Backend raggiunto in ${responseTime.toFixed(0)} ms`
+                );
+
+                sessionStorage.setItem(
+                    "backendResponseTime",
+                    responseTime.toString()
+                );
+
                 if (slowRequest.current) {
 
                     sessionStorage.setItem(
@@ -55,8 +80,11 @@ export default function BackendLoader({ children }) {
 
                 clearTimeout(slowRequestTimer);
 
+                const requestEnd = performance.now();
+                const responseTime = requestEnd - requestStart;
+
                 console.error(
-                    "Backend non raggiungibile:",
+                    `Backend non raggiungibile dopo ${responseTime.toFixed(0)} ms:`,
                     error
                 );
 
@@ -70,10 +98,11 @@ export default function BackendLoader({ children }) {
 
     }, []);
 
+
     if (!backendReady) {
 
         return (
-            <div className="d-lg-flex justify-content-center mt-5">
+            <div className="d-flex justify-content-center mt-5">
 
                 <div className="create-page text-center w-50 mt-5">
                     <h1>
