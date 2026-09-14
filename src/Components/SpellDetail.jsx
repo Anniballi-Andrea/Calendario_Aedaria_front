@@ -79,14 +79,14 @@ export default function SpellDetail({
                             <>
                                 <hr />
 
-                                <h6>Materiali:</h6>
+                                <strong>Materiali:</strong>
                                 <p>
                                     {selectedSpell.materials}
                                 </p>
                             </>
                         )}
-
-                        <h6>Descrizione:</h6>
+                        <hr />
+                        <strong className="mt-2">Descrizione:</strong>
                         <p>
                             <SafeHtml html={selectedSpell.effect} />
                         </p>
@@ -96,7 +96,7 @@ export default function SpellDetail({
                             <>
                                 <hr />
 
-                                <h6>A livelli superiori:</h6>
+                                <strong>A livelli superiori:</strong>
                                 <p>
                                     {selectedSpell.upgrade}
                                 </p>
