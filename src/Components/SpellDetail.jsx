@@ -86,10 +86,14 @@ export default function SpellDetail({
                             </>
                         )}
                         <hr />
+
                         <strong className="mt-2">Descrizione:</strong>
-                        <p>
-                            <SafeHtml html={selectedSpell.effect} />
-                        </p>
+                        <div className="left-item-vh">
+                            <p>
+                                <SafeHtml html={selectedSpell.effect} />
+                            </p>
+                        </div>
+
 
 
                         {selectedSpell.upgrade && (
