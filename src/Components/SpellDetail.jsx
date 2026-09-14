@@ -49,7 +49,7 @@ export default function SpellDetail({
                         />
                     </div>
 
-                    <div className="card-body">
+                    <div className="card-body left-item-vh">
 
                         <div className="row">
 
@@ -88,7 +88,7 @@ export default function SpellDetail({
                         <hr />
 
                         <strong className="mt-2">Descrizione:</strong>
-                        <div className="left-item-vh">
+                        <div className="">
                             <p>
                                 <SafeHtml html={selectedSpell.effect} />
                             </p>
