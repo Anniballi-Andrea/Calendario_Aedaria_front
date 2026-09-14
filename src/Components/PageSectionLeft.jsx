@@ -49,7 +49,7 @@ export default function PageSectionLeft({ name, navigateTo, item, selectedItem, 
 
             </div>
 
-            <div className="row align-items-center justify-content-between">
+            <div className="row align-items-center justify-content-between left-item-vh">
                 {item?.length === 0 && (
                     <div className="col-12 data-page-empty ">
                         Nessuna abilità presente.
