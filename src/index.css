@@ -448,8 +448,14 @@ textarea,
 }
 
 .left-item-vh {
-  max-height: 40vh;
+  max-height: 60vh;
   overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.left-item-vh::-webkit-scrollbar {
+  display: none;
 }
 
 /* =========================================================
