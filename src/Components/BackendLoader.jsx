@@ -1,17 +1,14 @@
-import { useEffect, useRef, useState } from "react";
-
-import api from "../api/axiosConfig";
 export default function BackendLoader({ children }) {
 
     const API_URL = `${import.meta.env.VITE_API_URL}/days/get`;
 
-    // MODIFICA: cooldown massimo previsto per il risveglio del backend.
-    const COOLDOWN_SECONDS = 65;
+    const TIMER_SECONDS = 120;
 
     const [backendReady, setBackendReady] = useState(false);
-    const [countdown, setCountdown] = useState(COOLDOWN_SECONDS);
+    const [countdown, setCountdown] = useState(TIMER_SECONDS);
+    const [attempt, setAttempt] = useState(1);
+    const [error, setError] = useState(false);
 
-    const slowRequest = useRef(false);
     const backendResponse = useRef(false);
 
     useEffect(() => {
@@ -28,8 +25,32 @@ export default function BackendLoader({ children }) {
             return;
         }
 
-        // MODIFICA: avvia il conto alla rovescia indipendentemente
-        // dalla velocità di risposta del backend.
+        api
+            .get(API_URL)
+            .then(() => {
+
+                backendResponse.current = true;
+
+            })
+            .catch((error) => {
+
+                console.error(
+                    "Backend non raggiungibile:",
+                    error
+                );
+
+            });
+
+    }, []);
+
+    useEffect(() => {
+
+        if (backendReady || error) {
+            return;
+        }
+
+        setCountdown(TIMER_SECONDS);
+
         const countdownInterval = setInterval(() => {
 
             setCountdown((previous) => {
@@ -47,82 +68,81 @@ export default function BackendLoader({ children }) {
 
         }, 1000);
 
-        // MODIFICA: controlla se la richiesta supera i 3 secondi
-        // per capire se Render sta effettuando il risveglio.
-        const slowRequestTimer = setTimeout(() => {
-
-            slowRequest.current = true;
-
-        }, 3000);
-
-        api
-            .get(API_URL)
-            .then(() => {
-
-                clearTimeout(slowRequestTimer);
-
-                backendResponse.current = true;
-
-                // Se il backend ha impiegato più di 3 secondi,
-                // manteniamo il comportamento di reload già presente.
-                if (slowRequest.current) {
-
-                    sessionStorage.setItem(
-                        "backendWakeupReload",
-                        "true"
-                    );
-
-                    window.location.reload();
-
-                    return;
-                }
-
-                // MODIFICA: se il backend risponde prima della fine
-                // del cooldown, aspettiamo che il conto alla rovescia termini.
-                if (countdown === 0) {
-
-                    setBackendReady(true);
-
-                }
-
-            })
-            .catch((error) => {
-
-                clearTimeout(slowRequestTimer);
-                clearInterval(countdownInterval);
-
-                console.error(
-                    "Backend non raggiungibile:",
-                    error
-                );
-
-            });
-
         return () => {
 
-            clearTimeout(slowRequestTimer);
             clearInterval(countdownInterval);
 
         };
 
-    }, []);
+    }, [attempt, backendReady, error]);
 
-    // MODIFICA: quando il countdown arriva a zero e il backend
-    // ha già risposto, l'applicazione può essere avviata.
     useEffect(() => {
 
-        if (countdown === 0 && backendResponse.current) {
-
-            setBackendReady(true);
-
+        if (countdown !== 0 || backendReady || error) {
+            return;
         }
 
-    }, [countdown]);
+        if (backendResponse.current) {
+
+            sessionStorage.setItem(
+                "backendWakeupReload",
+                "true"
+            );
+
+            window.location.reload();
+
+            return;
+        }
+        if (attempt === 1) {
+
+            setAttempt(2);
+
+            return;
+        }
+
+        setError(true);
+
+    }, [countdown, attempt, backendReady, error]);
+
+    const minutes = Math.floor(countdown / 60);
+    const seconds = countdown % 60;
+
+    const formattedTime =
+        `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+
+    if (error) {
+
+        return (
+            <div className="d-flex justify-content-center mt-5">
+
+                <div className="create-page text-center w-50 mt-5">
+
+                    <h1>
+                        Aedaria
+                    </h1>
+
+                    <h2>
+                        Il risveglio è fallito
+                    </h2>
+
+                    <p>
+                        Il server non ha risposto entro il tempo previsto.
+                    </p>
+
+                    <p>
+                        Riprova più tardi.
+                    </p>
+
+                </div>
+
+            </div>
+        );
+    }
 
     if (!backendReady) {
 
         return (
-            <div className="d-lg-flex justify-content-center mt-5">
+            <div className="d-flex justify-content-center mt-5">
 
                 <div className="create-page text-center w-50 mt-5">
 
@@ -134,10 +154,16 @@ export default function BackendLoader({ children }) {
                         Il regno si sta risvegliando...
                     </p>
 
-                    {/* MODIFICA: mostra il tempo rimanente del cooldown. */}
                     <p>
-                        Avvio dell'applicazione tra{" "}
-                        <strong>{countdown}</strong> secondi...
+                        Tempo rimanente:
+                    </p>
+
+                    <h2>
+                        {formattedTime}
+                    </h2>
+
+                    <p>
+                        Tentativo {attempt} di 2
                     </p>
 
                     <div
