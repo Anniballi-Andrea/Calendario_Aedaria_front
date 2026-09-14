@@ -20,7 +20,9 @@ export function CalendarProvider({ children }) {
     function getDay() {
         setBackendStatus("loading");
         api
-            .get(`${API_URL}`)
+            .get(`${API_URL}`, {
+                timeout: 5000
+            })
             .then((response) => {
                 const data = response.data;
                 setDayCount(data);

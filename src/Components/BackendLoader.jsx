@@ -4,16 +4,9 @@ import { useCalendar } from "../context/CalendarContext";
 
 export default function BackendLoader({ children }) {
 
-    useEffect(() => {
-
-        console.log("BACKEND STATUS:", backendStatus);
-        console.log("BACKEND READY:", backendReady);
-        console.log("ATTEMPT:", attempt);
-        console.log("ERROR:", error);
-
-    }, [backendStatus, backendReady, attempt, error]);
-
     const { backendStatus } = useCalendar();
+
+
 
     const API_URL =
         `${import.meta.env.VITE_API_URL}/days/get`;
@@ -147,14 +140,7 @@ export default function BackendLoader({ children }) {
         attempt
     ]);
 
-    /*
-     * MODIFICA:
-     * Se la richiesta iniziale del CalendarProvider
-     * è ancora in corso, non mostriamo il loader.
-     *
-     * Questo evita di mostrare il countdown prima che
-     * sappiamo effettivamente se il backend è offline.
-     */
+
     if (backendStatus === "loading") {
         return null;
     }
@@ -167,6 +153,8 @@ export default function BackendLoader({ children }) {
 
     const formattedTime =
         `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+
+
 
     if (error) {
 
