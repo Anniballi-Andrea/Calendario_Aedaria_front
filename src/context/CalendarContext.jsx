@@ -15,15 +15,20 @@ export function CalendarProvider({ children }) {
 
     const [dayCount, setDayCount] = useState();
 
+    const [backendStatus, setBackendStatus] = useState("loading");
+
     function getDay() {
+        setBackendStatus("loading");
         api
             .get(`${API_URL}`)
             .then((response) => {
                 const data = response.data;
                 setDayCount(data);
+                setBackendStatus("ready");
             })
             .catch((error) => {
                 console.error("Errore:", error);
+                setBackendStatus("error");
             });
     }
 
@@ -123,7 +128,8 @@ export function CalendarProvider({ children }) {
 
                 carouselRef,
                 classLoader,
-                setClassLoader
+                setClassLoader,
+                backendStatus
             }}
         >
             {children}

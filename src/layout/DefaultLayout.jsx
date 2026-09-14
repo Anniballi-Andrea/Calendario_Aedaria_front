@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import Header from "../Components/Header";
 import { useCalendar } from "../context/CalendarContext";
 import { useEffect } from "react";
+import BackendLoader from "../Components/BackendLoader";
 
 
 export default function DefaultLayout() {
@@ -28,12 +29,17 @@ export default function DefaultLayout() {
     }, []);
 
     return (
+
         <div className={`season-${displaySeason}`}>
+
             <Header />
-            <main>
-                <Outlet />
-            </main>
+            <BackendLoader>
+                <main>
+                    <Outlet />
+                </main>
+            </BackendLoader>
         </div>
+
 
     )
 }

@@ -69,7 +69,7 @@ export default function PageTest() {
                 );
 
                 setError(
-                    "Impossibile recuperare le classi."
+                    "Impossibile recuperare gli incantesimi."
                 );
             });
     }, []);
@@ -163,6 +163,7 @@ export default function PageTest() {
     }
 
     return (
+
         <div className="container-fluid pb-5">
 
             <div className="d-flex justify-content-center mt-4">

@@ -1,51 +1,44 @@
+import { useEffect, useState } from "react";
+import api from "../api/axiosConfig";
+import { useCalendar } from "../context/CalendarContext";
+
 export default function BackendLoader({ children }) {
 
-    const API_URL = `${import.meta.env.VITE_API_URL}/days/get`;
+    const { backendStatus } = useCalendar();
 
+    const API_URL =
+        `${import.meta.env.VITE_API_URL}/days/get`;
+
+    // MODIFICA: ogni tentativo di risveglio dura 2 minuti.
     const TIMER_SECONDS = 120;
 
-    const [backendReady, setBackendReady] = useState(false);
-    const [countdown, setCountdown] = useState(TIMER_SECONDS);
-    const [attempt, setAttempt] = useState(1);
-    const [error, setError] = useState(false);
+    const [countdown, setCountdown] =
+        useState(TIMER_SECONDS);
 
-    const backendResponse = useRef(false);
+    const [attempt, setAttempt] =
+        useState(1);
 
+    const [error, setError] =
+        useState(false);
+
+    // MODIFICA: indica se il backend è stato raggiunto
+    // direttamente durante uno dei tentativi di wake-up.
+    const [backendReady, setBackendReady] =
+        useState(false);
+
+    /*
+     * MODIFICA:
+     * Il timer viene avviato solamente quando il
+     * CalendarProvider ha terminato la richiesta iniziale
+     * e ha stabilito che il backend non è raggiungibile.
+     */
     useEffect(() => {
 
-        const reloadPending =
-            sessionStorage.getItem("backendWakeupReload");
-
-        if (reloadPending === "true") {
-
-            sessionStorage.removeItem("backendWakeupReload");
-
-            setBackendReady(true);
-
-            return;
-        }
-
-        api
-            .get(API_URL)
-            .then(() => {
-
-                backendResponse.current = true;
-
-            })
-            .catch((error) => {
-
-                console.error(
-                    "Backend non raggiungibile:",
-                    error
-                );
-
-            });
-
-    }, []);
-
-    useEffect(() => {
-
-        if (backendReady || error) {
+        if (
+            backendStatus !== "error" ||
+            backendReady ||
+            error
+        ) {
             return;
         }
 
@@ -63,49 +56,105 @@ export default function BackendLoader({ children }) {
                 }
 
                 return previous - 1;
-
             });
 
         }, 1000);
 
         return () => {
-
             clearInterval(countdownInterval);
-
         };
 
-    }, [attempt, backendReady, error]);
+    }, [
+        backendStatus,
+        attempt,
+        backendReady,
+        error
+    ]);
 
+    /*
+     * MODIFICA:
+     * Quando il countdown arriva a zero viene effettuato
+     * un nuovo tentativo di contattare il backend.
+     */
     useEffect(() => {
 
-        if (countdown !== 0 || backendReady || error) {
+        if (
+            countdown !== 0 ||
+            backendStatus !== "error" ||
+            backendReady ||
+            error
+        ) {
             return;
         }
 
-        if (backendResponse.current) {
+        api
+            .get(API_URL)
 
-            sessionStorage.setItem(
-                "backendWakeupReload",
-                "true"
-            );
+            .then(() => {
 
-            window.location.reload();
+                console.log(
+                    "Backend raggiunto. Ricarico la pagina."
+                );
 
-            return;
-        }
-        if (attempt === 1) {
+                // MODIFICA: il backend è tornato disponibile.
+                setBackendReady(true);
 
-            setAttempt(2);
+                window.location.reload();
+            })
 
-            return;
-        }
+            .catch((error) => {
 
-        setError(true);
+                console.error(
+                    "Backend ancora non raggiungibile:",
+                    error
+                );
 
-    }, [countdown, attempt, backendReady, error]);
+                /*
+                 * MODIFICA:
+                 * Se è fallito il primo tentativo,
+                 * parte il secondo countdown.
+                 */
+                if (attempt === 1) {
 
-    const minutes = Math.floor(countdown / 60);
-    const seconds = countdown % 60;
+                    setAttempt(2);
+
+                    return;
+                }
+
+                /*
+                 * MODIFICA:
+                 * Anche il secondo tentativo è fallito.
+                 * Mostriamo definitivamente la schermata
+                 * di errore.
+                 */
+                setError(true);
+            });
+
+    }, [
+        countdown,
+        backendStatus,
+        backendReady,
+        error,
+        attempt
+    ]);
+
+    /*
+     * MODIFICA:
+     * Se la richiesta iniziale del CalendarProvider
+     * è ancora in corso, non mostriamo il loader.
+     *
+     * Questo evita di mostrare il countdown prima che
+     * sappiamo effettivamente se il backend è offline.
+     */
+    if (backendStatus === "loading") {
+        return null;
+    }
+
+    const minutes =
+        Math.floor(countdown / 60);
+
+    const seconds =
+        countdown % 60;
 
     const formattedTime =
         `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
@@ -139,7 +188,15 @@ export default function BackendLoader({ children }) {
         );
     }
 
-    if (!backendReady) {
+    /*
+     * MODIFICA:
+     * Mostriamo il loader solo quando il backend non è
+     * raggiungibile e siamo in attesa del prossimo tentativo.
+     */
+    if (
+        backendStatus === "error" &&
+        !backendReady
+    ) {
 
         return (
             <div className="d-flex justify-content-center mt-5">
