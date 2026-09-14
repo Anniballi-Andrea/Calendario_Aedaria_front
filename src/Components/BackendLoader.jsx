@@ -4,6 +4,15 @@ import { useCalendar } from "../context/CalendarContext";
 
 export default function BackendLoader({ children }) {
 
+    useEffect(() => {
+
+        console.log("BACKEND STATUS:", backendStatus);
+        console.log("BACKEND READY:", backendReady);
+        console.log("ATTEMPT:", attempt);
+        console.log("ERROR:", error);
+
+    }, [backendStatus, backendReady, attempt, error]);
+
     const { backendStatus } = useCalendar();
 
     const API_URL =
