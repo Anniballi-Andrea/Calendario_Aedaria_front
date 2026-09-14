@@ -447,6 +447,10 @@ textarea,
   text-align: center;
 }
 
+.left-item-vh {
+  max-height: 40vh;
+  overflow-y: auto;
+}
 
 /* =========================================================
    FILTRO LIVELLO INCANTESIMI
