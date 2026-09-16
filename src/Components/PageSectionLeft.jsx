@@ -1,7 +1,19 @@
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext";
 
-export default function PageSectionLeft({ name, navigateTo, item, selectedItem, setSelectedItem, deleteItem, updateSlugLink, slug, setShowDetail, editPath }) {
+export default function PageSectionLeft({ name,
+    navigateTo,
+    item,
+    selectedItem,
+    setSelectedItem,
+    deleteItem,
+    updateSlugLink,
+    slug,
+    setShowDetail,
+    editPath,
+    currentPage,
+    totalPages,
+    setCurrentPage }) {
 
     const { isAdmin } = useAuth()
     const navigate = useNavigate()
@@ -21,7 +33,35 @@ export default function PageSectionLeft({ name, navigateTo, item, selectedItem, 
 
             return groups;
         }, {})
-        : null;;
+        : null;
+
+
+    const paginationPages = [];
+
+    if (totalPages <= 7) {
+        for (let index = 0; index < totalPages; index++) {
+            paginationPages.push(index);
+        }
+    } else {
+        paginationPages.push(0);
+
+        if (currentPage > 3) {
+            paginationPages.push("start-ellipsis");
+        }
+
+        const startPage = Math.max(1, currentPage - 1);
+        const endPage = Math.min(totalPages - 2, currentPage + 1);
+
+        for (let index = startPage; index <= endPage; index++) {
+            paginationPages.push(index);
+        }
+
+        if (currentPage < totalPages - 4) {
+            paginationPages.push("end-ellipsis");
+        }
+
+        paginationPages.push(totalPages - 1);
+    }
 
     return (
         <div className="data-page-section">
@@ -194,6 +234,71 @@ export default function PageSectionLeft({ name, navigateTo, item, selectedItem, 
                 )}
 
             </div>
+            {totalPages > 1 && (
+                <nav aria-label="Paginazione">
+
+                    <ul className="pagination justify-content-center mt-4">
+
+                        <li className={`page-item ${currentPage === 0 ? "disabled" : ""}`}>
+                            <button
+                                type="button"
+                                className="page-link"
+                                onClick={() => setCurrentPage(currentPage - 1)}
+                                disabled={currentPage === 0}
+                            >
+                                Precedente
+                            </button>
+                        </li>
+
+                        {paginationPages.map((page, index) => {
+
+                            if (page === "start-ellipsis" || page === "end-ellipsis") {
+                                return (
+                                    <li
+                                        key={`${page}-${index}`}
+                                        className="page-item disabled"
+                                    >
+                                        <span className="page-link">
+                                            ...
+                                        </span>
+                                    </li>
+                                );
+                            }
+
+                            return (
+                                <li
+                                    key={page}
+                                    className={`page-item ${currentPage === page ? "active" : ""}`}
+                                >
+                                    <button
+                                        type="button"
+                                        className="page-link"
+                                        onClick={() => setCurrentPage(page)}
+                                    >
+                                        {page + 1}
+                                    </button>
+                                </li>
+                            );
+                        })}
+
+                        <li
+                            className={`page-item ${currentPage === totalPages - 1 ? "disabled" : ""
+                                }`}
+                        >
+                            <button
+                                type="button"
+                                className="page-link"
+                                onClick={() => setCurrentPage(currentPage + 1)}
+                                disabled={currentPage === totalPages - 1}
+                            >
+                                Successiva
+                            </button>
+                        </li>
+
+                    </ul>
+
+                </nav>
+            )}
         </div>
     )
 }

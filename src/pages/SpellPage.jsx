@@ -4,23 +4,25 @@ import PageSectionLeft from "../Components/PageSectionLeft";
 import api from "../api/axiosConfig";
 import { useEffect } from "react";
 import SpellDetail from "../Components/SpellDetail";
-import { useAuth } from "../context/AuthContext";
 
-export default function PageTest() {
 
-    const { token } = useAuth()
+export default function SpellPage() {
 
     const API_URL = `${import.meta.env.VITE_API_URL}/spells`
 
     const [spells, setSpells] = useState([]);
     const [selectedSpell, setSelectedSpell] = useState(null);
     const [searchValue, setSearchValue] = useState("");
+    const [searchQuery, setSearchQuery] = useState("");
     const [selectedLevel, setSelectedLevel] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [showDetail, setShowDetail] = useState(false);
     const [classes, setClasses] = useState([]);
     const [selectedClass, setSelectedClass] = useState(null);
+    const [spellDetail, setSpellDetail] = useState(null);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
 
     const showFeatureButton = false;
 
@@ -29,22 +31,40 @@ export default function PageTest() {
         (_, index) => index
     );
 
-    // Recupera gli incantesimi dal backend
     function getSpells() {
         setLoading(true);
         setError("");
 
+        const params = new URLSearchParams({
+            page: currentPage,
+            size: 20
+        });
+
+        if (searchQuery.trim() !== "") {
+            params.append("name", searchQuery.trim());
+        }
+
+        if (selectedLevel !== null) {
+            params.append("level", selectedLevel);
+        }
+
+        if (selectedClass !== null) {
+            params.append("classId", selectedClass);
+        }
         api
-            .get(API_URL)
+            .get(`${API_URL}/page?${params.toString()}`)
             .then((response) => {
                 const data = response.data;
-                setSpells(data);
+
+                setSpells(data.content);
+                setTotalPages(data.totalPages);
             })
             .catch((error) => {
                 console.error(
                     "Errore nel recupero degli incantesimi:",
                     error
                 );
+
                 setError("Impossibile recuperare gli incantesimi.");
             })
             .finally(() => {
@@ -53,8 +73,19 @@ export default function PageTest() {
     }
 
     useEffect(() => {
+        const timeout = setTimeout(() => {
+            setSearchQuery(searchValue);
+        }, 500);
+
+        return () => clearTimeout(timeout);
+    }, [searchValue]);
+    useEffect(() => {
+        setCurrentPage(0);
+    }, [searchQuery, selectedLevel, selectedClass]);
+
+    useEffect(() => {
         getSpells();
-    }, []);
+    }, [currentPage, searchQuery, selectedLevel, selectedClass]);
 
     useEffect(() => {
         api
@@ -74,29 +105,8 @@ export default function PageTest() {
             });
     }, []);
 
-    const filteredSpells = spells.filter((spell) => {
-
-        const matchName = spell.name
-            .toLowerCase()
-            .includes(searchValue.toLowerCase());
-
-        const matchLevel =
-            selectedLevel === null ||
-            spell.level === selectedLevel;
-
-        const matchClass =
-            selectedClass === null ||
-            spell.classes?.some(
-                (spellClass) => spellClass.id === selectedClass
-            );
 
 
-        return matchName && matchLevel && matchClass;
-    });
-
-    // Recupera il dettaglio di un incantesimo
-
-    // Elimina l'incantesimo selezionato
     function deleteSpell(spellId) {
 
         const confirmed = window.confirm(
@@ -131,6 +141,33 @@ export default function PageTest() {
             });
     }
 
+    function getSpellDetail(spellId) {
+
+        api
+            .get(`${API_URL}/${spellId}`)
+            .then((response) => {
+                setSpellDetail(response.data);
+            })
+            .catch((error) => {
+                console.error(
+                    "Errore nel recupero del dettaglio dell'incantesimo:",
+                    error
+                );
+
+                setError(
+                    "Impossibile recuperare il dettaglio dell'incantesimo."
+                );
+            });
+    }
+    useEffect(() => {
+
+        if (!selectedSpell?.id) {
+            return;
+        }
+
+        getSpellDetail(selectedSpell.id);
+
+    }, [selectedSpell]);
 
     if (loading) {
 
@@ -245,19 +282,22 @@ export default function PageTest() {
                             <PageSectionLeft
                                 name={"Lista"}
                                 navigateTo={"/aggiungi-incantesimo"}
-                                item={filteredSpells}
+                                item={spells}
                                 selectedItem={selectedSpell}
                                 setSelectedItem={setSelectedSpell}
                                 setShowDetail={setShowDetail}
                                 updateSlugLink={"incantesimo"}
                                 deleteItem={deleteSpell}
                                 editPath={(id) => `/incantesimi/modifica/${id}`}
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                                setCurrentPage={setCurrentPage}
                             />
 
                         </div>
 
                         <SpellDetail
-                            selectedSpell={selectedSpell}
+                            selectedSpell={spellDetail}
                             setSelectedSpell={setSelectedSpell}
                             setShowDetail={setShowDetail} />
 

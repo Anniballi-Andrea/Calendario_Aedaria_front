@@ -23,17 +23,10 @@ export default function BackendLoader({ children }) {
     const [error, setError] =
         useState(false);
 
-    // MODIFICA: indica se il backend è stato raggiunto
-    // direttamente durante uno dei tentativi di wake-up.
     const [backendReady, setBackendReady] =
         useState(false);
 
-    /*
-     * MODIFICA:
-     * Il timer viene avviato solamente quando il
-     * CalendarProvider ha terminato la richiesta iniziale
-     * e ha stabilito che il backend non è raggiungibile.
-     */
+
     useEffect(() => {
 
         if (
@@ -73,11 +66,7 @@ export default function BackendLoader({ children }) {
         error
     ]);
 
-    /*
-     * MODIFICA:
-     * Quando il countdown arriva a zero viene effettuato
-     * un nuovo tentativo di contattare il backend.
-     */
+
     useEffect(() => {
 
         if (
@@ -185,11 +174,6 @@ export default function BackendLoader({ children }) {
         );
     }
 
-    /*
-     * MODIFICA:
-     * Mostriamo il loader solo quando il backend non è
-     * raggiungibile e siamo in attesa del prossimo tentativo.
-     */
     if (
         backendStatus === "error" &&
         !backendReady
