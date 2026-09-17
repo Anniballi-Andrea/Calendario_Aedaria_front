@@ -245,69 +245,72 @@ export default function PageSectionLeft({ name,
 
             </div>
             {totalPages > 1 && (
-                <nav aria-label="Paginazione">
+                <div className="">
+                    <nav aria-label="Paginazione">
 
-                    <ul className="pagination justify-content-center mt-4">
+                        <ul className="pagination justify-content-center mt-4">
 
-                        <li className={`page-item ${currentPage === 0 ? "disabled" : ""}`}>
-                            <button
-                                type="button"
-                                className="page-link"
-                                onClick={() => setCurrentPage(currentPage - 1)}
-                                disabled={currentPage === 0}
-                            >
-                                Precedente
-                            </button>
-                        </li>
+                            <li className={`page-item ${currentPage === 0 ? "disabled" : ""}`}>
+                                <button
+                                    type="button"
+                                    className="page-link"
+                                    onClick={() => setCurrentPage(currentPage - 1)}
+                                    disabled={currentPage === 0}
+                                >
+                                    Precedente
+                                </button>
+                            </li>
 
-                        {paginationPages.map((page, index) => {
+                            {paginationPages.map((page, index) => {
 
-                            if (page === "start-ellipsis" || page === "end-ellipsis") {
+                                if (page === "start-ellipsis" || page === "end-ellipsis") {
+                                    return (
+                                        <li
+                                            key={`${page}-${index}`}
+                                            className="page-item disabled"
+                                        >
+                                            <span className="page-link">
+                                                ...
+                                            </span>
+                                        </li>
+                                    );
+                                }
+
                                 return (
                                     <li
-                                        key={`${page}-${index}`}
-                                        className="page-item disabled"
+                                        key={page}
+                                        className={`page-item ${currentPage === page ? "active" : ""}`}
                                     >
-                                        <span className="page-link">
-                                            ...
-                                        </span>
+                                        <button
+                                            type="button"
+                                            className="page-link"
+                                            onClick={() => setCurrentPage(page)}
+                                        >
+                                            {page + 1}
+                                        </button>
                                     </li>
                                 );
-                            }
+                            })}
 
-                            return (
-                                <li
-                                    key={page}
-                                    className={`page-item ${currentPage === page ? "active" : ""}`}
-                                >
-                                    <button
-                                        type="button"
-                                        className="page-link"
-                                        onClick={() => setCurrentPage(page)}
-                                    >
-                                        {page + 1}
-                                    </button>
-                                </li>
-                            );
-                        })}
-
-                        <li
-                            className={`page-item ${currentPage === totalPages - 1 ? "disabled" : ""
-                                }`}
-                        >
-                            <button
-                                type="button"
-                                className="page-link"
-                                onClick={() => setCurrentPage(currentPage + 1)}
-                                disabled={currentPage === totalPages - 1}
+                            <li
+                                className={`page-item ${currentPage === totalPages - 1 ? "disabled" : ""
+                                    }`}
                             >
-                                Successiva
-                            </button>
-                        </li>
+                                <button
+                                    type="button"
+                                    className="page-link"
+                                    onClick={() => setCurrentPage(currentPage + 1)}
+                                    disabled={currentPage === totalPages - 1}
+                                >
+                                    Successiva
+                                </button>
+                            </li>
 
-                    </ul>
+                        </ul>
 
-                </nav>
+                    </nav>
+                </div>
+
             )}
 
             {showDeleteModal && (
