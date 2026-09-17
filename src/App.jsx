@@ -17,6 +17,8 @@ import CreateEditFeature from "./pages/CreateEditFeature"
 import { AuthProvider } from "./context/AuthContext"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
+import SpeciesPage from "./pages/SpeciesPage"
+import CreateSpecies from "./pages/CreateSpecies"
 
 
 function App() {
@@ -34,6 +36,9 @@ function App() {
                 <Route path="/incantesimi" element={<SpellPage />} />
                 <Route path="/aggiungi-incantesimo" element={<CreateSpell />} />
                 <Route path="/incantesimi/modifica/:id" element={<CreateSpell />} />
+                <Route path="/specie" element={<SpeciesPage />} />
+                <Route path="/aggiungi-specie" element={<CreateSpecies />} />
+                <Route path="/specie/modifica/:id" element={<CreateSpecies />} />
                 <Route path="/classe/crea-classe" element={<CreateClass />} />
                 <Route path="/classe/:slug" element={<ClassPage />} />
                 <Route path="/classe/:slug/feature" element={<ClassFeaturePage />} />

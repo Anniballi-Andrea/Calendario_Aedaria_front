@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext";
+import { useState } from "react";
 
 export default function PageSectionLeft({ name,
     navigateTo,
@@ -17,6 +18,9 @@ export default function PageSectionLeft({ name,
 
     const { isAdmin } = useAuth()
     const navigate = useNavigate()
+
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [itemToDelete, setItemToDelete] = useState(null);
 
     const hasLevel = item?.some(
         (currentItem) => currentItem.level !== undefined && currentItem.level !== null
@@ -155,7 +159,10 @@ export default function PageSectionLeft({ name,
                                                     <button
                                                         type="button"
                                                         className="btn btn-outline-danger"
-                                                        onClick={() => deleteItem(item.id)}
+                                                        onClick={() => {
+                                                            setItemToDelete(item);
+                                                            setShowDeleteModal(true);
+                                                        }}
                                                     >
                                                         <i className="bi bi-trash"></i>
                                                     </button>
@@ -220,7 +227,10 @@ export default function PageSectionLeft({ name,
                                             <button
                                                 type="button"
                                                 className="btn btn-outline-danger"
-                                                onClick={() => deleteItem(item.id)}
+                                                onClick={() => {
+                                                    setItemToDelete(item);
+                                                    setShowDeleteModal(true);
+                                                }}
                                             >
                                                 <i className="bi bi-trash"></i>
                                             </button>
@@ -298,6 +308,60 @@ export default function PageSectionLeft({ name,
                     </ul>
 
                 </nav>
+            )}
+
+            {showDeleteModal && (
+                <div
+                    className="modal fade show d-block"
+                    tabIndex="-1"
+                    role="dialog"
+                    style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+                >
+                    <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content">
+
+                            <div className="modal-header">
+                                <h5 className="modal-title">
+                                    Conferma eliminazione
+                                </h5>
+
+                                <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={() => setShowDeleteModal(false)}
+                                />
+                            </div>
+
+                            <div className="modal-body">
+                                Sei sicuro di voler eliminare{" "}
+                                <strong>{itemToDelete?.name}</strong>?
+                            </div>
+
+                            <div className="modal-footer">
+                                <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={() => setShowDeleteModal(false)}
+                                >
+                                    Annulla
+                                </button>
+
+                                <button
+                                    type="button"
+                                    className="btn btn-danger"
+                                    onClick={() => {
+                                        deleteItem(itemToDelete.id);
+                                        setShowDeleteModal(false);
+                                        setItemToDelete(null);
+                                    }}
+                                >
+                                    Elimina
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     )

@@ -51,10 +51,6 @@ export default function ClassFeaturePage() {
     })
 
     function deleteFeature(id) {
-        const confirmed = window.confirm("Sei sicuro di voler eliminare questa feature di classe?");
-        if (!confirmed) {
-            return;
-        }
 
         api
             .delete(`${API_URL}/delete/${id}`)

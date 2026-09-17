@@ -1,7 +1,7 @@
 import api from "../api/axiosConfig";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import PageHeader from "../Components/PageHeader";
 import SubClassHeader from "../Components/SubClassHeader";
 import PageSectionLeft from "../Components/PageSectionLeft";
