@@ -19,6 +19,8 @@ import Login from "./pages/Login"
 import Register from "./pages/Register"
 import SpeciesPage from "./pages/SpeciesPage"
 import CreateSpecies from "./pages/CreateSpecies"
+import TalentPage from "./pages/TalentPage"
+import CreateTalent from "./pages/CreateTalent"
 
 
 function App() {
@@ -39,6 +41,9 @@ function App() {
                 <Route path="/specie" element={<SpeciesPage />} />
                 <Route path="/aggiungi-specie" element={<CreateSpecies />} />
                 <Route path="/specie/modifica/:id" element={<CreateSpecies />} />
+                <Route path="/talenti" element={<TalentPage />} />
+                <Route path="/aggiungi-talento" element={<CreateTalent />} />
+                <Route path="/talenti/modifica/:id" element={<CreateTalent />} />
                 <Route path="/classe/crea-classe" element={<CreateClass />} />
                 <Route path="/classe/:slug" element={<ClassPage />} />
                 <Route path="/classe/:slug/feature" element={<ClassFeaturePage />} />

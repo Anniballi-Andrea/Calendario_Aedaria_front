@@ -108,6 +108,14 @@ export default function Header() {
                                     Specie
                                 </NavLink>
                             </li>
+                            <li className="nav-item">
+                                <NavLink
+                                    className="nav-link text-light fs-4"
+                                    to="/talenti"
+                                >
+                                    Talenti
+                                </NavLink>
+                            </li>
                             {
                                 isAdmin &&
                                 <li className="d-none d-lg-block nav-item">
