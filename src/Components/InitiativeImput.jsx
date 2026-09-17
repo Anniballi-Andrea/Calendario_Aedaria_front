@@ -4,11 +4,11 @@ export default function InitiativeInput({
     handlePlayerChange,
     field,
     label,
-    type = "number"
+    type = "number",
 }) {
 
     return (
-        <div className="col-4 col-md-2 d-none d-lg-block">
+        <div className="col-4 col-md-2 ">
             <label
                 htmlFor={`${field}-${player.id}`}
                 className="form-label mb-1"
