@@ -8,24 +8,22 @@ export default function Home() {
     const { isAdmin } = useAuth()
 
     return (
-        <BackendLoader>
-            <div className={`container-fluid `}>
-                <div className="row justify-content-center">
-                    {
-                        isAdmin &&
-                        <div className="col-4 d-none d-lg-block">
-                            <SurvivolPannel />
-                        </div>
-                    }
-
-                    <div className="col-12 col-lg-8">
-                        <Calendar />
+        <div className={`container-fluid `}>
+            <div className="row justify-content-center">
+                {
+                    isAdmin &&
+                    <div className="col-4 d-none d-lg-block">
+                        <SurvivolPannel />
                     </div>
+                }
 
+                <div className="col-12 col-lg-8">
+                    <Calendar />
                 </div>
 
             </div>
-        </BackendLoader>
+
+        </div>
 
     )
 }

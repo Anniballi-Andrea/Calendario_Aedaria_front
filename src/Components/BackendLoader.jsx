@@ -6,13 +6,12 @@ export default function BackendLoader({ children }) {
 
     const { backendStatus } = useCalendar();
 
-
-
     const API_URL =
         `${import.meta.env.VITE_API_URL}/days/get`;
 
-    // MODIFICA: ogni tentativo di risveglio dura 2 minuti.
     const TIMER_SECONDS = 120;
+
+    const CHECK_INTERVAL = 15000;
 
     const [countdown, setCountdown] =
         useState(TIMER_SECONDS);
@@ -47,6 +46,13 @@ export default function BackendLoader({ children }) {
 
                     clearInterval(countdownInterval);
 
+                    if (attempt === 1) {
+                        setAttempt(2);
+                        return 0;
+                    }
+
+                    setError(true);
+
                     return 0;
                 }
 
@@ -70,7 +76,6 @@ export default function BackendLoader({ children }) {
     useEffect(() => {
 
         if (
-            countdown !== 0 ||
             backendStatus !== "error" ||
             backendReady ||
             error
@@ -78,61 +83,68 @@ export default function BackendLoader({ children }) {
             return;
         }
 
-        api
-            .get(API_URL)
+        // MODIFICA: variabile per gestire il timeout
+        // del prossimo controllo.
+        let timeoutId;
 
-            .then(() => {
+        // MODIFICA: controllo sequenziale del backend.
+        // La richiesta successiva viene programmata
+        // solo dopo la conclusione della precedente.
+        const checkBackend = () => {
 
-                console.log(
-                    "Backend raggiunto. Ricarico la pagina."
-                );
+            api
+                .get(API_URL, {
+                    // MODIFICA: concediamo 15 secondi al server
+                    // per rispondere.
+                    timeout: 15000
+                })
+                .then(() => {
 
-                // MODIFICA: il backend è tornato disponibile.
-                setBackendReady(true);
+                    setBackendReady(true);
 
-                window.location.reload();
-            })
+                    window.location.reload();
 
-            .catch((error) => {
+                })
+                .catch((error) => {
 
-                console.error(
-                    "Backend ancora non raggiungibile:",
-                    error
-                );
+                    console.error(
+                        "Backend ancora non raggiungibile:",
+                        error
+                    );
 
-                /*
-                 * MODIFICA:
-                 * Se è fallito il primo tentativo,
-                 * parte il secondo countdown.
-                 */
-                if (attempt === 1) {
+                    // MODIFICA: programmiamo il controllo successivo
+                    // solo dopo che la richiesta precedente è terminata.
+                    timeoutId = setTimeout(
+                        checkBackend,
+                        CHECK_INTERVAL
+                    );
+                });
+        };
 
-                    setAttempt(2);
+        // MODIFICA: il primo controllo viene effettuato
+        // dopo 15 secondi.
+        timeoutId = setTimeout(
+            checkBackend,
+            CHECK_INTERVAL
+        );
 
-                    return;
-                }
-
-                /*
-                 * MODIFICA:
-                 * Anche il secondo tentativo è fallito.
-                 * Mostriamo definitivamente la schermata
-                 * di errore.
-                 */
-                setError(true);
-            });
+        return () => {
+            // MODIFICA: annulliamo il prossimo controllo
+            // quando l'effect viene terminato.
+            clearTimeout(timeoutId);
+        };
 
     }, [
-        countdown,
         backendStatus,
         backendReady,
         error,
         attempt
     ]);
 
-
     if (backendStatus === "loading") {
         return null;
     }
+
 
     const minutes =
         Math.floor(countdown / 60);
@@ -144,10 +156,10 @@ export default function BackendLoader({ children }) {
         `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 
 
-
     if (error) {
 
         return (
+
             <div className="d-flex justify-content-center mt-5">
 
                 <div className="create-page text-center w-50 mt-5">
@@ -171,8 +183,10 @@ export default function BackendLoader({ children }) {
                 </div>
 
             </div>
+
         );
     }
+
 
     if (
         backendStatus === "error" &&
@@ -180,6 +194,7 @@ export default function BackendLoader({ children }) {
     ) {
 
         return (
+
             <div className="d-flex justify-content-center mt-5">
 
                 <div className="create-page text-center w-50 mt-5">
@@ -208,16 +223,20 @@ export default function BackendLoader({ children }) {
                         className="spinner-border"
                         role="status"
                     >
+
                         <span className="visually-hidden">
                             Caricamento...
                         </span>
+
                     </div>
 
                 </div>
 
             </div>
+
         );
     }
+
 
     return children;
 }
