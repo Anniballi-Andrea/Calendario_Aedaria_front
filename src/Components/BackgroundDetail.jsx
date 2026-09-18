@@ -1,6 +1,6 @@
 import SafeHtml from "./SafeHtml";
 
-export default function TalentDetail({ selectedItem, setSelectedItem, setShowDetail }) {
+export default function BackgroundDetail({ selectedItem, setSelectedItem, setShowDetail }) {
 
     if (!selectedItem) {
         return null;
@@ -20,7 +20,7 @@ export default function TalentDetail({ selectedItem, setSelectedItem, setShowDet
                         <div>
 
                             <span className="badge text-bg-primary">
-                                {selectedItem.type}
+                                {selectedItem.handbook}
                             </span>
 
 
@@ -33,25 +33,14 @@ export default function TalentDetail({ selectedItem, setSelectedItem, setShowDet
                                 }}
                                 aria-label="Chiudi"
                             />
-
+                            <hr />
                             <div className="card-body text-start">
-                                {selectedItem.requisite && (
-                                    <div className="mb-3 border-bottom pb-2">
-
-                                        <strong>
-                                            Requisiti
-                                        </strong>
-                                        {
-                                            `: ${selectedItem.requisite}`
-                                        }
-                                    </div>
-                                )}
                                 <div className="text-center">
                                     <h5>Descrizione:</h5>
                                 </div>
 
                                 <p>
-                                    <SafeHtml html={selectedItem.effect} />
+                                    <SafeHtml html={selectedItem.description} />
                                 </p>
 
                             </div>

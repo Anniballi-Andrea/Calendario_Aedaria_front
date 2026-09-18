@@ -96,7 +96,7 @@ export default function PageSectionLeft({ name,
             <div className="row align-items-center justify-content-between left-item-vh">
                 {item?.length === 0 && (
                     <div className="col-12 data-page-empty ">
-                        Nessuna abilità presente.
+                        Nessuna dato presente.
                     </div>
                 )}
                 {hasLevel ? (

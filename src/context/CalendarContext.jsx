@@ -21,7 +21,7 @@ export function CalendarProvider({ children }) {
         setBackendStatus("loading");
         api
             .get(`${API_URL}`, {
-                timeout: 5000
+                timeout: 3000
             })
             .then((response) => {
                 const data = response.data;

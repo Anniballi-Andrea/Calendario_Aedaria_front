@@ -1,15 +1,14 @@
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../api/axiosConfig";
-import { useAuth } from "../context/AuthContext"
+import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
+import { useEffect } from "react";
 import HtmlForNubs from "../Components/HtmlForNub";
 import ContentNotPermitted from "../Components/ContentNotPermitted";
-import { useEffect } from "react";
 
-export default function CreateSpecies() {
-
+export default function CreateBg() {
     const { isAdmin } = useAuth()
-    const API_URL = `${import.meta.env.VITE_API_URL}/species`;
+    const API_URL = `${import.meta.env.VITE_API_URL}/background`;
     const navigate = useNavigate();
     const { id } = useParams();
 
@@ -18,6 +17,7 @@ export default function CreateSpecies() {
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
+    const [handbook, setHandbook] = useState("");
 
     useEffect(() => {
 
@@ -26,55 +26,57 @@ export default function CreateSpecies() {
         }
 
         api
-            .get(`${API_URL}/${id}`)
+            .get(`${API_URL}/get/${id}`)
             .then((response) => {
-                const species = response.data;
+                const bg = response.data;
 
-                setName(species.name ?? "");
-                setDescription(species.description ?? "")
+                setName(bg.name ?? "");
+                setHandbook(bg.handbook ?? "");
+                setDescription(bg.description ?? "")
             })
             .catch((error) => {
 
                 console.error(
-                    "Errore nel caricamento della specie:",
+                    "Errore nel caricamento del background:",
                     error
                 );
 
-                setError("Impossibile caricare la specie.");
+                setError("Impossibile caricare il background.");
             });
 
     }, [id]);
 
 
-    function createSpecies(event) {
+    function create(event) {
         event.preventDefault();
 
-        const species = {
+        const bg = {
             id: isEditMode ? Number(id) : null,
             name: name,
+            handbook: handbook,
             description: description
         };
 
         const request = isEditMode
-            ? api.put(`${API_URL}/updateSpecies`, species)
-            : api.post(`${API_URL}/create`, species);
+            ? api.put(`${API_URL}/update`, bg)
+            : api.post(`${API_URL}/create`, bg);
 
         request
             .then(() => {
-                navigate("/specie");
+                navigate("/background");
             })
             .catch((error) => {
                 console.error(
                     isEditMode
-                        ? "Errore nella modifica della specie:"
-                        : "Errore nella creazione della specie:",
+                        ? "Errore nella modifica del background:"
+                        : "Errore nella creazione del background:",
                     error
                 );
 
                 setError(
                     isEditMode
-                        ? "Impossibile modificare la specie."
-                        : "Impossibile creare la specie."
+                        ? "Impossibile modificare il background."
+                        : "Impossibile creare il background."
                 );
             });
     }
@@ -93,15 +95,15 @@ export default function CreateSpecies() {
                         <button
                             type="button"
                             className="btn btn-outline-success border-3 fw-bold"
-                            onClick={() => navigate("/specie")}
+                            onClick={() => navigate("/background")}
                         >
-                            ← Torna alle specie
+                            ← Torna ai background
                         </button>
 
                         <h1>
                             {isEditMode && isAdmin
-                                ? "Modifica specie"
-                                : isAdmin && "Nuova specie"}
+                                ? "Modifica background"
+                                : isAdmin && "Nuovo background"}
                         </h1>
 
                     </div>
@@ -114,7 +116,7 @@ export default function CreateSpecies() {
                     )}
                     {
                         isAdmin ?
-                            <form onSubmit={createSpecies}>
+                            <form onSubmit={create}>
 
                                 {/* DATI PRINCIPALI */}
                                 <div className="spell-form-section">
@@ -135,6 +137,22 @@ export default function CreateSpecies() {
                                                 value={name}
                                                 onChange={(event) =>
                                                     setName(event.target.value)
+                                                }
+                                                required
+                                            />
+                                        </div>
+                                        <div className="col-md-4 mb-3">
+
+                                            <label className="form-label">
+                                                Manuale
+                                            </label>
+
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                value={handbook}
+                                                onChange={(event) =>
+                                                    setHandbook(event.target.value)
                                                 }
                                                 required
                                             />
@@ -170,7 +188,7 @@ export default function CreateSpecies() {
                                     <button
                                         type="button"
                                         className="btn btn-outline-success border-3 fw-bold"
-                                        onClick={() => navigate("/specie")}
+                                        onClick={() => navigate("/background")}
                                     >
                                         Annulla
                                     </button>
@@ -181,7 +199,7 @@ export default function CreateSpecies() {
                                     >
                                         {isEditMode
                                             ? "Salva modifiche"
-                                            : "Crea specie"}
+                                            : "Crea background"}
                                     </button>
 
                                 </div>
@@ -217,5 +235,6 @@ export default function CreateSpecies() {
             </div>
 
         </div >
+
     )
 }

@@ -2,81 +2,80 @@ import { useState } from "react";
 import api from "../api/axiosConfig";
 import PageHeader from "../Components/PageHeader";
 import PageSectionLeft from "../Components/PageSectionLeft";
-import PageSectionRight from "../Components/PgeSectionRight";
 import { useEffect } from "react";
-import TalentDetail from "../Components/TalentDetail";
+import BackgroundDetail from "../Components/BackgroundDetail";
 
-export default function TalentPage() {
+export default function BackgroundPage() {
 
 
-    const API_URL = `${import.meta.env.VITE_API_URL}/talent`;
+    const API_URL = `${import.meta.env.VITE_API_URL}/background`;
 
-    const [talentData, setTalentData] = useState([])
+    const [backgroundData, setBackgroundData] = useState([])
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [showDetail, setShowDetail] = useState(false);
     const [searchValue, setSearchValue] = useState("");
-    const [selectedTalent, setSelectedTalent] = useState(null)
-    const [talentDetail, setTalentDetail] = useState(null);
+    const [selectedBackground, setSelectedBackground] = useState(null)
+    const [backgroundDetail, setBackgroundDetail] = useState(null);
 
-    function getTalent() {
+    function getData() {
         setLoading(true);
         setError("");
         api
-            .get(`${API_URL}/getTalent`)
+            .get(`${API_URL}/get`)
             .then((response) => {
                 const data = response.data;
-                setTalentData(data);
+                setBackgroundData(data);
             })
             .catch((error) => {
-                console.error("Errore nel recupero dei talenti:", error);
-                setError("Impossibile recuperare i talenti.");
+                console.error("Errore nel recupero dei Background:", error);
+                setError("Impossibile recuperare i Background.");
             })
             .finally(() => { setLoading(false); });
     }
 
-    function getTalentDetail(talentId) {
+    function getDetail(id) {
         api
-            .get(`${API_URL}/${talentId}`)
+            .get(`${API_URL}/get/${id}`)
             .then((response) => {
-                setTalentDetail(response.data);
+                setBackgroundDetail(response.data);
             })
             .catch((error) => {
                 console.error(
-                    "Errore nel recupero del dettaglio del talento:",
+                    "Errore nel recupero del dettaglio del Background:",
                     error
                 );
 
                 setError(
-                    "Impossibile recuperare il dettaglio del talento."
+                    "Impossibile recuperare il dettaglio del Background."
                 );
             });
     }
 
     useEffect(() => {
-        getTalent()
-        setSelectedTalent(null)
+        getData()
+        setSelectedBackground(null)
         setShowDetail(false)
     }, []);
 
     useEffect(() => {
 
-        if (!selectedTalent?.id) {
+        if (!selectedBackground?.id) {
             return;
         }
 
-        getTalentDetail(selectedTalent.id);
+        getDetail(selectedBackground.id);
 
-    }, [selectedTalent]);
+    }, [selectedBackground]);
 
-    function deleteSpecies(id) {
+    function deleteItem(id) {
         api
-            .delete(`${API_URL}/deleteTalent/${id}`)
+            .delete(`${API_URL}/delete/${id}`)
             .then(() => {
-                getTalent();
+                getData();
 
-                if (selectedTalent?.id === id) {
-                    setSelectedTalent(null);
+                if (selectedBackground?.id === id) {
+                    setSelectedBackground(null);
                     setShowDetail(false);
                 }
             })
@@ -90,8 +89,8 @@ export default function TalentPage() {
             });
     }
 
-    const filteredTalents = talentData.filter((species) =>
-        species.name.toLowerCase().includes(searchValue.toLowerCase())
+    const filteredBackgrounds = backgroundData.filter((items) =>
+        items.name.toLowerCase().includes(searchValue.toLowerCase())
     );
 
     if (loading) {
@@ -100,7 +99,7 @@ export default function TalentPage() {
                 <div className="d-flex justify-content-center mt-4">
                     <div className="data-page">
                         <div className="text-center p-4">
-                            Caricamento Specie...
+                            Caricamento...
                         </div>
                     </div>
                 </div>
@@ -128,7 +127,7 @@ export default function TalentPage() {
             <div className="d-flex justify-content-center mt-4">
                 <div className="data-page">
                     <PageHeader
-                        name={"Lista talenti"}
+                        name={"Lista background"}
                         searchValue={searchValue}
                         setSearchValue={setSearchValue}
                         showDetail={showDetail}
@@ -139,18 +138,18 @@ export default function TalentPage() {
                             : "col-12 col-lg-5 data-page-sidebar mt-4 border-right"}>
                             <PageSectionLeft
                                 name={"Lista"}
-                                navigateTo={"/aggiungi-talento"}
-                                item={filteredTalents}
-                                selectedItem={selectedTalent}
-                                setSelectedItem={setSelectedTalent}
+                                navigateTo={"/aggiungi-background"}
+                                item={filteredBackgrounds}
+                                selectedItem={selectedBackground}
+                                setSelectedItem={setSelectedBackground}
                                 setShowDetail={setShowDetail}
-                                updateSlugLink={"talenti"}
-                                deleteItem={deleteSpecies}
-                                editPath={(id) => `/talenti/modifica/${id}`}
+                                updateSlugLink={"background"}
+                                deleteItem={deleteItem}
+                                editPath={(id) => `/background/modifica/${id}`}
                             />
                         </div>
 
-                        <TalentDetail selectedItem={talentDetail} setShowDetail={setShowDetail} setSelectedItem={setSelectedTalent} />
+                        <BackgroundDetail selectedItem={backgroundDetail} setShowDetail={setShowDetail} setSelectedItem={setSelectedBackground} />
                     </div>
 
                 </div>

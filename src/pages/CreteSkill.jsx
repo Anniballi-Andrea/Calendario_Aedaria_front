@@ -316,11 +316,8 @@ export default function CreateSkill() {
                     <button
                         type="button"
                         className="mt-3 btn btn-outline-success border-3 fw-bold"
-                        onClick={() =>
-                            navigate(`/classe/${slug}`)
-                        }
-                    >
-                        ← Torna alla classe
+                        onClick={() => navigate("/")} >
+                        ← Torna alla home
                     </button>
 
                 </div>

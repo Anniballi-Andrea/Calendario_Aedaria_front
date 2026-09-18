@@ -242,9 +242,8 @@ export default function CreateTalent() {
                     <button
                         type="button"
                         className="mt-3 btn btn-outline-success border-3 fw-bold"
-                        onClick={() => navigate("/incantesimi")}
-                    >
-                        ← Torna agli incantesimi
+                        onClick={() => navigate("/")} >
+                        ← Torna alla home
                     </button>
 
                 </div>

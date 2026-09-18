@@ -21,6 +21,8 @@ import SpeciesPage from "./pages/SpeciesPage"
 import CreateSpecies from "./pages/CreateSpecies"
 import TalentPage from "./pages/TalentPage"
 import CreateTalent from "./pages/CreateTalent"
+import BackgroundPage from "./pages/BackgroundPage"
+import CreateBg from "./pages/CreateBg"
 
 
 function App() {
@@ -44,6 +46,9 @@ function App() {
                 <Route path="/talenti" element={<TalentPage />} />
                 <Route path="/aggiungi-talento" element={<CreateTalent />} />
                 <Route path="/talenti/modifica/:id" element={<CreateTalent />} />
+                <Route path="/background" element={<BackgroundPage />} />
+                <Route path="/aggiungi-background" element={<CreateBg />} />
+                <Route path="/background/modifica/:id" element={<CreateBg />} />
                 <Route path="/classe/crea-classe" element={<CreateClass />} />
                 <Route path="/classe/:slug" element={<ClassPage />} />
                 <Route path="/classe/:slug/feature" element={<ClassFeaturePage />} />

@@ -116,6 +116,14 @@ export default function Header() {
                                     Talenti
                                 </NavLink>
                             </li>
+                            <li className="nav-item">
+                                <NavLink
+                                    className="nav-link text-light fs-4"
+                                    to="/background"
+                                >
+                                    Background
+                                </NavLink>
+                            </li>
                             {
                                 isAdmin &&
                                 <li className="d-none d-lg-block nav-item">
