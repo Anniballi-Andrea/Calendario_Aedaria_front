@@ -9,7 +9,7 @@ export default function BackendLoader({ children }) {
     const API_URL =
         `${import.meta.env.VITE_API_URL}/days/get`;
 
-    const TIMER_SECONDS = 120;
+    const TIMER_SECONDS = 210;
 
     const CHECK_INTERVAL = 15000;
 
