@@ -1,6 +1,6 @@
 import SafeHtml from "./SafeHtml";
 
-export default function TalentDetail({ selectedItem, setSelectedItem, setShowDetail }) {
+export default function TalentDetail({ selectedItem, setSelectedItem, setShowDetail, setTalentDetail }) {
 
     if (!selectedItem) {
         return null;
@@ -44,6 +44,7 @@ export default function TalentDetail({ selectedItem, setSelectedItem, setShowDet
                                 onClick={() => {
                                     setShowDetail(false);
                                     setSelectedItem(null);
+                                    setTalentDetail(null)
                                 }}
                                 aria-label="Chiudi"
                             ></button>

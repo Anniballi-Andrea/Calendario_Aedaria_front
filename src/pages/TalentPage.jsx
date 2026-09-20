@@ -18,7 +18,7 @@ export default function TalentPage() {
     const [showDetail, setShowDetail] = useState(false);
     const [searchValue, setSearchValue] = useState("");
     const [selectedTalent, setSelectedTalent] = useState(null)
-    // const [talentDetail, setTalentDetail] = useState(null);
+    const [talentDetail, setTalentDetail] = useState(null);
 
     const [selectedHandbooks, setSelectedHandbooks] = useState([]);
 
@@ -46,7 +46,7 @@ export default function TalentPage() {
             .finally(() => { setLoading(false); });
     }
 
-    /*function getTalentDetail(talentId) {
+    function getTalentDetail(talentId) {
         api
             .get(`${API_URL}/${talentId}`)
             .then((response) => {
@@ -62,7 +62,7 @@ export default function TalentPage() {
                     "Impossibile recuperare il dettaglio del talento."
                 );
             });
-    }*/
+    }
 
     useEffect(() => {
         getTalent()
@@ -70,7 +70,7 @@ export default function TalentPage() {
         setShowDetail(false)
     }, []);
 
-    /*useEffect(() => {
+    useEffect(() => {
 
         if (!selectedTalent?.id) {
             return;
@@ -78,7 +78,7 @@ export default function TalentPage() {
 
         getTalentDetail(selectedTalent.id);
 
-    }, [selectedTalent]);*/
+    }, [selectedTalent]);
 
     function deleteSpecies(id) {
         api
@@ -174,9 +174,10 @@ export default function TalentPage() {
                         </div>
 
                         <TalentDetail
-                            selectedItem={selectedTalent}
+                            selectedItem={talentDetail}
                             setShowDetail={setShowDetail}
-                            setSelectedItem={setSelectedTalent} />
+                            setSelectedItem={setSelectedTalent}
+                            setTalentDetail={setTalentDetail} />
                     </div>
 
                 </div>

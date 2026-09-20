@@ -18,7 +18,7 @@ export default function BackgroundPage() {
     const [showDetail, setShowDetail] = useState(false);
     const [searchValue, setSearchValue] = useState("");
     const [selectedBackground, setSelectedBackground] = useState(null)
-    // const [backgroundDetail, setBackgroundDetail] = useState(null);
+    const [backgroundDetail, setBackgroundDetail] = useState(null)
     const [selectedHandbooks, setSelectedHandbooks] = useState([]);
 
     function handleHandbookChange(handbook) {
@@ -45,7 +45,7 @@ export default function BackgroundPage() {
             .finally(() => { setLoading(false); });
     }
 
-    /*function getDetail(id) {
+    function getDetail(id) {
         api
             .get(`${API_URL}/get/${id}`)
             .then((response) => {
@@ -61,7 +61,7 @@ export default function BackgroundPage() {
                     "Impossibile recuperare il dettaglio del Background."
                 );
             });
-    }*/
+    }
 
     useEffect(() => {
         getData()
@@ -69,15 +69,15 @@ export default function BackgroundPage() {
         setShowDetail(false)
     }, []);
 
-    /*  useEffect(() => {
-  
-          if (!selectedBackground?.id) {
-              return;
-          }
-  
-          getDetail(selectedBackground.id);
-  
-      }, [selectedBackground]);*/
+    useEffect(() => {
+
+        if (!selectedBackground?.id) {
+            return;
+        }
+
+        getDetail(selectedBackground.id);
+
+    }, [selectedBackground]);
 
     function deleteItem(id) {
         api
@@ -171,7 +171,11 @@ export default function BackgroundPage() {
                             />
                         </div>
 
-                        <BackgroundDetail selectedItem={selectedBackground} setShowDetail={setShowDetail} setSelectedItem={setSelectedBackground} />
+                        <BackgroundDetail
+                            selectedItem={backgroundDetail}
+                            setShowDetail={setShowDetail}
+                            setSelectedItem={setSelectedBackground}
+                            setBackgroundDetail={setBackgroundDetail} />
                     </div>
 
                 </div>

@@ -1,6 +1,6 @@
 import SafeHtml from "./SafeHtml";
 
-export default function BackgroundDetail({ selectedItem, setSelectedItem, setShowDetail }) {
+export default function BackgroundDetail({ selectedItem, setSelectedItem, setShowDetail, setBackgroundDetail }) {
 
     if (!selectedItem) {
         return null;
@@ -30,6 +30,7 @@ export default function BackgroundDetail({ selectedItem, setSelectedItem, setSho
                             onClick={() => {
                                 setShowDetail(false);
                                 setSelectedItem(null);
+                                setBackgroundDetail(null);
                             }}
                             aria-label="Chiudi"
                         />
