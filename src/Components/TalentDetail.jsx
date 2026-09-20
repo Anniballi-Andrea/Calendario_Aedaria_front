@@ -7,22 +7,36 @@ export default function TalentDetail({ selectedItem, setSelectedItem, setShowDet
     }
 
     return (
-        <div className="col-12 col-lg-7  mt-3">
+        <div className="col-12 col-lg-7 mt-3">
             <div className="row justify-content-center">
-                <div className="col-12 col-lg-8 card mt-3">
 
-                    <div className="card-header text-center position-relative">
+                {!selectedItem ? (
+                    <div className="col-10 col-xl-6 text-center card mt-5 d-none d-lg-block">
+                        <div className="card-body">
+                            <h3>
+                                Seleziona un talento
+                            </h3>
+                        </div>
+                    </div>
 
-                        <h5>
-                            {selectedItem.name}
-                        </h5>
+                ) : (
+                    <div className="col-12 col-lg-8 card mt-3">
 
-                        <div>
+                        <div className="card-header text-center position-relative">
 
-                            <span className="badge text-bg-primary">
-                                {selectedItem.type}
-                            </span>
+                            <h5>
+                                {selectedItem.name}
+                            </h5>
 
+                            <div>
+                                <span className="badge text-bg-primary">
+                                    {selectedItem.type}
+                                </span>
+
+                                <span className="badge text-bg-warning ms-2">
+                                    {selectedItem.handbook}
+                                </span>
+                            </div>
 
                             <button
                                 type="button"
@@ -32,34 +46,40 @@ export default function TalentDetail({ selectedItem, setSelectedItem, setShowDet
                                     setSelectedItem(null);
                                 }}
                                 aria-label="Chiudi"
-                            />
+                            ></button>
 
-                            <div className="card-body text-start">
-                                {selectedItem.requisite && (
-                                    <div className="mb-3 border-bottom pb-2">
-
-                                        <strong>
-                                            Requisiti
-                                        </strong>
-                                        {
-                                            `: ${selectedItem.requisite}`
-                                        }
-                                    </div>
-                                )}
-                                <div className="text-center">
-                                    <h5>Descrizione:</h5>
-                                </div>
-
-                                <p>
-                                    <SafeHtml html={selectedItem.effect} />
-                                </p>
-
-                            </div>
                         </div>
+
+                        <div className="card-body text-start">
+
+                            {selectedItem.requisite && (
+                                <div className="mb-3 border-bottom pb-2">
+
+                                    <strong>
+                                        Requisiti
+                                    </strong>
+
+                                    {`: ${selectedItem.requisite}`}
+
+                                </div>
+                            )}
+
+                            <div className="text-center">
+                                <h5>
+                                    Descrizione:
+                                </h5>
+                            </div>
+
+                            <p>
+                                <SafeHtml html={selectedItem.effect} />
+                            </p>
+
+                        </div>
+
                     </div>
-                </div>
+                )}
+
             </div>
         </div>
-
-    )
+    );
 }

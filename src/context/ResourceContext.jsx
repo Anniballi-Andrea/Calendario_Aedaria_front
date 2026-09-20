@@ -7,6 +7,8 @@ const ResourceContext = createContext();
 
 export function ResourceProvider({ children }) {
 
+    const handbooks = ["Manuale del Giocatore", "Eroi del faerun"]
+
     const [playerList, setPlayerList] = useState(() => {
         const savedPlayers = localStorage.getItem("playerList")
 
@@ -80,7 +82,8 @@ export function ResourceProvider({ children }) {
                 setTotalFood,
                 season,
                 setSeason,
-                removePlayer
+                removePlayer,
+                handbooks
             }}
         >
             {children}

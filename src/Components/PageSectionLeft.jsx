@@ -257,7 +257,7 @@ export default function PageSectionLeft({ name,
                                     onClick={() => setCurrentPage(currentPage - 1)}
                                     disabled={currentPage === 0}
                                 >
-                                    Precedente
+                                    <i className="bi bi-chevron-double-left"></i>
                                 </button>
                             </li>
 
@@ -302,7 +302,7 @@ export default function PageSectionLeft({ name,
                                     onClick={() => setCurrentPage(currentPage + 1)}
                                     disabled={currentPage === totalPages - 1}
                                 >
-                                    Successiva
+                                    <i className="bi bi-chevron-double-right"></i>
                                 </button>
                             </li>
 

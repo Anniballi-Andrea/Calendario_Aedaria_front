@@ -2,11 +2,12 @@ import { useState } from "react";
 import api from "../api/axiosConfig";
 import PageHeader from "../Components/PageHeader";
 import PageSectionLeft from "../Components/PageSectionLeft";
-import PageSectionRight from "../Components/PgeSectionRight";
 import { useEffect } from "react";
 import TalentDetail from "../Components/TalentDetail";
+import { useResource } from "../context/ResourceContext";
 
 export default function TalentPage() {
+    const { handbooks } = useResource()
 
 
     const API_URL = `${import.meta.env.VITE_API_URL}/talent`;
@@ -17,7 +18,17 @@ export default function TalentPage() {
     const [showDetail, setShowDetail] = useState(false);
     const [searchValue, setSearchValue] = useState("");
     const [selectedTalent, setSelectedTalent] = useState(null)
-    const [talentDetail, setTalentDetail] = useState(null);
+    // const [talentDetail, setTalentDetail] = useState(null);
+
+    const [selectedHandbooks, setSelectedHandbooks] = useState([]);
+
+    function handleHandbookChange(handbook) {
+        setSelectedHandbooks((current) =>
+            current.includes(handbook)
+                ? current.filter((item) => item !== handbook)
+                : [...current, handbook]
+        );
+    }
 
     function getTalent() {
         setLoading(true);
@@ -35,7 +46,7 @@ export default function TalentPage() {
             .finally(() => { setLoading(false); });
     }
 
-    function getTalentDetail(talentId) {
+    /*function getTalentDetail(talentId) {
         api
             .get(`${API_URL}/${talentId}`)
             .then((response) => {
@@ -51,7 +62,7 @@ export default function TalentPage() {
                     "Impossibile recuperare il dettaglio del talento."
                 );
             });
-    }
+    }*/
 
     useEffect(() => {
         getTalent()
@@ -59,7 +70,7 @@ export default function TalentPage() {
         setShowDetail(false)
     }, []);
 
-    useEffect(() => {
+    /*useEffect(() => {
 
         if (!selectedTalent?.id) {
             return;
@@ -67,7 +78,7 @@ export default function TalentPage() {
 
         getTalentDetail(selectedTalent.id);
 
-    }, [selectedTalent]);
+    }, [selectedTalent]);*/
 
     function deleteSpecies(id) {
         api
@@ -90,9 +101,18 @@ export default function TalentPage() {
             });
     }
 
-    const filteredTalents = talentData.filter((species) =>
-        species.name.toLowerCase().includes(searchValue.toLowerCase())
-    );
+    const filteredTalents = talentData.filter((talent) => {
+
+        const matchesSearch = talent.name
+            .toLowerCase()
+            .includes(searchValue.toLowerCase());
+
+        const matchesHandbook =
+            selectedHandbooks.length === 0 ||
+            selectedHandbooks.includes(talent.handbook);
+
+        return matchesSearch && matchesHandbook;
+    });
 
     if (loading) {
         return (
@@ -132,6 +152,9 @@ export default function TalentPage() {
                         searchValue={searchValue}
                         setSearchValue={setSearchValue}
                         showDetail={showDetail}
+                        handbooks={handbooks}
+                        selectedHandbooks={selectedHandbooks}
+                        handleHandbookChange={handleHandbookChange}
                     />
                     <div className=" row justify-content-between ">
                         <div className={showDetail
@@ -150,7 +173,10 @@ export default function TalentPage() {
                             />
                         </div>
 
-                        <TalentDetail selectedItem={talentDetail} setShowDetail={setShowDetail} setSelectedItem={setSelectedTalent} />
+                        <TalentDetail
+                            selectedItem={selectedTalent}
+                            setShowDetail={setShowDetail}
+                            setSelectedItem={setSelectedTalent} />
                     </div>
 
                 </div>

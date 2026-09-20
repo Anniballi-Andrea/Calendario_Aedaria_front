@@ -4,9 +4,11 @@ import PageHeader from "../Components/PageHeader";
 import PageSectionLeft from "../Components/PageSectionLeft";
 import { useEffect } from "react";
 import BackgroundDetail from "../Components/BackgroundDetail";
+import { useResource } from "../context/ResourceContext";
 
 export default function BackgroundPage() {
 
+    const { handbooks } = useResource()
 
     const API_URL = `${import.meta.env.VITE_API_URL}/background`;
 
@@ -16,7 +18,16 @@ export default function BackgroundPage() {
     const [showDetail, setShowDetail] = useState(false);
     const [searchValue, setSearchValue] = useState("");
     const [selectedBackground, setSelectedBackground] = useState(null)
-    const [backgroundDetail, setBackgroundDetail] = useState(null);
+    // const [backgroundDetail, setBackgroundDetail] = useState(null);
+    const [selectedHandbooks, setSelectedHandbooks] = useState([]);
+
+    function handleHandbookChange(handbook) {
+        setSelectedHandbooks((current) =>
+            current.includes(handbook)
+                ? current.filter((item) => item !== handbook)
+                : [...current, handbook]
+        );
+    }
 
     function getData() {
         setLoading(true);
@@ -34,7 +45,7 @@ export default function BackgroundPage() {
             .finally(() => { setLoading(false); });
     }
 
-    function getDetail(id) {
+    /*function getDetail(id) {
         api
             .get(`${API_URL}/get/${id}`)
             .then((response) => {
@@ -50,7 +61,7 @@ export default function BackgroundPage() {
                     "Impossibile recuperare il dettaglio del Background."
                 );
             });
-    }
+    }*/
 
     useEffect(() => {
         getData()
@@ -58,15 +69,15 @@ export default function BackgroundPage() {
         setShowDetail(false)
     }, []);
 
-    useEffect(() => {
-
-        if (!selectedBackground?.id) {
-            return;
-        }
-
-        getDetail(selectedBackground.id);
-
-    }, [selectedBackground]);
+    /*  useEffect(() => {
+  
+          if (!selectedBackground?.id) {
+              return;
+          }
+  
+          getDetail(selectedBackground.id);
+  
+      }, [selectedBackground]);*/
 
     function deleteItem(id) {
         api
@@ -89,9 +100,17 @@ export default function BackgroundPage() {
             });
     }
 
-    const filteredBackgrounds = backgroundData.filter((items) =>
-        items.name.toLowerCase().includes(searchValue.toLowerCase())
-    );
+    const filteredBackgrounds = backgroundData.filter((items) => {
+        const matchesSearch = items.name
+            .toLowerCase()
+            .includes(searchValue.toLowerCase());
+
+        const matchesHandbook =
+            selectedHandbooks.length === 0 ||
+            selectedHandbooks.includes(items.handbook);
+
+        return matchesSearch && matchesHandbook;
+    });
 
     if (loading) {
         return (
@@ -131,6 +150,9 @@ export default function BackgroundPage() {
                         searchValue={searchValue}
                         setSearchValue={setSearchValue}
                         showDetail={showDetail}
+                        handbooks={handbooks}
+                        selectedHandbooks={selectedHandbooks}
+                        handleHandbookChange={handleHandbookChange}
                     />
                     <div className=" row justify-content-between ">
                         <div className={showDetail
@@ -149,7 +171,7 @@ export default function BackgroundPage() {
                             />
                         </div>
 
-                        <BackgroundDetail selectedItem={backgroundDetail} setShowDetail={setShowDetail} setSelectedItem={setSelectedBackground} />
+                        <BackgroundDetail selectedItem={selectedBackground} setShowDetail={setShowDetail} setSelectedItem={setSelectedBackground} />
                     </div>
 
                 </div>

@@ -5,9 +5,12 @@ import { useState } from "react";
 import { useEffect } from "react";
 import HtmlForNubs from "../Components/HtmlForNub";
 import ContentNotPermitted from "../Components/ContentNotPermitted";
+import { useResource } from "../context/ResourceContext";
 
 export default function CreateTalent() {
     const { isAdmin } = useAuth()
+    const { handbooks } = useResource()
+
     const API_URL = `${import.meta.env.VITE_API_URL}/talent`;
     const navigate = useNavigate();
     const { id } = useParams();
@@ -18,6 +21,7 @@ export default function CreateTalent() {
     const [name, setName] = useState("");
     const [effect, setEffect] = useState("");
     const [type, setType] = useState("");
+    const [handbook, setHandbook] = useState("");
     const [requisite, setRequisite] = useState("");
 
     useEffect(() => {
@@ -33,6 +37,7 @@ export default function CreateTalent() {
 
                 setName(talent.name ?? "");
                 setType(talent.type ?? "");
+                setHandbook(talent.handbook ?? "");
                 setRequisite(talent.requisite ?? "");
                 setEffect(talent.effect ?? "")
             })
@@ -56,6 +61,7 @@ export default function CreateTalent() {
             id: isEditMode ? Number(id) : null,
             name: name,
             type: type,
+            handbook: handbook,
             requisite: requisite,
             effect: effect
         };
@@ -147,7 +153,7 @@ export default function CreateTalent() {
                                         <div className="col-md-4 mb-3">
 
                                             <label className="form-label">
-                                                type
+                                                Categoria talento
                                             </label>
 
                                             <input
@@ -159,6 +165,29 @@ export default function CreateTalent() {
                                                 }
                                                 required
                                             />
+
+                                        </div>
+
+                                        <div className="col-md-4 mb-3">
+
+                                            <label className="form-label">
+                                                Manuale
+                                            </label>
+
+                                            <select
+                                                className="form-select"
+                                                value={handbook}
+                                                onChange={(event) => setHandbook(event.target.value)}
+                                                required
+                                            >
+                                                <option value="">Seleziona un manuale</option>
+
+                                                {handbooks.map((handbook) => (
+                                                    <option key={handbook} value={handbook}>
+                                                        {handbook}
+                                                    </option>
+                                                ))}
+                                            </select>
 
                                         </div>
 

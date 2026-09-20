@@ -3,7 +3,9 @@ import SafeHtml from "./SafeHtml";
 export default function SpellDetail({
     selectedSpell,
     setSelectedSpell,
-    setShowDetail
+    setShowDetail,
+    setSpellDetail
+
 }) {
 
     if (!selectedSpell) {
@@ -44,6 +46,7 @@ export default function SpellDetail({
                             onClick={() => {
                                 setShowDetail(false);
                                 setSelectedSpell(null);
+                                setSpellDetail(null)
                             }}
                             aria-label="Chiudi"
                         />

@@ -19,36 +19,36 @@ export default function BackgroundDetail({ selectedItem, setSelectedItem, setSho
 
                         <div>
 
-                            <span className="badge text-bg-primary">
+                            <span className="badge text-bg-warning">
                                 {selectedItem.handbook}
                             </span>
 
-
-                            <button
-                                type="button"
-                                className="btn btn-close position-absolute top-0 end-0 m-2"
-                                onClick={() => {
-                                    setShowDetail(false);
-                                    setSelectedItem(null);
-                                }}
-                                aria-label="Chiudi"
-                            />
-                            <hr />
-                            <div className="card-body text-start">
-                                <div className="text-center">
-                                    <h5>Descrizione:</h5>
-                                </div>
-
-                                <p>
-                                    <SafeHtml html={selectedItem.description} />
-                                </p>
-
+                        </div>
+                        <button
+                            type="button"
+                            className="btn btn-close position-absolute top-0 end-0 m-2"
+                            onClick={() => {
+                                setShowDetail(false);
+                                setSelectedItem(null);
+                            }}
+                            aria-label="Chiudi"
+                        />
+                        <hr />
+                        <div className="card-body text-start">
+                            <div className="text-center">
+                                <h5>Descrizione:</h5>
                             </div>
+
+                            <p>
+                                <SafeHtml html={selectedItem.description} />
+                            </p>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
 
     )
 }

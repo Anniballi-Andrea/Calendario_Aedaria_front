@@ -5,9 +5,12 @@ import { useState } from "react";
 import { useEffect } from "react";
 import HtmlForNubs from "../Components/HtmlForNub";
 import ContentNotPermitted from "../Components/ContentNotPermitted";
+import { useResource } from "../context/ResourceContext";
 
 export default function CreateBg() {
     const { isAdmin } = useAuth()
+    const { handbooks } = useResource()
+
     const API_URL = `${import.meta.env.VITE_API_URL}/background`;
     const navigate = useNavigate();
     const { id } = useParams();
@@ -147,15 +150,20 @@ export default function CreateBg() {
                                                 Manuale
                                             </label>
 
-                                            <input
-                                                type="text"
-                                                className="form-control"
+                                            <select
+                                                className="form-select"
                                                 value={handbook}
-                                                onChange={(event) =>
-                                                    setHandbook(event.target.value)
-                                                }
+                                                onChange={(event) => setHandbook(event.target.value)}
                                                 required
-                                            />
+                                            >
+                                                <option value="">Seleziona un manuale</option>
+
+                                                {handbooks.map((handbook) => (
+                                                    <option key={handbook} value={handbook}>
+                                                        {handbook}
+                                                    </option>
+                                                ))}
+                                            </select>
 
                                         </div>
 

@@ -9,7 +9,10 @@ export default function PageHeader({
     levels,
     showDetail,
     slug,
-    showFeatureButton
+    showFeatureButton,
+    handbooks,
+    selectedHandbooks,
+    handleHandbookChange
 }) {
 
     const navigate = useNavigate()
@@ -114,6 +117,36 @@ export default function PageHeader({
                             </div>}
 
                     </div>
+                    {handbooks &&
+                        <div className="dropdown">
+                            <button
+                                type="button"
+                                className="btn btn-outline-primary dropdown-toggle text-nowrap"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                            >
+                                {selectedHandbooks.length === 0
+                                    ? "Tutti i manuali"
+                                    : `${selectedHandbooks.length} manuali`}
+                            </button>
+
+                            <ul className="dropdown-menu dropdown-menu-end">
+                                {handbooks.map((handbook) => (
+                                    <li key={handbook}>
+                                        <label className="dropdown-item">
+                                            <input
+                                                type="checkbox"
+                                                className="form-check-input me-2"
+                                                checked={selectedHandbooks.includes(handbook)}
+                                                onChange={() => handleHandbookChange(handbook)}
+                                            />
+                                            {handbook}
+                                        </label>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    }
 
                 </div>
 

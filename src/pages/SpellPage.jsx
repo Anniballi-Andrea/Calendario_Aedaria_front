@@ -299,7 +299,8 @@ export default function SpellPage() {
                         <SpellDetail
                             selectedSpell={spellDetail}
                             setSelectedSpell={setSelectedSpell}
-                            setShowDetail={setShowDetail} />
+                            setShowDetail={setShowDetail}
+                            setSpellDetail={setSpellDetail} />
 
                     </div>
 
