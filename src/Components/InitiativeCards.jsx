@@ -21,7 +21,9 @@ export default function InitiativeCards({ name, player, editedPlayers, handlePla
             <InitiativeInput player={player} editedPlayers={editedPlayers} handlePlayerChange={handlePlayerChange} field={"dex"} label={"Dex"} />
 
             {isAdmin &&
+
                 <InitiativeInput player={player} editedPlayers={editedPlayers} handlePlayerChange={handlePlayerChange} field={"priority"} label={"Priorità"} />
+
             }
 
             {

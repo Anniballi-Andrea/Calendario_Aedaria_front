@@ -239,74 +239,96 @@ export default function InitiativePage() {
     }
 
     return (
-        <div className="row justify-content-center mt-5">
+        <div className="container-fluid">
+            <div className="justify-content-center mt-5">
 
-            <div className="col text-center mt-3 data-page">
+                <div className=" text-center mt-3 initiative-data-page">
 
-                <h2>Iniziativa</h2>
+                    <h2>Iniziativa</h2>
 
 
-                {/* Form aggiunta giocatore */}
-                {
-                    isAdmin &&
-                    <FormAddInitiativePlayer
-                        addPlayer={addPlayer}
-                        playerName={playerName}
-                        setPlayerName={setPlayerName}
-                        playerDex={playerDex}
-                        setPlayerDex={setPlayerDex}
-                        playerInit={playerInit}
-                        setPlayerInit={setPlayerInit}
-                    />
-                }
+                    {/* Form aggiunta giocatore */}
+                    {
+                        isAdmin &&
+                        <FormAddInitiativePlayer
+                            addPlayer={addPlayer}
+                            playerName={playerName}
+                            setPlayerName={setPlayerName}
+                            playerDex={playerDex}
+                            setPlayerDex={setPlayerDex}
+                            playerInit={playerInit}
+                            setPlayerInit={setPlayerInit}
+                        />
+                    }
 
-                {/* Controlli turno */}
+                    {/* Controlli turno */}
 
-                <TurnManager round={round} initiative={initiative} changeTurn={changeTurn} restartTurn={restartTurn} />
+                    <TurnManager round={round} initiative={initiative} changeTurn={changeTurn} restartTurn={restartTurn} />
 
-                {/* Lista giocatori */}
+                    {/* Lista giocatori */}
 
-                <div className="mt-3 row justify-content-center">
-                    <div className="col-12 col-lg-8 col-xl-6 mb-5">
+                    <div className="mt-3 row ">
+                        <div className="col-12 col-lg-6 col-xl-5 mb-5">
 
-                        {initiative.length > 0 ? (
+                            {initiative.length > 0 ? (
 
-                            initiative.map((player, index) => (
-                                <div className="d-flex " key={player.id} >
-                                    <div
-                                        className={`card initiative-player-card  ${index === currentPlayerIndex
-                                            ? "initiative-player-active"
-                                            : ""
-                                            }`}
-                                    >
-                                        <InitiativeCards
-                                            name={player.name}
-                                            player={player}
-                                            editedPlayers={editedPlayers}
-                                            handlePlayerChange={handlePlayerChange}
-                                            changePlayer={changePlayer}
-                                            openRemoveModal={openRemoveModal}
-                                        />
+                                initiative.map((player, index) => (
+                                    <div className="d-flex " key={player.id} >
+                                        <div
+                                            className={`card initiative-player-card  ${index === currentPlayerIndex
+                                                ? "initiative-player-active"
+                                                : ""
+                                                }`}
+                                        >
+                                            <InitiativeCards
+                                                name={player.name}
+                                                player={player}
+                                                editedPlayers={editedPlayers}
+                                                handlePlayerChange={handlePlayerChange}
+                                                changePlayer={changePlayer}
+                                                openRemoveModal={openRemoveModal}
+                                            />
 
+                                        </div>
                                     </div>
+
+                                ))
+
+                            ) : (
+
+                                <p className="mt-3 mb-0">
+                                    Aggiungi giocatori
+                                </p>
+
+                            )}
+                        </div>
+
+                        <div className="d-none d-lg-block col-lg-6 col-xl-7">
+                            <div className="row row-cols-4">
+                                <div className="col">
+                                    prova
                                 </div>
+                                <div className="col">
+                                    prova
+                                </div>
+                                <div className="col">
+                                    prova
+                                </div>
+                                <div className="col">
+                                    prova
+                                </div>
+                                <div className="col">
+                                    prova
+                                </div>
+                            </div>
+                        </div>
 
-                            ))
-
-                        ) : (
-
-                            <p className="mt-3 mb-0">
-                                Aggiungi giocatori
-                            </p>
-
-                        )}
                     </div>
 
-
                 </div>
-
+                <RemoveFromInitiative playerToRemove={playerToRemove} closeRemoveModal={closeRemoveModal} removePlayer={removePlayer} />
             </div>
-            <RemoveFromInitiative playerToRemove={playerToRemove} closeRemoveModal={closeRemoveModal} removePlayer={removePlayer} />
         </div>
+
     )
 }

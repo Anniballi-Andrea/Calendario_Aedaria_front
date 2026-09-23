@@ -23,6 +23,13 @@ import TalentPage from "./pages/TalentPage"
 import CreateTalent from "./pages/CreateTalent"
 import BackgroundPage from "./pages/BackgroundPage"
 import CreateBg from "./pages/CreateBg"
+import CreateMonster from "./pages/CreateMonster"
+import MonsterPage from "./pages/MonsterPage"
+import AdminPage from "./pages/AdminPage"
+import UsersPage from "./pages/UsersPage"
+import CreateAction from "./pages/CreateAction"
+import CreateTrait from "./pages/CreateTrait"
+import CreateBonusAction from "./pages/CreateBonusAction"
 
 
 function App() {
@@ -58,7 +65,17 @@ function App() {
                 <Route path="/classe/:slug/skill/nuova" element={<CreateSkill />} />
                 <Route path="/classe/:slug/sotto-classe/:subClassId/skill/nuova" element={<CreateSkill />} />
                 <Route path="/classe/:slug/skill/:id/modifica" element={<CreateSkill />} />
-                <Route path="/test" element={<PageTest />} />
+                <Route path="/admin" element={<AdminPage />} />
+                <Route path="/admin/lista-mostri" element={<MonsterPage />} />
+                <Route path="/admin/monster/create" element={<CreateMonster />} />
+                <Route path="/admin/monster/modifica/:id" element={<CreateMonster />} />
+                <Route path="/admin/utenti" element={<UsersPage />} />
+                <Route path="/admin/monster/:monsterId/azione/create" element={<CreateAction />} />
+                <Route path="/admin/monster/:monsterId/azione-bonus/create" element={<CreateBonusAction />} />
+                <Route path="/admin/monster/:monsterId/tratto/create" element={<CreateTrait />} />
+                <Route path="/admin/azione/modifica/:id" element={<CreateAction />} />
+                <Route path="/admin/trait/modifica/:id" element={<CreateTrait />} />
+                <Route path="/admin/azione-bonus/modifica/:id" element={<CreateBonusAction />} />
                 <Route path="*" element={<NotFound />} />
               </Route>
             </Routes>

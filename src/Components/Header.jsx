@@ -129,9 +129,9 @@ export default function Header() {
                                 <li className="d-none d-lg-block nav-item">
                                     <NavLink
                                         className="nav-link text-light fs-4"
-                                        to="/classe/crea-classe"
+                                        to="/admin"
                                     >
-                                        Classe +
+                                        Admin
                                     </NavLink>
                                 </li>
                             }

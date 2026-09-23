@@ -63,8 +63,8 @@ export default function CreateClass() {
                         <button
                             type="button"
                             className="btn btn-outline-success btn-sm me-2 border-3 fw-bold"
-                            onClick={() => navigate("/")} >
-                            ← Torna alla Home
+                            onClick={() => navigate("/admin")} >
+                            ← Torna indietro
                         </button>
                         {
                             isAdmin &&
