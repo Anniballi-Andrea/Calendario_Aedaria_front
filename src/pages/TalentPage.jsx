@@ -5,6 +5,7 @@ import PageSectionLeft from "../Components/PageSectionLeft";
 import { useEffect } from "react";
 import TalentDetail from "../Components/TalentDetail";
 import { useResource } from "../context/ResourceContext";
+import { useNavigate } from "react-router-dom";
 
 export default function TalentPage() {
     const { handbooks } = useResource()
@@ -19,6 +20,7 @@ export default function TalentPage() {
     const [searchValue, setSearchValue] = useState("");
     const [selectedTalent, setSelectedTalent] = useState(null)
     const [talentDetail, setTalentDetail] = useState(null);
+    const navigate = useNavigate()
 
     const [selectedHandbooks, setSelectedHandbooks] = useState([]);
 
@@ -147,6 +149,13 @@ export default function TalentPage() {
         <div className="container-fluid pb-5">
             <div className="d-flex justify-content-center mt-4">
                 <div className="data-page">
+                    <button
+                        type="button"
+                        className="btn btn-outline-success border-3 fw-bold mb-2"
+                        onClick={() => navigate("/dati-di-gioco")}
+                    >
+                        ← Torna indietro
+                    </button>
                     <PageHeader
                         name={"Lista talenti"}
                         searchValue={searchValue}

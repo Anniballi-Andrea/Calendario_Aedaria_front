@@ -30,6 +30,8 @@ import UsersPage from "./pages/UsersPage"
 import CreateAction from "./pages/CreateAction"
 import CreateTrait from "./pages/CreateTrait"
 import CreateBonusAction from "./pages/CreateBonusAction"
+import HandBookPage from "./pages/HandBookPage"
+import ClassListPage from "./pages/ClassListPage"
 
 
 function App() {
@@ -44,18 +46,20 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/iniziativa" element={<InitiativePage />} />
-                <Route path="/incantesimi" element={<SpellPage />} />
+                <Route path="/dati-di-gioco" element={<HandBookPage />} />
+                <Route path="/dati-di-gioco/incantesimi" element={<SpellPage />} />
                 <Route path="/aggiungi-incantesimo" element={<CreateSpell />} />
                 <Route path="/incantesimi/modifica/:id" element={<CreateSpell />} />
-                <Route path="/specie" element={<SpeciesPage />} />
+                <Route path="/dati-di-gioco/specie" element={<SpeciesPage />} />
                 <Route path="/aggiungi-specie" element={<CreateSpecies />} />
                 <Route path="/specie/modifica/:id" element={<CreateSpecies />} />
-                <Route path="/talenti" element={<TalentPage />} />
+                <Route path="/dati-di-gioco/talenti" element={<TalentPage />} />
                 <Route path="/aggiungi-talento" element={<CreateTalent />} />
                 <Route path="/talenti/modifica/:id" element={<CreateTalent />} />
-                <Route path="/background" element={<BackgroundPage />} />
+                <Route path="/dati-di-gioco/background" element={<BackgroundPage />} />
                 <Route path="/aggiungi-background" element={<CreateBg />} />
                 <Route path="/background/modifica/:id" element={<CreateBg />} />
+                <Route path="/dati-di-gioco/classi" element={<ClassListPage />} />
                 <Route path="/classe/crea-classe" element={<CreateClass />} />
                 <Route path="/classe/:slug" element={<ClassPage />} />
                 <Route path="/classe/:slug/feature" element={<ClassFeaturePage />} />

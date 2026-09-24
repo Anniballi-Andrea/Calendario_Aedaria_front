@@ -5,6 +5,7 @@ import PageSectionLeft from "../Components/PageSectionLeft";
 import { useEffect } from "react";
 import BackgroundDetail from "../Components/BackgroundDetail";
 import { useResource } from "../context/ResourceContext";
+import { useNavigate } from "react-router-dom";
 
 export default function BackgroundPage() {
 
@@ -20,6 +21,7 @@ export default function BackgroundPage() {
     const [selectedBackground, setSelectedBackground] = useState(null)
     const [backgroundDetail, setBackgroundDetail] = useState(null)
     const [selectedHandbooks, setSelectedHandbooks] = useState([]);
+    const navigate = useNavigate()
 
     function handleHandbookChange(handbook) {
         setSelectedHandbooks((current) =>
@@ -145,6 +147,13 @@ export default function BackgroundPage() {
         <div className="container-fluid pb-5">
             <div className="d-flex justify-content-center mt-4">
                 <div className="data-page">
+                    <button
+                        type="button"
+                        className="btn btn-outline-success border-3 fw-bold mb-2"
+                        onClick={() => navigate("/dati-di-gioco")}
+                    >
+                        ← Torna indietro
+                    </button>
                     <PageHeader
                         name={"Lista background"}
                         searchValue={searchValue}

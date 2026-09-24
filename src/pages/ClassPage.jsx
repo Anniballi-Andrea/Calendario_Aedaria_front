@@ -1,7 +1,7 @@
 import api from "../api/axiosConfig";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PageHeader from "../Components/PageHeader";
 import SubClassHeader from "../Components/SubClassHeader";
 import PageSectionLeft from "../Components/PageSectionLeft";
@@ -18,7 +18,7 @@ export default function ClassPage() {
     const [selectedSubClass, setSelectedSubClass] = useState(null);
     const [selectedSkill, setSelectedSkill] = useState(null)
     const [showDetail, setShowDetail] = useState(false);
-
+    const navigate = useNavigate()
     const [searchValue, setSearchValue] = useState("");
     const [selectedLevel, setSelectedLevel] = useState(null);
     const showFeatureButton = true
@@ -58,12 +58,8 @@ export default function ClassPage() {
         api
             .delete(`${API_URL}/skills/delete/${skillId}`)
             .then(() => {
-
-                // Ricarica la classe per aggiornare la lista delle skill
                 getClass();
 
-                // Se era selezionata la skill eliminata,
-                // svuota il dettaglio
                 if (selectedSkill?.id === skillId) {
                     setSelectedSkill(null);
                 }
@@ -143,6 +139,13 @@ export default function ClassPage() {
         <div className="container-fluid pb-5">
             <div className="d-flex justify-content-center mt-4">
                 <div className="data-page">
+                    <button
+                        type="button"
+                        className="btn btn-outline-success border-3 fw-bold mb-2"
+                        onClick={() => navigate("/dati-di-gioco/classi")}
+                    >
+                        ← Torna indietro
+                    </button>
                     <PageHeader
                         name={classData.name}
                         searchValue={searchValue}

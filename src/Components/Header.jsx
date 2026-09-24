@@ -1,32 +1,11 @@
-import api from "../api/axiosConfig";
-import { useEffect } from "react";
-import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useCalendar } from "../context/CalendarContext";
 import { useAuth } from "../context/AuthContext";
 
 
 export default function Header() {
 
     const { isAuthenticated, isAdmin, logout } = useAuth();
-    const { classLoader } = useCalendar()
 
-    const API_URL = `${import.meta.env.VITE_API_URL}/class`;
-
-    const [classes, setClasses] = useState([])
-
-    useEffect(() => {
-
-        api
-            .get(`${API_URL}/get-all-summary`)
-            .then(response => {
-                setClasses(response.data)
-            })
-            .catch(error => {
-                console.error("Errore nel recupero delle classi:", error)
-            })
-
-    }, [classLoader])
 
     return (
         <header>
@@ -95,35 +74,12 @@ export default function Header() {
                             <li className="nav-item">
                                 <NavLink
                                     className="nav-link text-light fs-4"
-                                    to="/incantesimi"
+                                    to="/dati-di-gioco"
                                 >
-                                    Magia
+                                    Manuale
                                 </NavLink>
                             </li>
-                            <li className="nav-item">
-                                <NavLink
-                                    className="nav-link text-light fs-4"
-                                    to="/specie"
-                                >
-                                    Specie
-                                </NavLink>
-                            </li>
-                            <li className="nav-item">
-                                <NavLink
-                                    className="nav-link text-light fs-4"
-                                    to="/talenti"
-                                >
-                                    Talenti
-                                </NavLink>
-                            </li>
-                            <li className="nav-item">
-                                <NavLink
-                                    className="nav-link text-light fs-4"
-                                    to="/background"
-                                >
-                                    Background
-                                </NavLink>
-                            </li>
+
                             {
                                 isAdmin &&
                                 <li className="d-none d-lg-block nav-item">
@@ -135,37 +91,6 @@ export default function Header() {
                                     </NavLink>
                                 </li>
                             }
-
-
-                            <li className="nav-item dropdown">
-
-                                <button
-                                    className="nav-link dropdown-toggle text-light fs-4"
-                                    type="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                >
-                                    Classi
-                                </button>
-
-                                <ul className="dropdown-menu class-dropdown">
-
-                                    {classes.map((dndClass) => (
-
-                                        <li key={dndClass.id}>
-                                            <NavLink
-                                                className="dropdown-item"
-                                                to={`/classe/${dndClass.slug}`}
-                                            >
-                                                {dndClass.name}
-                                            </NavLink>
-                                        </li>
-
-                                    ))}
-
-                                </ul>
-
-                            </li>
 
                         </ul>
 

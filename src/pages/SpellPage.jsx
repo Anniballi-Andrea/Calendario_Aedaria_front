@@ -4,6 +4,7 @@ import PageSectionLeft from "../Components/PageSectionLeft";
 import api from "../api/axiosConfig";
 import { useEffect } from "react";
 import SpellDetail from "../Components/SpellDetail";
+import { useNavigate } from "react-router-dom";
 
 
 export default function SpellPage() {
@@ -25,6 +26,8 @@ export default function SpellPage() {
     const [totalPages, setTotalPages] = useState(0);
 
     const showFeatureButton = false;
+
+    const navigate = useNavigate()
 
     const levels = Array.from(
         { length: 10 },
@@ -206,7 +209,13 @@ export default function SpellPage() {
             <div className="d-flex justify-content-center mt-4">
 
                 <div className="data-page">
-
+                    <button
+                        type="button"
+                        className="btn btn-outline-success border-3 fw-bold mb-2"
+                        onClick={() => navigate("/dati-di-gioco")}
+                    >
+                        ← Torna indietro
+                    </button>
                     <PageHeader
                         name="Incantesimi"
                         searchValue={searchValue}
@@ -218,7 +227,7 @@ export default function SpellPage() {
                         showFeatureButton={showFeatureButton}
                     />
 
-                    <div className="dropdown">
+                    <div className="dropdown w-25">
 
                         <button
                             className="btn btn-primary dropdown-toggle mt-4"
@@ -235,7 +244,7 @@ export default function SpellPage() {
                             }
                         </button>
 
-                        <ul className="dropdown-menu class-dropdown">
+                        <ul className="dropdown-menu class-dropdown ">
 
                             <li>
                                 <button

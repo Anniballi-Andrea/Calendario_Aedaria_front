@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import PageHeader from "../Components/PageHeader";
 import PageSectionLeft from "../Components/PageSectionLeft";
 import PageSectionRight from "../Components/PgeSectionRight";
+import { useNavigate } from "react-router-dom";
 
 export default function SpeciesPage() {
 
@@ -15,6 +16,7 @@ export default function SpeciesPage() {
     const [showDetail, setShowDetail] = useState(false);
     const [searchValue, setSearchValue] = useState("");
     const [selectedSpecies, setSelectedSpecies] = useState(null)
+    const navigate = useNavigate()
 
     function getSpecies() {
         setLoading(true);
@@ -97,6 +99,13 @@ export default function SpeciesPage() {
         <div className="container-fluid pb-5">
             <div className="d-flex justify-content-center mt-4">
                 <div className="data-page">
+                    <button
+                        type="button"
+                        className="btn btn-outline-success border-3 fw-bold mb-2"
+                        onClick={() => navigate("/dati-di-gioco")}
+                    >
+                        ← Torna indietro
+                    </button>
                     <PageHeader
                         name={"Lista specie"}
                         searchValue={searchValue}
