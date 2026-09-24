@@ -3,10 +3,10 @@ import { useEffect } from "react"
 import { useState } from "react"
 import FormAddInitiativePlayer from "../Components/FormAddInitiativePlayers"
 import TurnManager from "../Components/TurnManager"
-import InitiativeInput from "../Components/InitiativeImput"
 import InitiativeCards from "../Components/InitiativeCards"
 import RemoveFromInitiative from "../Components/RemoveFromInitiative"
 import { useAuth } from "../context/AuthContext";
+import MonsterManager from "../Components/MonsterManager";
 
 export default function InitiativePage() {
 
@@ -268,6 +268,7 @@ export default function InitiativePage() {
                     {/* Lista giocatori */}
 
                     <div className="mt-3 row ">
+
                         <div className="col-12 col-lg-6 col-xl-5 mb-5">
 
                             {initiative.length > 0 ? (
@@ -304,23 +305,8 @@ export default function InitiativePage() {
                         </div>
 
                         <div className="d-none d-lg-block col-lg-6 col-xl-7">
-                            <div className="row row-cols-4">
-                                <div className="col">
-                                    prova
-                                </div>
-                                <div className="col">
-                                    prova
-                                </div>
-                                <div className="col">
-                                    prova
-                                </div>
-                                <div className="col">
-                                    prova
-                                </div>
-                                <div className="col">
-                                    prova
-                                </div>
-                            </div>
+                            <MonsterManager />
+
                         </div>
 
                     </div>
