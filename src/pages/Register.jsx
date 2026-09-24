@@ -8,7 +8,9 @@ export default function Register() {
     const navigate = useNavigate();
 
     const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
@@ -17,6 +19,12 @@ export default function Register() {
         event.preventDefault();
 
         setError("");
+
+        if (password !== confirmPassword) {
+            setError("Le password non coincidono");
+            return;
+        }
+
         setLoading(true);
 
         try {
@@ -30,16 +38,23 @@ export default function Register() {
                     },
                     body: JSON.stringify({
                         username,
-                        password
+                        email,
+                        password,
+                        confirmPassword
                     })
                 }
             );
-
             if (!response.ok) {
 
                 if (response.status === 409) {
                     throw new Error(
                         "Username già utilizzato"
+                    );
+                }
+
+                if (response.status === 400) {
+                    throw new Error(
+                        "Le password non coincidono"
                     );
                 }
 
@@ -61,6 +76,7 @@ export default function Register() {
             setLoading(false);
         }
     };
+
 
     return (
         <div className="container">
@@ -93,7 +109,25 @@ export default function Register() {
                                     required
                                 />
                             </div>
+                            <div className="mb-3">
+                                <label
+                                    htmlFor="email"
+                                    className="form-label"
+                                >
+                                    Email
+                                </label>
 
+                                <input
+                                    id="email"
+                                    type="email"
+                                    className="form-control"
+                                    value={email}
+                                    onChange={(event) =>
+                                        setEmail(event.target.value)
+                                    }
+                                    required
+                                />
+                            </div>
                             <div className="mb-3">
                                 <label
                                     htmlFor="password"
@@ -109,6 +143,25 @@ export default function Register() {
                                     value={password}
                                     onChange={(event) =>
                                         setPassword(event.target.value)
+                                    }
+                                    required
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label
+                                    htmlFor="confirmPassword"
+                                    className="form-label"
+                                >
+                                    Conferma password
+                                </label>
+
+                                <input
+                                    id="confirmPassword"
+                                    type="password"
+                                    className="form-control"
+                                    value={confirmPassword}
+                                    onChange={(event) =>
+                                        setConfirmPassword(event.target.value)
                                     }
                                     required
                                 />

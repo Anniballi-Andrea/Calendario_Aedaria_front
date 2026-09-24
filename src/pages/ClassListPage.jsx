@@ -29,7 +29,7 @@ export default function ClassListPage() {
         <div className="container">
             <div className="row row-cols-1 row-cols-md-3 g-4 justify-content-center mt-5">
                 {classes && classes.map((classItem) => (
-                    <PageCard key={classItem.id} pageName={classItem.name} navigateTo={`/classe/${classItem.slug}`} img={"/img/classi.jpg"} alt={"none"} />
+                    <PageCard key={classItem.id} pageName={classItem.name} navigateTo={`/classe/${classItem.slug}`} img={`/img/${classItem.slug}.jpg`} alt={"none"} />
                 ))}
             </div>
         </div>
