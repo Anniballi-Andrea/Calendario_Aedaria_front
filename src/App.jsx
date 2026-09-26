@@ -32,6 +32,7 @@ import CreateTrait from "./pages/CreateTrait"
 import CreateBonusAction from "./pages/CreateBonusAction"
 import HandBookPage from "./pages/HandBookPage"
 import ClassListPage from "./pages/ClassListPage"
+import RequestPage from "./pages/RequestPage"
 
 
 function App() {
@@ -80,6 +81,7 @@ function App() {
                 <Route path="/admin/azione/modifica/:id" element={<CreateAction />} />
                 <Route path="/admin/trait/modifica/:id" element={<CreateTrait />} />
                 <Route path="/admin/azione-bonus/modifica/:id" element={<CreateBonusAction />} />
+                <Route path="/admin/richieste" element={<RequestPage />} />
                 <Route path="*" element={<NotFound />} />
               </Route>
             </Routes>

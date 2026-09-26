@@ -13,7 +13,7 @@ export default function AdminPage() {
                     <PageCard navigateTo={"/admin/lista-mostri"} pageName={"Lista Mostri"} img={mosnterImg} alt={"Drago rosso"} />
                     <PageCard navigateTo={"/classe/crea-classe"} pageName={"Aggiungi classe"} img={classImg} alt={"Immagine delle classi"} />
                     <PageCard navigateTo={"/admin/utenti"} pageName={"Lista utenti"} img={usersImg} alt={"utenti"} />
-
+                    <PageCard navigateTo={"/admin/richieste"} pageName={"Richieste"} img={usersImg} alt={"utenti"} />
                 </div>
             </div>
         </>

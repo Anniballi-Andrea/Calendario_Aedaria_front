@@ -11,6 +11,7 @@ export default function CreateSpell() {
     const { isAdmin } = useAuth()
 
     const API_URL = `${import.meta.env.VITE_API_URL}/spells`;
+    const REQUEST_API_URL = `${import.meta.env.VITE_API_URL}/request/create/spellRequest`;
 
     const navigate = useNavigate();
     const { id } = useParams();
@@ -132,25 +133,30 @@ export default function CreateSpell() {
                 ...spell,
                 id: Number(id)
             })
-            : api.post(API_URL, spell);
-        request
-            .then((response) => {
+            : isAdmin
+                ? api.post(API_URL, spell)
+                : api.post(REQUEST_API_URL, spell);
 
-                navigate("/incantesimi");
+        request
+            .then(() => {
+                navigate("/dati-di-gioco/incantesimi");
             })
             .catch((error) => {
-
                 console.error(
                     isEditMode
                         ? "Errore nella modifica dell'incantesimo:"
-                        : "Errore nella creazione dell'incantesimo:",
+                        : isAdmin
+                            ? "Errore nella creazione dell'incantesimo:"
+                            : "Errore nell'invio della richiesta di incantesimo:",
                     error
                 );
 
                 setError(
                     isEditMode
                         ? "Impossibile modificare l'incantesimo."
-                        : "Impossibile creare l'incantesimo."
+                        : isAdmin
+                            ? "Impossibile creare l'incantesimo."
+                            : "Impossibile inviare la richiesta di incantesimo."
                 );
             });
     }
@@ -188,8 +194,9 @@ export default function CreateSpell() {
                         </div>
                     )}
                     {
-                        isAdmin ?
+                        (isAdmin || !isEditMode) ?
                             <form onSubmit={saveSpell}>
+
 
                                 {/* DATI PRINCIPALI */}
                                 <div className="spell-form-section">
