@@ -10,6 +10,8 @@ export default function CreateSpecies() {
 
     const { isAdmin } = useAuth()
     const API_URL = `${import.meta.env.VITE_API_URL}/species`;
+    const REQUEST_API_URL = `${import.meta.env.VITE_API_URL}/request/create/speciesRequest`;
+
     const navigate = useNavigate();
     const { id } = useParams();
 
@@ -56,12 +58,17 @@ export default function CreateSpecies() {
         };
 
         const request = isEditMode
-            ? api.put(`${API_URL}/updateSpecies`, species)
-            : api.post(`${API_URL}/create`, species);
+            ? api.put(API_URL, {
+                ...species,
+                id: Number(id)
+            })
+            : isAdmin
+                ? api.post(API_URL, species)
+                : api.post(REQUEST_API_URL, species);
 
         request
             .then(() => {
-                navigate("/specie");
+                navigate("/dati-di-gioco/specie");
             })
             .catch((error) => {
                 console.error(
@@ -93,7 +100,7 @@ export default function CreateSpecies() {
                         <button
                             type="button"
                             className="btn btn-outline-success border-3 fw-bold"
-                            onClick={() => navigate("/specie")}
+                            onClick={() => navigate("/dati-di-gioco/specie")}
                         >
                             ← Torna alle specie
                         </button>
@@ -113,50 +120,28 @@ export default function CreateSpecies() {
                         </div>
                     )}
                     {
-                        isAdmin ?
-                            <form onSubmit={createSpecies}>
 
-                                {/* DATI PRINCIPALI */}
-                                <div className="spell-form-section">
+                        <form onSubmit={createSpecies}>
 
-                                    <h2>Informazioni principali</h2>
+                            {/* DATI PRINCIPALI */}
+                            <div className="spell-form-section">
 
-                                    <div className="row">
+                                <h2>Informazioni principali</h2>
 
-                                        <div className="col-md-4 mb-3">
+                                <div className="row">
 
-                                            <label className="form-label">
-                                                Nome
-                                            </label>
+                                    <div className="col-md-4 mb-3">
 
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                value={name}
-                                                onChange={(event) =>
-                                                    setName(event.target.value)
-                                                }
-                                                required
-                                            />
+                                        <label className="form-label">
+                                            Nome
+                                        </label>
 
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <div className="create-form-section">
-
-                                    <h2>Descrizione</h2>
-                                    <HtmlForNubs />
-                                    <div className="mb-3">
-
-                                        <textarea
-                                            rows="7"
-                                            className="form-control spell-textarea-effect"
-                                            value={description}
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            value={name}
                                             onChange={(event) =>
-                                                setDescription(event.target.value)
+                                                setName(event.target.value)
                                             }
                                             required
                                         />
@@ -165,29 +150,50 @@ export default function CreateSpecies() {
 
                                 </div>
 
-                                <div className="create-page-actions">
+                            </div>
 
-                                    <button
-                                        type="button"
-                                        className="btn btn-outline-success border-3 fw-bold"
-                                        onClick={() => navigate("/specie")}
-                                    >
-                                        Annulla
-                                    </button>
+                            <div className="create-form-section">
 
-                                    <button
-                                        type="submit"
-                                        className="btn btn-primary"
-                                    >
-                                        {isEditMode
-                                            ? "Salva modifiche"
-                                            : "Crea specie"}
-                                    </button>
+                                <h2>Descrizione</h2>
+                                <HtmlForNubs />
+                                <div className="mb-3">
+
+                                    <textarea
+                                        rows="7"
+                                        className="form-control spell-textarea-effect"
+                                        value={description}
+                                        onChange={(event) =>
+                                            setDescription(event.target.value)
+                                        }
+                                        required
+                                    />
 
                                 </div>
 
-                            </form> :
-                            <ContentNotPermitted />
+                            </div>
+
+                            <div className="create-page-actions">
+
+                                <button
+                                    type="button"
+                                    className="btn btn-outline-success border-3 fw-bold"
+                                    onClick={() => navigate("/specie")}
+                                >
+                                    Annulla
+                                </button>
+
+                                <button
+                                    type="submit"
+                                    className="btn btn-primary"
+                                >
+                                    {isEditMode
+                                        ? "Salva modifiche"
+                                        : "Crea specie"}
+                                </button>
+
+                            </div>
+
+                        </form>
 
                     }
 

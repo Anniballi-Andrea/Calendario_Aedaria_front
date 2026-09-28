@@ -1,8 +1,10 @@
 
 
 import BackgroundDetail from "./BackgroundDetail";
+import PageSectionRight from "./PgeSectionRight";
 import SpellRequestDetail from "./SpellRequestDetail";
 import TalentDetail from "./TalentDetail";
+import TalentRequestDetail from "./TalentRequestDetail";
 
 export default function RequestDetail({
     request,
@@ -42,7 +44,7 @@ export default function RequestDetail({
             )}
 
 
-            {request.type === "SPELL" && (
+            {request.requestType === "SPELL" && (
                 <SpellRequestDetail
                     request={request}
                     setSelectedItem={setSelectedItem}
@@ -50,23 +52,23 @@ export default function RequestDetail({
                 />
             )}
 
-            {request.type === "TALENT" && (
-                <TalentDetail
+            {request.requestType === "SPECIES" && (
+                <PageSectionRight
+                    selectedItem={request}
+                    setSelectedItem={setSelectedItem}
+                    setShowDetail={setShowDetail}
+                    emptyMessage={"Nessuna Specie selezionata"} />
+            )}
+
+            {request.requestType === "TALENT" && (
+                <TalentRequestDetail
                     request={request}
                     setSelectedItem={setSelectedItem}
                     setShowDetail={setShowDetail}
                 />
             )}
 
-            {request.type === "BACKGROUND" && (
-                <BackgroundDetail
-                    request={request}
-                    setSelectedItem={setSelectedItem}
-                    setShowDetail={setShowDetail}
-                />
-            )}
-
-            {!["SPELL", "TALENT", "BACKGROUND"].includes(request.type) && (
+            {!["SPELL", "TALENT", "SPECIES", "TALENT"].includes(request.requestType) && (
                 <div className="data-page-section text-center p-4">
                     Tipo di request non supportato.
                 </div>

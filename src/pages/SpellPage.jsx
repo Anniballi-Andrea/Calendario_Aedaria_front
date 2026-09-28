@@ -301,6 +301,7 @@ export default function SpellPage() {
                                 currentPage={currentPage}
                                 totalPages={totalPages}
                                 setCurrentPage={setCurrentPage}
+                                type={"spell"}
                             />
 
                         </div>

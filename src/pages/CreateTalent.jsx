@@ -12,6 +12,7 @@ export default function CreateTalent() {
     const { handbooks } = useResource()
 
     const API_URL = `${import.meta.env.VITE_API_URL}/talent`;
+    const REQUEST_API_URL = `${import.meta.env.VITE_API_URL}/request/create/talentRequest`;
     const navigate = useNavigate();
     const { id } = useParams();
 
@@ -67,12 +68,17 @@ export default function CreateTalent() {
         };
 
         const request = isEditMode
-            ? api.put(`${API_URL}/updateTalent`, talent)
-            : api.post(`${API_URL}/create`, talent);
+            ? api.put(API_URL, {
+                ...species,
+                id: Number(id)
+            })
+            : isAdmin
+                ? api.post(API_URL, talent)
+                : api.post(REQUEST_API_URL, talent);
 
         request
             .then(() => {
-                navigate("/talenti");
+                navigate("/dati-di-gioco/talenti");
             })
             .catch((error) => {
                 console.error(
@@ -104,7 +110,7 @@ export default function CreateTalent() {
                         <button
                             type="button"
                             className="btn btn-outline-success border-3 fw-bold"
-                            onClick={() => navigate("/talenti")}
+                            onClick={() => navigate("/dati-di-gioco/talenti")}
                         >
                             ← Torna ai talenti
                         </button>
@@ -124,133 +130,132 @@ export default function CreateTalent() {
                         </div>
                     )}
                     {
-                        isAdmin ?
-                            <form onSubmit={createTalent}>
 
-                                {/* DATI PRINCIPALI */}
-                                <div className="spell-form-section">
+                        <form onSubmit={createTalent}>
 
-                                    <h2>Informazioni principali</h2>
+                            {/* DATI PRINCIPALI */}
+                            <div className="spell-form-section">
 
-                                    <div className="row">
+                                <h2>Informazioni principali</h2>
 
-                                        <div className="col-md-4 mb-3">
+                                <div className="row">
 
-                                            <label className="form-label">
-                                                Nome
-                                            </label>
+                                    <div className="col-md-4 mb-3">
 
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                value={name}
-                                                onChange={(event) =>
-                                                    setName(event.target.value)
-                                                }
-                                                required
-                                            />
-                                        </div>
-                                        <div className="col-md-4 mb-3">
+                                        <label className="form-label">
+                                            Nome
+                                        </label>
 
-                                            <label className="form-label">
-                                                Categoria talento
-                                            </label>
-
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                value={type}
-                                                onChange={(event) =>
-                                                    setType(event.target.value)
-                                                }
-                                                required
-                                            />
-
-                                        </div>
-
-                                        <div className="col-md-4 mb-3">
-
-                                            <label className="form-label">
-                                                Manuale
-                                            </label>
-
-                                            <select
-                                                className="form-select"
-                                                value={handbook}
-                                                onChange={(event) => setHandbook(event.target.value)}
-                                                required
-                                            >
-                                                <option value="">Seleziona un manuale</option>
-
-                                                {handbooks.map((handbook) => (
-                                                    <option key={handbook} value={handbook}>
-                                                        {handbook}
-                                                    </option>
-                                                ))}
-                                            </select>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <div className="create-form-section">
-                                    <h2>Requisito</h2>
-                                    <div className="mb-3">
-
-                                        <textarea
-                                            rows="1"
-                                            className="form-control spell-textarea-effect"
-                                            value={requisite}
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            value={name}
                                             onChange={(event) =>
-                                                setRequisite(event.target.value)
+                                                setName(event.target.value)
                                             }
-
+                                            required
                                         />
-
                                     </div>
-                                    <h2>Descrizione</h2>
-                                    <HtmlForNubs />
-                                    <div className="mb-3">
+                                    <div className="col-md-4 mb-3">
 
-                                        <textarea
-                                            rows="7"
-                                            className="form-control spell-textarea-effect"
-                                            value={effect}
+                                        <label className="form-label">
+                                            Categoria talento
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            value={type}
                                             onChange={(event) =>
-                                                setEffect(event.target.value)
+                                                setType(event.target.value)
                                             }
                                             required
                                         />
 
                                     </div>
 
+                                    <div className="col-md-4 mb-3">
+
+                                        <label className="form-label">
+                                            Manuale
+                                        </label>
+
+                                        <select
+                                            className="form-select"
+                                            value={handbook}
+                                            onChange={(event) => setHandbook(event.target.value)}
+                                            required
+                                        >
+                                            <option value="">Seleziona un manuale</option>
+
+                                            {handbooks.map((handbook) => (
+                                                <option key={handbook} value={handbook}>
+                                                    {handbook}
+                                                </option>
+                                            ))}
+                                        </select>
+
+                                    </div>
+
                                 </div>
 
-                                <div className="create-page-actions">
+                            </div>
 
-                                    <button
-                                        type="button"
-                                        className="btn btn-outline-success border-3 fw-bold"
-                                        onClick={() => navigate("/talenti")}
-                                    >
-                                        Annulla
-                                    </button>
+                            <div className="create-form-section">
+                                <h2>Requisito</h2>
+                                <div className="mb-3">
 
-                                    <button
-                                        type="submit"
-                                        className="btn btn-primary"
-                                    >
-                                        {isEditMode
-                                            ? "Salva modifiche"
-                                            : "Crea talento"}
-                                    </button>
+                                    <textarea
+                                        rows="1"
+                                        className="form-control spell-textarea-effect"
+                                        value={requisite}
+                                        onChange={(event) =>
+                                            setRequisite(event.target.value)
+                                        }
+
+                                    />
+
+                                </div>
+                                <h2>Descrizione</h2>
+                                <HtmlForNubs />
+                                <div className="mb-3">
+
+                                    <textarea
+                                        rows="7"
+                                        className="form-control spell-textarea-effect"
+                                        value={effect}
+                                        onChange={(event) =>
+                                            setEffect(event.target.value)
+                                        }
+                                        required
+                                    />
 
                                 </div>
 
-                            </form> :
-                            <ContentNotPermitted />
+                            </div>
+
+                            <div className="create-page-actions">
+
+                                <button
+                                    type="button"
+                                    className="btn btn-outline-success border-3 fw-bold"
+                                    onClick={() => navigate("/dati-di-gioco/talenti")}
+                                >
+                                    Annulla
+                                </button>
+
+                                <button
+                                    type="submit"
+                                    className="btn btn-primary"
+                                >
+                                    {isEditMode
+                                        ? "Salva modifiche"
+                                        : "Crea talento"}
+                                </button>
+
+                            </div>
+
+                        </form>
 
                     }
 

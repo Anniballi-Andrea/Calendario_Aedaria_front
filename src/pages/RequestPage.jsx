@@ -54,6 +54,22 @@ export default function RequestPage() {
         request.name?.toLowerCase().includes(searchValue.toLowerCase())
     );
 
+    function getRequestDetail(id) {
+        api
+            .get(`${API_URL}/${id}`)
+            .then((response) => {
+                setSelectedRequest(response.data);
+                setShowDetail(true);
+            })
+            .catch((error) => {
+                console.error(
+                    "Errore nel recupero del dettaglio della request:",
+                    error
+                );
+                setError("Impossibile recuperare il dettaglio della request.");
+            });
+    }
+
     function approveRequest(id) {
         api
             .post(`${API_URL}/${id}/approve`)
@@ -154,6 +170,7 @@ export default function RequestPage() {
                                 selectedItem={selectedRequest}
                                 setSelectedItem={setSelectedRequest}
                                 setShowDetail={setShowDetail}
+                                getRequestDetail={getRequestDetail}
                             />
 
                         </div>

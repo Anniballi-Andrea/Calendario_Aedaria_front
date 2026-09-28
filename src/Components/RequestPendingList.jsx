@@ -2,7 +2,8 @@ export default function RequestPendingList({
     item,
     selectedItem,
     setSelectedItem,
-    setShowDetail
+    setShowDetail,
+    getRequestDetail
 }) {
     const pendingRequests = item?.filter(
         (request) => request.status === "PENDING"
@@ -37,12 +38,13 @@ export default function RequestPendingList({
                                 <button
                                     type="button"
                                     className={`btn spell-list-button w-100 text-center ${selectedItem?.id === request.id
-                                            ? "active"
-                                            : ""
+                                        ? "active"
+                                        : ""
                                         }`}
                                     onClick={() => {
                                         setSelectedItem(request);
                                         setShowDetail(true);
+                                        getRequestDetail(request.id);
                                     }}
                                 >
                                     {request.name}
