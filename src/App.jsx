@@ -34,6 +34,7 @@ import HandBookPage from "./pages/HandBookPage"
 import ClassListPage from "./pages/ClassListPage"
 import RequestPage from "./pages/RequestPage"
 import CreateReaction from "./pages/CreateReaction"
+import CreateLegendAction from "./pages/CreateLegendAction"
 
 
 function App() {
@@ -80,10 +81,12 @@ function App() {
                 <Route path="/admin/monster/:monsterId/azione-bonus/create" element={<CreateBonusAction />} />
                 <Route path="/admin/monster/:monsterId/tratto/create" element={<CreateTrait />} />
                 <Route path="/admin/monster/:monsterId/reazione/create" element={<CreateReaction />} />
+                <Route path="/admin/monster/:monsterId/azione-leggendaria/create" element={<CreateLegendAction />} />
                 <Route path="/admin/azione/modifica/:id" element={<CreateAction />} />
                 <Route path="/admin/trait/modifica/:id" element={<CreateTrait />} />
                 <Route path="/admin/reazione/modifica/:id" element={<CreateReaction />} />
                 <Route path="/admin/azione-bonus/modifica/:id" element={<CreateBonusAction />} />
+                <Route path="/admin/azione-leggendaria/modifica/:id" element={<CreateLegendAction />} />
                 <Route path="/admin/richieste" element={<RequestPage />} />
                 <Route path="*" element={<NotFound />} />
               </Route>

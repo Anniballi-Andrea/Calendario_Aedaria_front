@@ -122,7 +122,34 @@ export default function MonsterDetail({
                 );
             });
     }
+    function deleteLegendAction(legendActionId) {
 
+        if (!window.confirm("Vuoi eliminare questa azione leggendaria?")) {
+            return;
+        }
+
+        api.delete(
+            `${import.meta.env.VITE_API_URL}/legend-action/${legendActionId}`
+        )
+            .then(() => {
+
+
+                setMonsterDetail({
+                    ...selectedMonster,
+                    legendActions: selectedMonster.legendActions.filter(
+                        (legendAction) =>
+                            legendAction.id !== legendActionId
+                    )
+                });
+            })
+            .catch((error) => {
+
+                console.error(
+                    "Errore nell'eliminazione dell' azione leggendaria:",
+                    error
+                );
+            });
+    }
 
 
     if (!selectedMonster) {
@@ -313,7 +340,7 @@ export default function MonsterDetail({
                                 className="btn btn-sm btn-warning"
                                 onClick={() => navigate(`/admin/monster/${selectedMonster.id}/tratto/create`)}
                             >
-                                <i className="bi bi-plus-lg"> Tratto</i>
+                                <i className="bi bi-plus-lg"> T</i>
                             </button>
 
                             <button
@@ -325,7 +352,7 @@ export default function MonsterDetail({
                                     )
                                 }
                             >
-                                <i className="bi bi-plus-lg"> Azioni</i>
+                                <i className="bi bi-plus-lg"> A</i>
                             </button>
 
                             <button
@@ -333,7 +360,7 @@ export default function MonsterDetail({
                                 className="btn btn-sm btn-warning"
                                 onClick={() => navigate(`/admin/monster/${selectedMonster.id}/azione-bonus/create`)}
                             >
-                                <i className="bi bi-plus-lg"> Azioni bonus</i>
+                                <i className="bi bi-plus-lg"> AB</i>
                             </button>
 
                             <button
@@ -341,7 +368,15 @@ export default function MonsterDetail({
                                 className="btn btn-sm btn-warning"
                                 onClick={() => navigate(`/admin/monster/${selectedMonster.id}/reazione/create`)}
                             >
-                                <i className="bi bi-plus-lg"> Reazioni</i>
+                                <i className="bi bi-plus-lg"> Re</i>
+                            </button>
+
+                            <button
+                                type="button"
+                                className="btn btn-sm btn-warning"
+                                onClick={() => navigate(`/admin/monster/${selectedMonster.id}/azione-leggendaria/create`)}
+                            >
+                                <i className="bi bi-plus-lg"> AL</i>
                             </button>
 
                         </div>
@@ -458,7 +493,7 @@ export default function MonsterDetail({
                                 <>
                                     <hr />
 
-                                    <strong>Azioni bonus:</strong>
+                                    <strong>Azioni Bonus:</strong>
 
                                     {selectedMonster.bonusActions.map((bonusAction) => (
                                         <div
@@ -547,6 +582,58 @@ export default function MonsterDetail({
                                                         }
                                                         title="Elimina tratto"
                                                         aria-label="Elimina tratto"
+                                                    >
+                                                        <i className="bi bi-trash"></i>
+                                                    </button>
+
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </>
+                            )}
+                        {selectedMonster.legendActions &&
+                            selectedMonster.legendActions.length > 0 && (
+                                <>
+                                    <hr />
+
+                                    <strong>Azioni Leggendarie:</strong>
+
+                                    {selectedMonster.legendActions.map((legendAction) => (
+                                        <div
+                                            key={legendAction.id}
+                                            className="mt-3"
+                                        >
+                                            <div
+                                                dangerouslySetInnerHTML={{
+                                                    __html: legendAction.description
+                                                }}
+                                            />
+                                            {isAdmin && (
+                                                <div className="d-flex gap-1 mt-2">
+
+                                                    <button
+                                                        type="button"
+                                                        className="btn btn-sm btn-outline-primary"
+                                                        onClick={() =>
+                                                            navigate(
+                                                                `/admin/azione-leggendaria/modifica/${legendAction.id}`
+                                                            )
+                                                        }
+                                                        title="Modifica azione leggendaria"
+                                                        aria-label="Modifica azione leggendaria"
+                                                    >
+                                                        <i className="bi bi-pencil"></i>
+                                                    </button>
+
+                                                    <button
+                                                        type="button"
+                                                        className="btn btn-sm btn-outline-danger"
+                                                        onClick={() =>
+                                                            deleteLegendAction(legendAction.id)
+                                                        }
+                                                        title="Elimina azione leggendaria"
+                                                        aria-label="Elimina azione leggendaria"
                                                     >
                                                         <i className="bi bi-trash"></i>
                                                     </button>

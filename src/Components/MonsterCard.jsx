@@ -303,7 +303,7 @@ export default function MonsterCard({
 
                     )}
 
-                    {monster.legendaryActions?.length > 0 && (
+                    {monster.legendActions?.length > 0 && (
 
                         <div className="col">
 
@@ -512,7 +512,7 @@ export default function MonsterCard({
                         ))}
 
                     {activeSection === "legendaryActions" &&
-                        monster.legendaryActions.map((action) => (
+                        monster.legendActions.map((action) => (
                             <div
                                 className="col  mt-2 pt-2 text-start"
                                 key={action.id}

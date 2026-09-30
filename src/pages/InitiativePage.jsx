@@ -313,7 +313,7 @@ export default function InitiativePage() {
                         {
                             !isAdmin && (
                                 <div className="row justify-content-center">
-                                    <div className="col-12 col-lg-6  mb-5 ">
+                                    <div className="col-12 col-xl-6  mb-5 ">
                                         <div className="stiky">
                                             <TurnManager round={round} initiative={initiative} changeTurn={changeTurn} restartTurn={restartTurn} />
                                             {initiative.length > 0 ? (
