@@ -94,6 +94,35 @@ export default function MonsterDetail({
             });
     }
 
+    function deleteReaction(reactionId) {
+
+        if (!window.confirm("Vuoi eliminare questa reazione?")) {
+            return;
+        }
+
+        api.delete(
+            `${import.meta.env.VITE_API_URL}/reaction/${reactionId}`
+        )
+            .then(() => {
+
+
+                setMonsterDetail({
+                    ...selectedMonster,
+                    reactions: selectedMonster.reactions.filter(
+                        (reaction) =>
+                            reaction.id !== reactionId
+                    )
+                });
+            })
+            .catch((error) => {
+
+                console.error(
+                    "Errore nell'eliminazione della Reazione:",
+                    error
+                );
+            });
+    }
+
 
 
     if (!selectedMonster) {
@@ -311,9 +340,9 @@ export default function MonsterDetail({
                             <button
                                 type="button"
                                 className="btn btn-sm btn-warning"
-                                onClick={() => navigate("/")}
+                                onClick={() => navigate(`/admin/monster/${selectedMonster.id}/reazione/create`)}
                             >
-                                <i className="bi bi-plus-lg"> Leggendarie</i>
+                                <i className="bi bi-plus-lg"> Reazioni</i>
                             </button>
 
                         </div>
@@ -464,6 +493,58 @@ export default function MonsterDetail({
                                                         className="btn btn-sm btn-outline-danger"
                                                         onClick={() =>
                                                             deleteBonusAction(bonusAction.id)
+                                                        }
+                                                        title="Elimina tratto"
+                                                        aria-label="Elimina tratto"
+                                                    >
+                                                        <i className="bi bi-trash"></i>
+                                                    </button>
+
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </>
+                            )}
+                        {selectedMonster.reactions &&
+                            selectedMonster.reactions.length > 0 && (
+                                <>
+                                    <hr />
+
+                                    <strong>Reazioni:</strong>
+
+                                    {selectedMonster.reactions.map((reactions) => (
+                                        <div
+                                            key={reactions.id}
+                                            className="mt-3"
+                                        >
+                                            <div
+                                                dangerouslySetInnerHTML={{
+                                                    __html: reactions.description
+                                                }}
+                                            />
+                                            {isAdmin && (
+                                                <div className="d-flex gap-1 mt-2">
+
+                                                    <button
+                                                        type="button"
+                                                        className="btn btn-sm btn-outline-primary"
+                                                        onClick={() =>
+                                                            navigate(
+                                                                `/admin/reazione/modifica/${reactions.id}`
+                                                            )
+                                                        }
+                                                        title="Modifica tratto"
+                                                        aria-label="Modifica tratto"
+                                                    >
+                                                        <i className="bi bi-pencil"></i>
+                                                    </button>
+
+                                                    <button
+                                                        type="button"
+                                                        className="btn btn-sm btn-outline-danger"
+                                                        onClick={() =>
+                                                            deleteReaction(reactions.id)
                                                         }
                                                         title="Elimina tratto"
                                                         aria-label="Elimina tratto"
