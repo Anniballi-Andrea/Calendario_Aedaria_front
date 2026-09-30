@@ -227,7 +227,7 @@ export default function MonsterCard({
                     </div>
 
                 </div>
-                <div className="row row-cols-5 g-2 mt-2">
+                <div className="row row-cols-3 row-cols-xxl-6 g-2 mt-2">
                     <div className="col">
 
                         <button
@@ -287,6 +287,21 @@ export default function MonsterCard({
                         </div>
 
                     )}
+                    {monster.reactions?.length > 0 && (
+
+                        <div className="col">
+
+                            <button
+                                type="button"
+                                className="btn btn-sm btn-outline-primary w-100"
+                                onClick={() => showSection("reactions")}
+                            >
+                                R
+                            </button>
+
+                        </div>
+
+                    )}
 
                     {monster.legendaryActions?.length > 0 && (
 
@@ -306,72 +321,73 @@ export default function MonsterCard({
 
                 </div>
 
-                <div className="row row-cols-3 mt-3">
 
-                    <div className="col">
-
-                        <span className="active fw-bold">
-                            {"STR: "}
-                        </span>
-
-                        {formatModifier(monster.strength)}
-
-                    </div>
-
-                    <div className="col">
-
-                        <span className="active fw-bold">
-                            {"DEX: "}
-                        </span>
-
-                        {formatModifier(monster.dexterity)}
-
-                    </div>
-
-                    <div className="col">
-
-                        <span className="active fw-bold">
-                            {"CONS: "}
-                        </span>
-
-                        {formatModifier(monster.constitution)}
-
-                    </div>
-
-                    <div className="col mt-2">
-
-                        <span className="active fw-bold">
-                            {"INT: "}
-                        </span>
-
-                        {formatModifier(monster.intelligence)}
-
-                    </div>
-
-                    <div className="col mt-2">
-
-                        <span className="active fw-bold">
-                            {"SAG: "}
-                        </span>
-
-                        {formatModifier(monster.wisdom)}
-
-                    </div>
-
-                    <div className="col mt-2">
-
-                        <span className="active fw-bold">
-                            {"CAR: "}
-                        </span>
-
-                        {formatModifier(monster.charisma)}
-
-                    </div>
-
-                </div>
                 <div className="row row-cols-1 justify-content-start">
                     {activeSection === "stats" && (
                         <>
+                            <div className="row row-cols-3 mt-3 justify-content-start">
+
+                                <div className="col text-start">
+
+                                    <span className="active fw-bold">
+                                        {"STR: "}
+                                    </span>
+
+                                    {formatModifier(monster.strength)}
+
+                                </div>
+
+                                <div className="col text-start">
+
+                                    <span className="active fw-bold">
+                                        {"DEX: "}
+                                    </span>
+
+                                    {formatModifier(monster.dexterity)}
+
+                                </div>
+
+                                <div className="col text-start">
+
+                                    <span className="active fw-bold">
+                                        {"CON: "}
+                                    </span>
+
+                                    {formatModifier(monster.constitution)}
+
+                                </div>
+
+                                <div className="col mt-2 text-start">
+
+                                    <span className="active fw-bold">
+                                        {"INT: "}
+                                    </span>
+
+                                    {formatModifier(monster.intelligence)}
+
+                                </div>
+
+                                <div className="col mt-2 text-start">
+
+                                    <span className="active fw-bold">
+                                        {"SAG: "}
+                                    </span>
+
+                                    {formatModifier(monster.wisdom)}
+
+                                </div>
+
+                                <div className="col mt-2 text-start">
+
+                                    <span className="active fw-bold">
+                                        {"CAR: "}
+                                    </span>
+
+                                    {formatModifier(monster.charisma)}
+
+                                </div>
+
+                            </div>
                             {monster.savingThrow && (
                                 <div className="col  mt-2 pt-2 text-start">
                                     <span className="active fw-bold">
@@ -467,6 +483,21 @@ export default function MonsterCard({
                                     dangerouslySetInnerHTML={{
 
                                         __html: action.description
+                                    }}
+                                />
+                            </div>
+                        ))}
+
+                    {activeSection === "reactions" &&
+                        monster.reactions.map((reaction) => (
+                            <div
+                                className="col  mt-2 pt-2 text-start"
+                                key={reaction.id}
+                            >
+                                <div
+                                    dangerouslySetInnerHTML={{
+
+                                        __html: reaction.description
                                     }}
                                 />
                             </div>

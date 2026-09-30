@@ -250,63 +250,62 @@ export default function MonsterDetail({
                                 </div>
                             )}
 
+                            {selectedMonster.skills && (
+                                <div className="col-12 col-md-6 mt-2">
+                                    <strong>Abilità:</strong>
+                                    <div>
+                                        {selectedMonster.skills}
+                                    </div>
+                                </div>
+                            )}
+
+                            {selectedMonster.sense && (
+                                <div className="col-12 col-md-6 mt-2">
+                                    <strong>Sensi:</strong>
+                                    <div>
+                                        {selectedMonster.sense}
+                                    </div>
+                                </div>
+
+                            )}
+
+                            {selectedMonster.immunity && (
+                                <div className="col-12 col-md-6 mt-2">
+                                    <strong>Immunità:</strong>
+                                    <div>
+                                        {selectedMonster.immunity}
+                                    </div>
+                                </div>
+                            )}
+
+                            {selectedMonster.resistence && (
+                                <div className="col-12 col-md-6 mt-2">
+                                    <strong>Resistenze:</strong>
+                                    <div>
+                                        {selectedMonster.resistence}
+                                    </div>
+                                </div>
+                            )}
+
+                            {selectedMonster.vulnerability && (
+                                <div className="col-12 col-md-6 mt-2">
+                                    <strong>Vulnerabilità:</strong>
+                                    <div>
+                                        {selectedMonster.vulnerability}
+                                    </div>
+                                </div>
+                            )}
+
+                            {selectedMonster.drops && (
+                                <div className="col-12 col-md-6 mt-2">
+                                    <strong>Attrezzatura:</strong>
+                                    <div>
+                                        {selectedMonster.drops}
+                                    </div>
+                                </div>
+                            )}
+
                         </div>
-
-                        {selectedMonster.sense && (
-                            <>
-                                <hr />
-
-                                <strong>Sensi:</strong>
-                                <p>
-                                    {selectedMonster.sense}
-                                </p>
-                            </>
-                        )}
-
-                        {selectedMonster.skills && (
-                            <>
-                                <hr />
-
-                                <strong>Abilità:</strong>
-                                <p>
-                                    {selectedMonster.skills}
-                                </p>
-                            </>
-                        )}
-
-                        {selectedMonster.immunity && (
-                            <>
-                                <hr />
-
-                                <strong>Immunità:</strong>
-                                <p>
-                                    {selectedMonster.immunity}
-                                </p>
-                            </>
-                        )}
-
-                        {selectedMonster.resistence && (
-                            <>
-                                <hr />
-
-                                <strong>Resistenze:</strong>
-                                <p>
-                                    {selectedMonster.resistence}
-                                </p>
-                            </>
-                        )}
-
-                        {selectedMonster.vulnerability && (
-                            <>
-                                <hr />
-
-                                <strong>Vulnerabilità:</strong>
-                                <p>
-                                    {selectedMonster.vulnerability}
-                                </p>
-                            </>
-                        )}
-
                         <div className="d-flex flex-wrap gap-2 mt-4">
 
                             <button

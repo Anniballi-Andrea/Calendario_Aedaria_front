@@ -36,6 +36,7 @@ export default function CreateMonster() {
     const [size, setSize] = useState("");
     const [type, setType] = useState("");
     const [initiative, setInitiative] = useState(0);
+    const [drops, setDrops] = useState("");
 
     const [error, setError] = useState("");
 
@@ -71,6 +72,7 @@ export default function CreateMonster() {
                 setSize(monster.size ?? "");
                 setType(monster.type ?? "");
                 setInitiative(monster.initiative ?? 0);
+                setDrops(monster.drops ?? "");
             })
             .catch((error) => {
 
@@ -108,6 +110,7 @@ export default function CreateMonster() {
             vulnerability: vulnerability,
             size: size,
             type: type,
+            drops: drops,
             initiative: Number(initiative)
         };
 
@@ -365,32 +368,42 @@ export default function CreateMonster() {
                                                 onChange={(e) => setSavingThrow(e.target.value)}
                                             />
                                         </div>
+                                        <div className="col-12 mt-3">
+                                            <label className="form-label">Abilità</label>
+                                            <textarea
+                                                className="form-control"
+                                                rows="1"
+                                                value={skills}
+                                                onChange={(e) => setSkills(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="col-12 mt-3">
+                                            <label className="form-label">Attrezzatura</label>
+                                            <textarea
+                                                className="form-control"
+                                                rows="1"
+                                                value={drops}
+                                                onChange={(e) => setDrops(e.target.value)}
+                                            />
+                                        </div>
 
                                         <div className="col-12 mt-3">
                                             <label className="form-label">Sensi</label>
                                             <textarea
                                                 className="form-control"
-                                                rows="3"
+                                                rows="1"
                                                 value={sense}
                                                 onChange={(e) => setSense(e.target.value)}
                                             />
                                         </div>
 
-                                        <div className="col-12 mt-3">
-                                            <label className="form-label">Abilità</label>
-                                            <textarea
-                                                className="form-control"
-                                                rows="3"
-                                                value={skills}
-                                                onChange={(e) => setSkills(e.target.value)}
-                                            />
-                                        </div>
+
 
                                         <div className="col-12 mt-3">
                                             <label className="form-label">Immunità</label>
                                             <textarea
                                                 className="form-control"
-                                                rows="3"
+                                                rows="1"
                                                 value={immunity}
                                                 onChange={(e) => setImmunity(e.target.value)}
                                             />
@@ -400,7 +413,7 @@ export default function CreateMonster() {
                                             <label className="form-label">Resistenze</label>
                                             <textarea
                                                 className="form-control"
-                                                rows="3"
+                                                rows="1"
                                                 value={resistence}
                                                 onChange={(e) => setResistence(e.target.value)}
                                             />
@@ -410,7 +423,7 @@ export default function CreateMonster() {
                                             <label className="form-label">Vulnerabilità</label>
                                             <textarea
                                                 className="form-control"
-                                                rows="3"
+                                                rows="1"
                                                 value={vulnerability}
                                                 onChange={(e) => setVulnerability(e.target.value)}
                                             />
