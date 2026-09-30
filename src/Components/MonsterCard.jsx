@@ -405,6 +405,14 @@ export default function MonsterCard({
                                     {monster.skills}
                                 </div>
                             )}
+                            {monster.drops && (
+                                <div className="col  mt-2 pt-2 text-start">
+                                    <span className="active fw-bold">
+                                        {"Attrezzatura:"}
+                                    </span>{" "}
+                                    {monster.drops}
+                                </div>
+                            )}
 
                             {monster.immunity && (
                                 <div className="col  mt-2 pt-2 text-start">
