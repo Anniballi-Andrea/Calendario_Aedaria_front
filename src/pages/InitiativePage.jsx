@@ -263,51 +263,107 @@ export default function InitiativePage() {
 
                     {/* Controlli turno */}
 
-                    <TurnManager round={round} initiative={initiative} changeTurn={changeTurn} restartTurn={restartTurn} />
+
 
                     {/* Lista giocatori */}
 
-                    <div className="mt-3 row ">
+                    <div className="mt-3 row relative">
+                        {isAdmin && (
+                            <div className="col-12 col-lg-6 col-xl-5 mb-5 ">
+                                <div className="stiky">
+                                    <TurnManager round={round} initiative={initiative} changeTurn={changeTurn} restartTurn={restartTurn} />
+                                    {initiative.length > 0 ? (
 
-                        <div className="col-12 col-lg-6 col-xl-5 mb-5">
+                                        initiative.map((player, index) => (
+                                            <div className="d-flex " key={player.id} >
+                                                <div
+                                                    className={`card initiative-player-card  ${index === currentPlayerIndex
+                                                        ? "initiative-player-active"
+                                                        : ""
+                                                        }`}
+                                                >
+                                                    <InitiativeCards
+                                                        name={player.name}
+                                                        player={player}
+                                                        editedPlayers={editedPlayers}
+                                                        handlePlayerChange={handlePlayerChange}
+                                                        changePlayer={changePlayer}
+                                                        openRemoveModal={openRemoveModal}
+                                                    />
 
-                            {initiative.length > 0 ? (
+                                                </div>
+                                            </div>
 
-                                initiative.map((player, index) => (
-                                    <div className="d-flex " key={player.id} >
-                                        <div
-                                            className={`card initiative-player-card  ${index === currentPlayerIndex
-                                                ? "initiative-player-active"
-                                                : ""
-                                                }`}
-                                        >
-                                            <InitiativeCards
-                                                name={player.name}
-                                                player={player}
-                                                editedPlayers={editedPlayers}
-                                                handlePlayerChange={handlePlayerChange}
-                                                changePlayer={changePlayer}
-                                                openRemoveModal={openRemoveModal}
-                                            />
+                                        ))
 
+                                    ) : (
+
+                                        <p className="mt-3 mb-0">
+                                            Aggiungi giocatori
+                                        </p>
+
+                                    )}
+                                    <TurnManager round={round} initiative={initiative} changeTurn={changeTurn} restartTurn={restartTurn} />
+                                </div>
+
+                            </div>
+
+                        )}
+
+                        {
+                            !isAdmin && (
+                                <div className="row justify-content-center">
+                                    <div className="col-12 col-lg-6  mb-5 ">
+                                        <div className="stiky">
+                                            <TurnManager round={round} initiative={initiative} changeTurn={changeTurn} restartTurn={restartTurn} />
+                                            {initiative.length > 0 ? (
+
+                                                initiative.map((player, index) => (
+                                                    <div className="d-flex " key={player.id} >
+                                                        <div
+                                                            className={`card initiative-player-card  ${index === currentPlayerIndex
+                                                                ? "initiative-player-active"
+                                                                : ""
+                                                                }`}
+                                                        >
+                                                            <InitiativeCards
+                                                                name={player.name}
+                                                                player={player}
+                                                                editedPlayers={editedPlayers}
+                                                                handlePlayerChange={handlePlayerChange}
+                                                                changePlayer={changePlayer}
+                                                                openRemoveModal={openRemoveModal}
+                                                            />
+
+                                                        </div>
+                                                    </div>
+
+                                                ))
+
+                                            ) : (
+
+                                                <p className="mt-3 mb-0">
+                                                    Giocatori non aggiunti
+                                                </p>
+
+                                            )}
+                                            <TurnManager round={round} initiative={initiative} changeTurn={changeTurn} restartTurn={restartTurn} />
                                         </div>
+
                                     </div>
+                                </div>
 
-                                ))
+                            )
+                        }
 
-                            ) : (
+                        {isAdmin && (
 
-                                <p className="mt-3 mb-0">
-                                    Aggiungi giocatori
-                                </p>
+                            <div className="d-none d-lg-block col-lg-6 col-xl-7">
+                                <MonsterManager />
 
-                            )}
-                        </div>
-
-                        <div className="d-none d-lg-block col-lg-6 col-xl-7">
-                            <MonsterManager />
-
-                        </div>
+                            </div>
+                        )
+                        }
 
                     </div>
 

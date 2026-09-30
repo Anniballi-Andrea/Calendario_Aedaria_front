@@ -304,7 +304,7 @@ export default function MonsterManager() {
 
                 {monsters.map((monster) => (
                     <div
-                        className="col-12 col-md-6 col-xl-4"
+                        className="col-12 col-md-6 col-xxl-4"
                         key={monster.instanceId}
                     >
 

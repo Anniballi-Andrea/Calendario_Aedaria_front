@@ -83,6 +83,24 @@ textarea,
   width: 100%;
 }
 
+.relative {
+  position: relative;
+}
+
+.stiky {
+  position: sticky;
+  top: 40px;
+  height: calc(100vh - 40px);
+  overflow-y: auto;
+  z-index: 1000;
+  scrollbar-width: none;
+}
+
+.stiky::-webkit-scrollbar {
+  display: none;
+}
+
+
 /* =========================================================
    CALENDARIO
    ========================================================= */

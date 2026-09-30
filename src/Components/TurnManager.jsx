@@ -5,10 +5,12 @@ export default function TurnManager({ round, initiative, changeTurn, restartTurn
     const { isAdmin } = useAuth()
 
     return (
-        <div className="mt-4">
+        <div className="mt-3 mb-3 bg">
+            <div className="fw-bold fs-5 mb-2  d-flex justify-content-center ">
+                <div className="btn bg-success fw-bold fs-5">
+                    Round: {round}
+                </div>
 
-            <div className="fw-bold fs-5 mb-2">
-                Round: {round}
             </div>
             {
                 isAdmin &&
