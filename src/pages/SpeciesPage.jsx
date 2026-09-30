@@ -118,7 +118,7 @@ export default function SpeciesPage() {
                             : "col-12 col-lg-5 data-page-sidebar mt-4 border-right"}>
                             <PageSectionLeft
                                 name={"Lista"}
-                                type={"species"}
+                                request={true}
                                 navigateTo={"/aggiungi-specie"}
                                 item={filteredSpecies}
                                 selectedItem={selectedSpecies}

@@ -68,8 +68,8 @@ export default function CreateTalent() {
         };
 
         const request = isEditMode
-            ? api.put(API_URL, {
-                ...species,
+            ? api.put(`${API_URL}/updateTalent`, {
+                ...talent,
                 id: Number(id)
             })
             : isAdmin

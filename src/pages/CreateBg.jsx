@@ -12,6 +12,10 @@ export default function CreateBg() {
     const { handbooks } = useResource()
 
     const API_URL = `${import.meta.env.VITE_API_URL}/background`;
+
+    const REQUEST_API_URL = `${import.meta.env.VITE_API_URL}/request/create/bgRequest`;
+
+
     const navigate = useNavigate();
     const { id } = useParams();
 
@@ -61,12 +65,17 @@ export default function CreateBg() {
         };
 
         const request = isEditMode
-            ? api.put(`${API_URL}/update`, bg)
-            : api.post(`${API_URL}/create`, bg);
+            ? api.put(`${API_URL}/update`, {
+                ...bg,
+                id: Number(id)
+            })
+            : isAdmin
+                ? api.post(API_URL, bg)
+                : api.post(REQUEST_API_URL, bg);
 
         request
             .then(() => {
-                navigate("/background");
+                navigate("/dati-di-gioco/background");
             })
             .catch((error) => {
                 console.error(
@@ -98,7 +107,7 @@ export default function CreateBg() {
                         <button
                             type="button"
                             className="btn btn-outline-success border-3 fw-bold"
-                            onClick={() => navigate("/background")}
+                            onClick={() => navigate("dati-di-gioco/background")}
                         >
                             ← Torna ai background
                         </button>
@@ -118,102 +127,100 @@ export default function CreateBg() {
                         </div>
                     )}
                     {
-                        isAdmin ?
-                            <form onSubmit={create}>
+                        <form onSubmit={create}>
 
-                                {/* DATI PRINCIPALI */}
-                                <div className="spell-form-section">
+                            {/* DATI PRINCIPALI */}
+                            <div className="spell-form-section">
 
-                                    <h2>Informazioni principali</h2>
+                                <h2>Informazioni principali</h2>
 
-                                    <div className="row">
+                                <div className="row">
 
-                                        <div className="col-md-4 mb-3">
+                                    <div className="col-md-4 mb-3">
 
-                                            <label className="form-label">
-                                                Nome
-                                            </label>
+                                        <label className="form-label">
+                                            Nome
+                                        </label>
 
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                value={name}
-                                                onChange={(event) =>
-                                                    setName(event.target.value)
-                                                }
-                                                required
-                                            />
-                                        </div>
-                                        <div className="col-md-4 mb-3">
-
-                                            <label className="form-label">
-                                                Manuale
-                                            </label>
-
-                                            <select
-                                                className="form-select"
-                                                value={handbook}
-                                                onChange={(event) => setHandbook(event.target.value)}
-                                                required
-                                            >
-                                                <option value="">Seleziona un manuale</option>
-
-                                                {handbooks.map((handbook) => (
-                                                    <option key={handbook} value={handbook}>
-                                                        {handbook}
-                                                    </option>
-                                                ))}
-                                            </select>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <div className="create-form-section">
-
-                                    <h2>Descrizione</h2>
-                                    <HtmlForNubs />
-                                    <div className="mb-3">
-
-                                        <textarea
-                                            rows="7"
-                                            className="form-control spell-textarea-effect"
-                                            value={description}
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            value={name}
                                             onChange={(event) =>
-                                                setDescription(event.target.value)
+                                                setName(event.target.value)
                                             }
                                             required
                                         />
+                                    </div>
+                                    <div className="col-md-4 mb-3">
+
+                                        <label className="form-label">
+                                            Manuale
+                                        </label>
+
+                                        <select
+                                            className="form-select"
+                                            value={handbook}
+                                            onChange={(event) => setHandbook(event.target.value)}
+                                            required
+                                        >
+                                            <option value="">Seleziona un manuale</option>
+
+                                            {handbooks.map((handbook) => (
+                                                <option key={handbook} value={handbook}>
+                                                    {handbook}
+                                                </option>
+                                            ))}
+                                        </select>
 
                                     </div>
 
                                 </div>
 
-                                <div className="create-page-actions">
+                            </div>
 
-                                    <button
-                                        type="button"
-                                        className="btn btn-outline-success border-3 fw-bold"
-                                        onClick={() => navigate("/background")}
-                                    >
-                                        Annulla
-                                    </button>
+                            <div className="create-form-section">
 
-                                    <button
-                                        type="submit"
-                                        className="btn btn-primary"
-                                    >
-                                        {isEditMode
-                                            ? "Salva modifiche"
-                                            : "Crea background"}
-                                    </button>
+                                <h2>Descrizione</h2>
+                                <HtmlForNubs />
+                                <div className="mb-3">
+
+                                    <textarea
+                                        rows="7"
+                                        className="form-control spell-textarea-effect"
+                                        value={description}
+                                        onChange={(event) =>
+                                            setDescription(event.target.value)
+                                        }
+                                        required
+                                    />
 
                                 </div>
 
-                            </form> :
-                            <ContentNotPermitted />
+                            </div>
+
+                            <div className="create-page-actions">
+
+                                <button
+                                    type="button"
+                                    className="btn btn-outline-success border-3 fw-bold"
+                                    onClick={() => navigate("dati-di-gioco/background")}
+                                >
+                                    Annulla
+                                </button>
+
+                                <button
+                                    type="submit"
+                                    className="btn btn-primary"
+                                >
+                                    {isEditMode
+                                        ? "Salva modifiche"
+                                        : "Crea background"}
+                                </button>
+
+                            </div>
+
+                        </form>
 
                     }
 

@@ -58,7 +58,7 @@ export default function CreateSpecies() {
         };
 
         const request = isEditMode
-            ? api.put(API_URL, {
+            ? api.put(`${API_URL}/updateSpecies`, {
                 ...species,
                 id: Number(id)
             })
@@ -177,7 +177,7 @@ export default function CreateSpecies() {
                                 <button
                                     type="button"
                                     className="btn btn-outline-success border-3 fw-bold"
-                                    onClick={() => navigate("/specie")}
+                                    onClick={() => navigate("/dati-di-gioco/specie")}
                                 >
                                     Annulla
                                 </button>

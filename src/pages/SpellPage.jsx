@@ -25,6 +25,7 @@ export default function SpellPage() {
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
 
+
     const showFeatureButton = false;
 
     const navigate = useNavigate()
@@ -301,7 +302,7 @@ export default function SpellPage() {
                                 currentPage={currentPage}
                                 totalPages={totalPages}
                                 setCurrentPage={setCurrentPage}
-                                type={"spell"}
+                                request={true}
                             />
 
                         </div>

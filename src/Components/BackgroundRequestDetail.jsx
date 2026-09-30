@@ -1,13 +1,11 @@
 import SafeHtml from "./SafeHtml";
 
-export default function TalentRequestDetail({
+export default function BackgroundRequestDetail({
+
     request,
     setSelectedItem,
-    setShowDetail }) {
-
-    if (!request) {
-        return null;
-    }
+    setShowDetail
+}) {
 
     return (
         <div className="row justify-content-center ">
@@ -47,7 +45,7 @@ export default function TalentRequestDetail({
                                     className="btn btn-close position-absolute top-0 end-0 m-2"
                                     onClick={() => {
                                         setShowDetail(false);
-                                        setSelectedItem(null);
+                                        setSelectedItem(null)
                                     }}
                                     aria-label="Chiudi"
                                 ></button>
@@ -56,17 +54,6 @@ export default function TalentRequestDetail({
 
                             <div className="card-body text-start ">
 
-                                {request.requisite && (
-                                    <div className="mb-3 border-bottom pb-2">
-
-                                        <strong>
-                                            Requisiti
-                                        </strong>
-
-                                        {`: ${request.requisite}`}
-
-                                    </div>
-                                )}
 
                                 <div className="text-center">
                                     <h5>
@@ -75,7 +62,7 @@ export default function TalentRequestDetail({
                                 </div>
 
                                 <p>
-                                    <SafeHtml html={request.effect} />
+                                    <SafeHtml html={request.description} />
                                 </p>
 
                             </div>
@@ -124,5 +111,5 @@ export default function TalentRequestDetail({
             </div>
         </div>
 
-    );
+    )
 }

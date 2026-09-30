@@ -14,7 +14,7 @@ export default function PageSectionLeft({ name,
     editPath,
     currentPage,
     totalPages,
-    type,
+    request,
     setCurrentPage }) {
 
     const { isAdmin } = useAuth()
@@ -77,7 +77,7 @@ export default function PageSectionLeft({ name,
                     </h2>
                 </div>
                 {
-                    isAdmin || type === "spell" || type === "species" ? (
+                    isAdmin || request ? (
                         <div className="d-none d-lg-block">
                             <button
                                 type="button"

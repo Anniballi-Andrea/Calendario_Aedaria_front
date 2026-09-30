@@ -1,9 +1,8 @@
 
-
-import BackgroundDetail from "./BackgroundDetail";
+import BackgroundRequestDetail from "./BackgroundRequestDetail";
 import PageSectionRight from "./PgeSectionRight";
+import SpeciesRequestDetail from "./SpeciesRequestDetail";
 import SpellRequestDetail from "./SpellRequestDetail";
-import TalentDetail from "./TalentDetail";
 import TalentRequestDetail from "./TalentRequestDetail";
 
 export default function RequestDetail({
@@ -53,11 +52,11 @@ export default function RequestDetail({
             )}
 
             {request.requestType === "SPECIES" && (
-                <PageSectionRight
-                    selectedItem={request}
+                <SpeciesRequestDetail
+                    request={request}
                     setSelectedItem={setSelectedItem}
                     setShowDetail={setShowDetail}
-                    emptyMessage={"Nessuna Specie selezionata"} />
+                />
             )}
 
             {request.requestType === "TALENT" && (
@@ -68,7 +67,16 @@ export default function RequestDetail({
                 />
             )}
 
-            {!["SPELL", "TALENT", "SPECIES", "TALENT"].includes(request.requestType) && (
+            {request.requestType === "BACKGROUND" && (
+                <BackgroundRequestDetail
+                    request={request}
+                    setSelectedItem={setSelectedItem}
+                    setShowDetail={setShowDetail}
+                />
+            )}
+
+
+            {!["SPELL", "TALENT", "SPECIES", "BACKGROUND"].includes(request.requestType) && (
                 <div className="data-page-section text-center p-4">
                     Tipo di request non supportato.
                 </div>

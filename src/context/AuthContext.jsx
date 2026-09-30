@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useContext } from "react";
 import { createContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
@@ -15,6 +16,8 @@ export function AuthProvider({ children }) {
 
     const isAuthenticated = !!token;
     const isAdmin = role === "ADMIN";
+
+    const navigate = useNavigate()
 
     const login = (loginResponse) => {
 
@@ -34,6 +37,7 @@ export function AuthProvider({ children }) {
 
         setToken(null);
         setRole(null);
+        navigate("/")
     };
 
 

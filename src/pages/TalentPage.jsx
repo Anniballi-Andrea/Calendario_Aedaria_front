@@ -12,6 +12,7 @@ export default function TalentPage() {
 
 
     const API_URL = `${import.meta.env.VITE_API_URL}/talent`;
+    const request = true
 
     const [talentData, setTalentData] = useState([])
     const [loading, setLoading] = useState(true);
@@ -179,6 +180,7 @@ export default function TalentPage() {
                                 updateSlugLink={"talenti"}
                                 deleteItem={deleteSpecies}
                                 editPath={(id) => `/talenti/modifica/${id}`}
+                                request={request}
                             />
                         </div>
 

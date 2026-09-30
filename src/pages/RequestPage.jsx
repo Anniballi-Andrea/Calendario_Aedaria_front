@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../api/axiosConfig";
 import PageHeader from "../Components/PageHeader";
-import PageSectionLeft from "../Components/PageSectionLeft";
-import PageSectionRight from "../Components/PgeSectionRight";
 import { useNavigate } from "react-router-dom";
 import RequestDetail from "../Components/RequestDetail";
 import RequestPendingList from "../Components/RequestPendingList";

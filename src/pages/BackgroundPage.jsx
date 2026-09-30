@@ -177,6 +177,7 @@ export default function BackgroundPage() {
                                 updateSlugLink={"background"}
                                 deleteItem={deleteItem}
                                 editPath={(id) => `/background/modifica/${id}`}
+                                request={true}
                             />
                         </div>
 
