@@ -184,7 +184,9 @@ export default function ClassPage() {
                                 setShowDetail={setShowDetail}
                                 updateSlugLink={"skill"}
                                 deleteItem={deleteSkill}
-                                slug={slug} />
+                                slug={slug}
+                                request={true} />
+
                         </div>
 
                         <PageSectionRight

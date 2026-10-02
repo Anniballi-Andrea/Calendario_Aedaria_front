@@ -64,7 +64,7 @@ export default function SubClassHeader({ selectedSubClass, setSelectedSubClass, 
                         ))}
                     </select>
 
-                    {selectedSubClass && isAdmin && (
+                    {selectedSubClass && (
                         <button
                             type="button"
                             className="btn btn-primary ms-2"

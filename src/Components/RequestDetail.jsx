@@ -1,6 +1,7 @@
 
 import BackgroundRequestDetail from "./BackgroundRequestDetail";
 import PageSectionRight from "./PgeSectionRight";
+import SkillRequestDetail from "./skillRequestDetail";
 import SpeciesRequestDetail from "./SpeciesRequestDetail";
 import SpellRequestDetail from "./SpellRequestDetail";
 import TalentRequestDetail from "./TalentRequestDetail";
@@ -75,8 +76,19 @@ export default function RequestDetail({
                 />
             )}
 
+            {
+                request.requestType === "SKILL" && (
+                    <SkillRequestDetail
+                        request={request}
+                        setSelectedItem={setSelectedItem}
+                        setShowDetail={setShowDetail}
+                    />
+                )
 
-            {!["SPELL", "TALENT", "SPECIES", "BACKGROUND"].includes(request.requestType) && (
+            }
+
+
+            {!["SPELL", "TALENT", "SPECIES", "BACKGROUND", "SKILL"].includes(request.requestType) && (
                 <div className="data-page-section text-center p-4">
                     Tipo di request non supportato.
                 </div>

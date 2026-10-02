@@ -12,6 +12,8 @@ export default function CreateSkill() {
 
     const API_URL = `${import.meta.env.VITE_API_URL}/class/skills`;
     const CLASS_API_URL = `${import.meta.env.VITE_API_URL}/class`;
+    const REQUEST_API_URL = `${import.meta.env.VITE_API_URL}/request/create/skillRequest`;
+
 
     const navigate = useNavigate();
 
@@ -28,7 +30,6 @@ export default function CreateSkill() {
 
     useEffect(() => {
 
-        // Carica la classe tramite lo slug
         api
             .get(`${CLASS_API_URL}/get-by-slug/${slug}`)
             .then((response) => {
@@ -49,13 +50,9 @@ export default function CreateSkill() {
                 );
             });
 
-        // Se non siamo in modalità modifica,
-        // non dobbiamo caricare nessuna Skill
         if (!id) {
             return;
         }
-
-        // Carica la Skill tramite il suo ID
         api
             .get(`${API_URL}/get/${id}`)
             .then((response) => {
@@ -97,12 +94,39 @@ export default function CreateSkill() {
             description: description
         };
 
-        const request = isEditMode
-            ? api.put(
-                `${API_URL}/update/${id}`,
-                skill
-            )
-            : isSubClassSkill
+        // MODIFICA: la modifica rimane disponibile per gli admin
+        if (isEditMode) {
+
+            api
+                .put(
+                    `${API_URL}/update/${id}`,
+                    skill
+                )
+                .then(() => {
+                    navigate(`/classe/${slug}`);
+                })
+                .catch((error) => {
+
+                    console.error(
+                        "Errore nella modifica dell'abilità:",
+                        error
+                    );
+
+                    setError(
+                        "Impossibile modificare l'abilità."
+                    );
+
+                });
+
+            return;
+        }
+
+        let request;
+
+        if (isAdmin) {
+
+            // MODIFICA: l'admin crea direttamente l'abilità
+            request = isSubClassSkill
                 ? api.post(
                     `${API_URL}/create/sub-class/${subClassId}`,
                     skill
@@ -111,27 +135,59 @@ export default function CreateSkill() {
                     `${API_URL}/create/${classId}`,
                     skill
                 );
-        request
-            .then((response) => {
 
+        } else {
+
+            // MODIFICA: anche le sottoclassi possono creare una richiesta
+            const skillRequest = {
+                name: name,
+                level: Number(level),
+                description: description
+            };
+
+            if (isSubClassSkill) {
+
+                // MODIFICA: richiesta per abilità della sottoclasse
+                skillRequest.subClass = {
+                    id: Number(subClassId)
+                };
+
+            } else {
+
+                // MODIFICA: richiesta per abilità della classe
+                skillRequest.classes = {
+                    id: classId
+                };
+            }
+
+            request = api.post(
+                REQUEST_API_URL,
+                skillRequest
+            );
+        }
+
+        request
+            .then(() => {
                 navigate(`/classe/${slug}`);
             })
             .catch((error) => {
 
                 console.error(
-                    isEditMode
-                        ? "Errore nella modifica dell'abilità:"
-                        : "Errore nella creazione dell'abilità:",
+                    isAdmin
+                        ? "Errore nella creazione dell'abilità:"
+                        : "Errore nell'invio della richiesta dell'abilità:",
                     error
                 );
 
                 setError(
-                    isEditMode
-                        ? "Impossibile modificare l'abilità."
-                        : "Impossibile creare l'abilità."
+                    isAdmin
+                        ? "Impossibile creare l'abilità."
+                        : "Impossibile inviare la richiesta dell'abilità."
                 );
+
             });
     }
+
 
     return (
 
@@ -170,135 +226,131 @@ export default function CreateSkill() {
                             {error}
                         </div>
                     )}
-                    {
-                        isAdmin ?
-                            <form onSubmit={saveSkill}>
 
-                                {/* DATI PRINCIPALI */}
-                                <div className="create-form-section">
+                    <form onSubmit={saveSkill}>
 
-                                    <h2>
-                                        Informazioni principali
-                                    </h2>
+                        {/* DATI PRINCIPALI */}
+                        <div className="create-form-section">
 
-                                    <div className="row">
+                            <h2>
+                                Informazioni principali
+                            </h2>
 
-                                        <div className="col-md-8 mb-3">
+                            <div className="row">
 
-                                            <label className="form-label">
-                                                Nome
-                                            </label>
+                                <div className="col-md-8 mb-3">
 
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                value={name}
-                                                onChange={(event) =>
-                                                    setName(
-                                                        event.target.value
-                                                    )
-                                                }
-                                                required
-                                            />
+                                    <label className="form-label">
+                                        Nome
+                                    </label>
 
-                                        </div>
-
-                                        <div className="col-md-4 mb-3">
-
-                                            <label className="form-label">
-                                                Livello
-                                            </label>
-
-                                            <select
-                                                className="form-select"
-                                                value={level}
-                                                onChange={(event) =>
-                                                    setLevel(
-                                                        event.target.value
-                                                    )
-                                                }
-                                            >
-
-                                                {Array.from(
-                                                    { length: 20 },
-                                                    (_, index) => {
-
-                                                        const skillLevel =
-                                                            index + 1;
-
-                                                        return (
-                                                            <option
-                                                                key={skillLevel}
-                                                                value={skillLevel}
-                                                            >
-                                                                Livello{" "}
-                                                                {skillLevel}
-                                                            </option>
-                                                        );
-                                                    }
-                                                )}
-
-                                            </select>
-
-                                        </div>
-
-                                    </div>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        value={name}
+                                        onChange={(event) =>
+                                            setName(
+                                                event.target.value
+                                            )
+                                        }
+                                        required
+                                    />
 
                                 </div>
 
-                                {/* DESCRIZIONE */}
-                                <div className="create-form-section">
+                                <div className="col-md-4 mb-3">
 
-                                    <h2>
-                                        Descrizione
-                                    </h2>
-                                    <HtmlForNubs />
-                                    <div className="mb-3">
-                                        <textarea
-                                            rows="7"
-                                            className="form-control skill-textarea-description"
-                                            value={description}
-                                            onChange={(event) =>
-                                                setDescription(
-                                                    event.target.value
-                                                )
-                                            }
-                                            required
-                                        />
+                                    <label className="form-label">
+                                        Livello
+                                    </label>
 
-                                    </div>
-
-                                </div>
-
-                                {/* AZIONI */}
-                                <div className="create-page-actions">
-
-                                    <button
-                                        type="button"
-                                        className="btn btn-outline-success border-3 fw-bold"
-                                        onClick={() =>
-                                            navigate(`/classe/${slug}`)
+                                    <select
+                                        className="form-select"
+                                        value={level}
+                                        onChange={(event) =>
+                                            setLevel(
+                                                event.target.value
+                                            )
                                         }
                                     >
-                                        Annulla
-                                    </button>
 
-                                    <button
-                                        type="submit"
-                                        className="btn btn-primary"
-                                    >
-                                        {isEditMode
-                                            ? "Salva modifiche"
-                                            : "Crea abilità"}
-                                    </button>
+                                        {Array.from(
+                                            { length: 20 },
+                                            (_, index) => {
+
+                                                const skillLevel =
+                                                    index + 1;
+
+                                                return (
+                                                    <option
+                                                        key={skillLevel}
+                                                        value={skillLevel}
+                                                    >
+                                                        Livello{" "}
+                                                        {skillLevel}
+                                                    </option>
+                                                );
+                                            }
+                                        )}
+
+                                    </select>
 
                                 </div>
 
-                            </form>
-                            :
-                            <ContentNotPermitted />
+                            </div>
 
-                    }
+                        </div>
+
+                        {/* DESCRIZIONE */}
+                        <div className="create-form-section">
+
+                            <h2>
+                                Descrizione
+                            </h2>
+                            <HtmlForNubs />
+                            <div className="mb-3">
+                                <textarea
+                                    rows="7"
+                                    className="form-control skill-textarea-description"
+                                    value={description}
+                                    onChange={(event) =>
+                                        setDescription(
+                                            event.target.value
+                                        )
+                                    }
+                                    required
+                                />
+
+                            </div>
+
+                        </div>
+
+                        {/* AZIONI */}
+                        <div className="create-page-actions">
+
+                            <button
+                                type="button"
+                                className="btn btn-outline-success border-3 fw-bold"
+                                onClick={() =>
+                                    navigate(`/classe/${slug}`)
+                                }
+                            >
+                                Annulla
+                            </button>
+
+                            <button
+                                type="submit"
+                                className="btn btn-primary"
+                            >
+                                {isEditMode
+                                    ? "Salva modifiche"
+                                    : "Crea abilità"}
+                            </button>
+
+                        </div>
+
+                    </form>
+
 
 
 
