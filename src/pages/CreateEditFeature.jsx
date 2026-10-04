@@ -9,12 +9,13 @@ import HtmlForNubs from "../Components/HtmlForNub";
 export default function CreateEditFeature() {
 
     const { isAdmin } = useAuth()
-
+    const { slug, id } = useParams()
     const API_URL = `${import.meta.env.VITE_API_URL}/class-features`;
+    const REQUEST_API_URL = `${import.meta.env.VITE_API_URL}/request/create/classFeatureRequest/${slug}`;
 
 
     const navigate = useNavigate()
-    const { slug, id } = useParams()
+
 
     const isEditMode = Boolean(id);
 
@@ -23,8 +24,10 @@ export default function CreateEditFeature() {
     const [description, setDescription] = useState("");
     const [requisite, setRequisite] = useState("");
 
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+
 
     useEffect(() => {
         if (!isEditMode) {
@@ -71,7 +74,9 @@ export default function CreateEditFeature() {
 
         const request = isEditMode
             ? api.put(`${API_URL}/update/${id}`, feature)
-            : api.post(`${API_URL}/create-by-slug/${slug}`, feature);
+            : isAdmin
+                ? api.post(`${API_URL}/create-by-slug/${slug}`, feature)
+                : api.post(`${REQUEST_API_URL}`, feature);
 
         request
             .then(() => {
@@ -123,73 +128,72 @@ export default function CreateEditFeature() {
                         </div>
                     )}
 
-                    {isAdmin ?
-                        <form onSubmit={handleSubmit}>
-                            <div className="spell-form-section">
-                                <div className="row">
-                                    <div className="col-md-8 mb-3">
 
-                                        <label className="form-label">
-                                            Nome
-                                        </label>
+                    <form onSubmit={handleSubmit}>
+                        <div className="spell-form-section">
+                            <div className="row">
+                                <div className="col-md-8 mb-3">
 
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            value={name}
-                                            onChange={(event) =>
-                                                setName(event.target.value)
-                                            }
-                                            required
-                                        />
-                                    </div>
+                                    <label className="form-label">
+                                        Nome
+                                    </label>
 
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        value={name}
+                                        onChange={(event) =>
+                                            setName(event.target.value)
+                                        }
+                                        required
+                                    />
                                 </div>
-                                <HtmlForNubs />
-                                <label className="form-label">
-                                    Descrizione
-                                </label>
 
-                                <textarea
-                                    className="form-control"
-                                    rows="8"
-                                    value={description}
-                                    onChange={(event) =>
-                                        setDescription(event.target.value)
-                                    }
-                                />
                             </div>
+                            <HtmlForNubs />
+                            <label className="form-label">
+                                Descrizione
+                            </label>
 
-                            <div className="mb-3">
-                                <label className="form-label">
-                                    Requisito
-                                </label>
+                            <textarea
+                                className="form-control"
+                                rows="8"
+                                value={description}
+                                onChange={(event) =>
+                                    setDescription(event.target.value)
+                                }
+                            />
+                        </div>
 
-                                <textarea
-                                    className="form-control"
-                                    rows="4"
-                                    value={requisite}
-                                    onChange={(event) =>
-                                        setRequisite(event.target.value)
-                                    }
-                                />
-                            </div>
+                        <div className="mb-3">
+                            <label className="form-label">
+                                Requisito
+                            </label>
 
-                            <button
-                                type="submit"
-                                className="btn btn-primary"
-                                disabled={loading}
-                            >
-                                {loading
-                                    ? "Salvataggio..."
-                                    : "Salva"}
-                            </button>
+                            <textarea
+                                className="form-control"
+                                rows="4"
+                                value={requisite}
+                                onChange={(event) =>
+                                    setRequisite(event.target.value)
+                                }
+                            />
+                        </div>
 
-                        </form>
-                        :
-                        <ContentNotPermitted />
+                        <button
+                            type="submit"
+                            className="btn btn-primary"
+                            disabled={loading}
+                        >
+                            {loading
+                                ? "Salvataggio..."
+                                : "Salva"}
+                        </button>
 
-                    }
+                    </form>
+
+
+
 
                 </div>
             </div >
