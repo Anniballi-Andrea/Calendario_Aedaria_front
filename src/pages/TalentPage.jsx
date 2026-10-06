@@ -83,7 +83,7 @@ export default function TalentPage() {
 
     }, [selectedTalent]);
 
-    function deleteSpecies(id) {
+    function deleteTalent(id) {
         api
             .delete(`${API_URL}/deleteTalent/${id}`)
             .then(() => {
@@ -123,7 +123,7 @@ export default function TalentPage() {
                 <div className="d-flex justify-content-center mt-4">
                     <div className="data-page">
                         <div className="text-center p-4">
-                            Caricamento Specie...
+                            Caricamento Dati...
                         </div>
                     </div>
                 </div>

@@ -12,6 +12,7 @@ export default function HandBookPage() {
                     <PageCard navigateTo={"/dati-di-gioco/talenti"} pageName={"Talenti"} img={"/img/talent-img.jpg"} alt={"Talenti"} />
                     <PageCard navigateTo={"/dati-di-gioco/background"} pageName={"Background"} img={"/img/background-img.jpg"} alt={"Background"} />
                     <PageCard navigateTo={"/dati-di-gioco/classi"} pageName={"Classi"} img={"/img/classi.jpg"} alt={"Classi"} />
+                    <PageCard navigateTo={"/dati-di-gioco/oggetti"} pageName={"Oggetti"} img={"/img/oggetti.jpg"} alt={"Oggetti"} />
                 </div>
             </div>
         </>

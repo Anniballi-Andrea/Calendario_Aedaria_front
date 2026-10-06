@@ -8,7 +8,6 @@ import CreateSpell from "./pages/CreateSpell"
 import CreateClass from "./pages/CreateClass"
 import ClassPage from "./pages/ClassPage"
 import CreateSkill from "./pages/CreteSkill"
-import PageTest from "./pages/PageTest"
 import CreateSubClass from "./pages/CreateSubClass"
 import NotFound from "./pages/NotFound"
 import InitiativePage from "./pages/InitiativePage"
@@ -35,6 +34,12 @@ import ClassListPage from "./pages/ClassListPage"
 import RequestPage from "./pages/RequestPage"
 import CreateReaction from "./pages/CreateReaction"
 import CreateLegendAction from "./pages/CreateLegendAction"
+import ItemsPage from "./pages/ItemsPage"
+import WeaponPage from "./pages/WeaponPage"
+import ArmorPage from "./pages/ArmorPage"
+import ToolPage from "./pages/ToolPage"
+import ObjectPage from "./pages/ObjectPage"
+import CreateWeapon from "./pages/CreateWeapon"
 
 
 function App() {
@@ -64,6 +69,12 @@ function App() {
                 <Route path="/background/modifica/:id" element={<CreateBg />} />
                 <Route path="/dati-di-gioco/classi" element={<ClassListPage />} />
                 <Route path="/classe/crea-classe" element={<CreateClass />} />
+                <Route path="/dati-di-gioco/oggetti" element={<ItemsPage />} />
+                <Route path="/dati-di-gioco/oggetti/armi" element={<WeaponPage />} />
+                <Route path="/dati-di-gioco/oggetti/aggiungi/arma" element={<CreateWeapon />} />
+                <Route path="/dati-di-gioco/oggetti/armature" element={<ArmorPage />} />
+                <Route path="/dati-di-gioco/oggetti/strumenti" element={<ToolPage />} />
+                <Route path="/dati-di-gioco/oggetti/oggetti-vari" element={<ObjectPage />} />
                 <Route path="/classe/:slug" element={<ClassPage />} />
                 <Route path="/classe/:slug/feature" element={<ClassFeaturePage />} />
                 <Route path="/classe/:slug/feature/aggiungi-feature" element={<CreateEditFeature />} />

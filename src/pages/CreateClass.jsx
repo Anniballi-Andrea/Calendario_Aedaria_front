@@ -32,7 +32,7 @@ export default function CreateClass() {
             .post(API_URL, classes)
             .then((response) => {
 
-                navigate("/");
+                navigate("/admin");
 
             })
             .catch((error) => {
