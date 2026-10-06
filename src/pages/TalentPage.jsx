@@ -178,7 +178,7 @@ export default function TalentPage() {
                                 setSelectedItem={setSelectedTalent}
                                 setShowDetail={setShowDetail}
                                 updateSlugLink={"talenti"}
-                                deleteItem={deleteSpecies}
+                                deleteItem={deleteTalent}
                                 editPath={(id) => `/talenti/modifica/${id}`}
                                 request={request}
                             />
