@@ -1,6 +1,6 @@
 import SafeHtml from "./SafeHtml";
 
-export default function WeaponDetail({ selectedItem, setSelectedItem, setShowDetail }) {
+export default function ToolDetail({ selectedItem, setSelectedItem, setShowDetail }) {
 
     return (
 
@@ -17,7 +17,7 @@ export default function WeaponDetail({ selectedItem, setSelectedItem, setShowDet
                     </div>
 
                 ) : (
-                    <div className="col-12 col-lg-8 card mt-3">
+                    <div className="col-12 col-lg-8 card mt-3 mb-4">
 
                         <div className="card-header text-center position-relative">
 
@@ -47,42 +47,45 @@ export default function WeaponDetail({ selectedItem, setSelectedItem, setShowDet
                         </div>
 
                         <div className="card-body text-start">
-                            <div className="row">
+                            <div className="row ">
+                                <div className="col-12 col-xl-6 mb-3 border-bottom pb-2 text-center">
 
-                            </div>
-                            <div className="mb-3 border-bottom pb-2">
+                                    <strong>
+                                        Prezzo:
+                                    </strong>
 
-                                <strong>
-                                    danni:
-                                </strong>
+                                    {` ${selectedItem.cost} MO`}
 
-                                {` ${selectedItem.damage}`}
+                                </div>
 
-                            </div>
+                                <div className="col-12 col-xl-6 mb-3 border-bottom pb-2 text-center">
 
-                            <div className="mb-3 border-bottom pb-2">
+                                    <strong>
+                                        Peso:
+                                    </strong>
 
-                                <strong>
-                                    Proprietà
-                                </strong>
+                                    {` ${selectedItem.weight} kg`}
 
-                                {`: ${selectedItem.property}`}
-
-                            </div>
-
-
-                            <div className="text-center">
-                                <h5>
-                                    Padronanza:
-                                </h5>
+                                </div>
                             </div>
 
-                            <p>
-                                <SafeHtml html={selectedItem.mastery} />
-                            </p>
-
+                            <div className="mb-2">
+                                <strong> Caratteristica:</strong> {selectedItem.characteristic}
+                            </div>
+                            <div className="mb-2">
+                                <strong>Utilizzo:</strong> {selectedItem.utilization}
+                            </div>
+                            {selectedItem.craft &&
+                                <div className="mb-2">
+                                    <strong>Creazione:</strong> {selectedItem.craft}
+                                </div>
+                            }
+                            {selectedItem.variant &&
+                                <div className="mb-2">
+                                    <strong>Varianti:</strong> {selectedItem.variant}
+                                </div>
+                            }
                         </div>
-
                     </div>
                 )}
 

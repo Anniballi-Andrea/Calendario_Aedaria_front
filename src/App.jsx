@@ -40,6 +40,9 @@ import ArmorPage from "./pages/ArmorPage"
 import ToolPage from "./pages/ToolPage"
 import ObjectPage from "./pages/ObjectPage"
 import CreateWeapon from "./pages/CreateWeapon"
+import CreateArmor from "./pages/CreateArmor"
+import CreateTool from "./pages/CreateTool"
+import CreateItem from "./pages/CreateItem"
 
 
 function App() {
@@ -72,9 +75,16 @@ function App() {
                 <Route path="/dati-di-gioco/oggetti" element={<ItemsPage />} />
                 <Route path="/dati-di-gioco/oggetti/armi" element={<WeaponPage />} />
                 <Route path="/dati-di-gioco/oggetti/aggiungi/arma" element={<CreateWeapon />} />
+                <Route path="/dati-di-gioco/oggetti/modifica/arma/:id" element={<CreateWeapon />} />
                 <Route path="/dati-di-gioco/oggetti/armature" element={<ArmorPage />} />
+                <Route path="/dati-di-gioco/oggetti/aggiungi/armatura" element={<CreateArmor />} />
+                <Route path="/dati-di-gioco/oggetti/modifica/armatura/:id" element={<CreateArmor />} />
                 <Route path="/dati-di-gioco/oggetti/strumenti" element={<ToolPage />} />
+                <Route path="/dati-di-gioco/oggetti/aggiungi/strumento" element={<CreateTool />} />
+                <Route path="/dati-di-gioco/oggetti/modifica/strumento/:id" element={<CreateTool />} />
                 <Route path="/dati-di-gioco/oggetti/oggetti-vari" element={<ObjectPage />} />
+                <Route path="/dati-di-gioco/oggetti/aggiungi/oggetto" element={<CreateItem />} />
+                <Route path="/dati-di-gioco/oggetti/modifica/oggetto/:id" element={<CreateItem />} />
                 <Route path="/classe/:slug" element={<ClassPage />} />
                 <Route path="/classe/:slug/feature" element={<ClassFeaturePage />} />
                 <Route path="/classe/:slug/feature/aggiungi-feature" element={<CreateEditFeature />} />

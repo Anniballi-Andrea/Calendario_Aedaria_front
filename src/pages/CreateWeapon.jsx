@@ -71,7 +71,7 @@ export default function CreateWeapon() {
         }
 
         const request = isEditMode
-            ? api.put(`${API_URL}/${id}`, {
+            ? api.put(`${API_URL}/weapon/${id}`, {
                 ...item,
                 id: Number(id)
             })
@@ -288,9 +288,6 @@ export default function CreateWeapon() {
                 </div>
 
             </div>
-
-
-            {/* TABLET + SMARTPHONE */}
             <div className="d-flex d-lg-none justify-content-center align-items-center text-center create-page">
 
                 <div className="px-3 py-5">

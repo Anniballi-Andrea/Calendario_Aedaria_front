@@ -4,6 +4,7 @@ import PageHeader from "../Components/PageHeader"
 import api from "../api/axiosConfig";
 import PageSectionLeft from "../Components/PageSectionLeft";
 import { useEffect } from "react";
+import ItemDetail from "../Components/ItemDetail";
 
 export default function ObjectPage() {
     const API_URL = `${import.meta.env.VITE_API_URL}/items`;
@@ -167,6 +168,11 @@ export default function ObjectPage() {
                                 setCurrentPage={setCurrentPage}
                             />
                         </div>
+                        <ItemDetail
+                            selectedItem={selectedItem}
+                            setSelectedItem={setSelectedItem}
+                            setShowDetail={setShowDetail}
+                        />
                     </div>
 
 

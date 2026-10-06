@@ -4,6 +4,7 @@ import PageHeader from "../Components/PageHeader"
 import api from "../api/axiosConfig";
 import PageSectionLeft from "../Components/PageSectionLeft";
 import { useEffect } from "react";
+import ArmorDetail from "../Components/ArmorDetail";
 
 export default function ArmorPage() {
     const API_URL = `${import.meta.env.VITE_API_URL}/items`;
@@ -18,7 +19,6 @@ export default function ArmorPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [selectedItem, setSelectedItem] = useState(null)
-    const [itemDetail, setItemDetail] = useState(null)
 
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
@@ -49,7 +49,7 @@ export default function ArmorPage() {
         api
             .get(`${API_URL}/${itemId}`)
             .then((response) => {
-                setItemDetail(response.data);
+
             })
             .catch((error) => {
                 console.error(
@@ -167,6 +167,11 @@ export default function ArmorPage() {
                                 setCurrentPage={setCurrentPage}
                             />
                         </div>
+                        <ArmorDetail
+                            selectedItem={selectedItem}
+                            setSelectedItem={setSelectedItem}
+                            setShowDetail={setShowDetail}
+                        />
                     </div>
 
 
