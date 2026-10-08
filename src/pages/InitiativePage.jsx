@@ -269,7 +269,7 @@ export default function InitiativePage() {
 
                     <div className="mt-3 row relative">
                         {isAdmin && (
-                            <div className="col-12 col-lg-6 col-xl-5 mb-5 ">
+                            <div className="col-12 col-lg-6 col-xl-5 col-xxl-4 mb-5 ">
                                 <div className="stiky">
                                     <TurnManager round={round} initiative={initiative} changeTurn={changeTurn} restartTurn={restartTurn} />
                                     {initiative.length > 0 ? (
@@ -312,7 +312,7 @@ export default function InitiativePage() {
 
                         {
                             !isAdmin && (
-                                <div className="row justify-content-center">
+                                <div className="row  justify-content-center">
                                     <div className="col-12 col-xl-6  mb-5 ">
                                         <div className="stiky">
                                             <TurnManager round={round} initiative={initiative} changeTurn={changeTurn} restartTurn={restartTurn} />
@@ -358,7 +358,7 @@ export default function InitiativePage() {
 
                         {isAdmin && (
 
-                            <div className="d-none d-lg-block col-lg-6 col-xl-7">
+                            <div className="d-none d-lg-block col-lg-6 col-xl-7 col-xxl-8">
                                 <MonsterManager />
 
                             </div>

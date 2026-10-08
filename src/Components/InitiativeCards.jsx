@@ -6,7 +6,7 @@ export default function InitiativeCards({ name, player, editedPlayers, handlePla
     const { isAdmin } = useAuth()
 
     return (
-        <div className="row g-2 card-body align-items-end ">
+        <div className="row g-2 card-body align-items-end">
 
             <div className="col-4 col-md-2 text-center d-flex align-items-center justify-content-center">
 
@@ -28,22 +28,30 @@ export default function InitiativeCards({ name, player, editedPlayers, handlePla
 
             {
                 isAdmin &&
-                <div className="col-12 col-md-4  gap-2 justify-content-md-end d-none d-lg-flex">
-                    <button
-                        type="button"
-                        className="btn btn-success btn-sm"
-                        onClick={() => changePlayer(player)}
-                    >
-                        Salva
-                    </button>
+                <div className="col-12 col-md-2 justify-content-start d-none d-lg-flex">
+                    <div className="d-flex">
+                        <div>
+                            <button
+                                type="button"
+                                className="btn btn-success btn-sm me-2"
+                                onClick={() => changePlayer(player)}
+                            >
+                                Salva
+                            </button>
+                        </div>
 
-                    <button
-                        type="button"
-                        className="btn btn-danger btn-sm"
-                        onClick={() => openRemoveModal(player)}
-                    >
-                        Rimuovi
-                    </button>
+                        <div>
+                            <button
+                                type="button"
+                                className="btn btn-warning btn-sm"
+                                onClick={() => openRemoveModal(player)}
+                            >
+                                Rimuovi
+                            </button>
+                        </div>
+
+                    </div>
+
                 </div>
             }
 

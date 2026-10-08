@@ -563,6 +563,17 @@ textarea,
   display: none;
 }
 
+.monster-vh {
+  height: 20vh;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.monster-vh::-webkit-scrollbar {
+  display: none;
+}
+
 /* =========================================================
    FILTRO LIVELLO INCANTESIMI
    ========================================================= */
@@ -750,6 +761,12 @@ textarea,
    RESPONSIVE
    ========================================================= */
 
+@media (min-width: 1400px) {
+  .monster-col {
+    width: 30%;
+  }
+}
+
 @media (min-width: 992px) and (max-width: 1199px) {
 
   .season {
@@ -785,7 +802,11 @@ textarea,
   .holiday-name {
     font-size: 0.65rem;
   }
+
+
 }
+
+
 
 @media (min-width: 992px) {
   .data-page-detail-card {

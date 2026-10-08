@@ -8,7 +8,8 @@ export default function InitiativeInput({
 }) {
 
     return (
-        <div className="col-4 col-md-2 ">
+        <div className="col-6 col-md-2 d-flex flex-column align-items-center">
+
             <label
                 htmlFor={`${field}-${player.id}`}
                 className="form-label mb-1"
@@ -19,7 +20,7 @@ export default function InitiativeInput({
             <input
                 id={`${field}-${player.id}`}
                 type={type}
-                className="form-control"
+                className="form-control "
                 value={
                     editedPlayers[player.id]?.[field] ??
                     player[field]
@@ -32,6 +33,7 @@ export default function InitiativeInput({
                     )
                 }
             />
+
         </div>
     )
 }

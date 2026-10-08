@@ -238,7 +238,7 @@ export default function MonsterManager() {
 
             <form onSubmit={addMonster}>
 
-                <div className="row g-2 justify-content-center">
+                <div className="row  justify-content-center mt-3">
 
                     <div className="col-12 col-md-2">
 
@@ -300,11 +300,11 @@ export default function MonsterManager() {
 
             </form>
 
-            <div className="row mt-3 g-3">
+            <div className=" row mt-3 justify-content-between g-3">
 
                 {monsters.map((monster) => (
                     <div
-                        className="col-12 col-md-6 col-xxl-4"
+                        className="col-12 col-md-6  monster-col"
                         key={monster.instanceId}
                     >
 

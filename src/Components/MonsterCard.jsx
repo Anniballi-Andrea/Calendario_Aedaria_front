@@ -80,7 +80,7 @@ export default function MonsterCard({
 
     return (
 
-        <div className="card mb-3 left-item-vh">
+        <div className="card mb-3 ">
 
             <div className="card-header text-center">
 
@@ -135,7 +135,7 @@ export default function MonsterCard({
 
             </div>
 
-            <div className="card-body">
+            <div className="card-body ">
 
                 <div className="d-flex align-items-center">
 
@@ -322,7 +322,7 @@ export default function MonsterCard({
                 </div>
 
 
-                <div className="row row-cols-1 justify-content-start">
+                <div className="row row-cols-1 justify-content-start monster-vh w-75">
                     {activeSection === "stats" && (
                         <>
                             <div className="row row-cols-3 mt-3 justify-content-start">
