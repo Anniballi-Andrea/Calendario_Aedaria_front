@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 
 export default function Header() {
 
-    const { isAuthenticated, isAdmin, logout } = useAuth();
+    const { isAuthenticated, isAdmin, username, logout } = useAuth();
 
 
     return (
@@ -29,14 +29,26 @@ export default function Header() {
                     </button>
                     <div className="d-lg-none ms-auto me-4">
                         {isAuthenticated ? (
+                            <div className="d-flex">
+                                <div className="me-3">
+                                    <NavLink
+                                        className="nav-link text-light fs-4"
+                                        to="/profilo"
+                                    >
+                                        {username}
+                                    </NavLink>
+                                </div>
+                                <div>
+                                    <button
+                                        type="button"
+                                        className="nav-link text-light fs-4"
+                                        onClick={logout}
+                                    >
+                                        Logout
+                                    </button>
+                                </div>
+                            </div>
 
-                            <button
-                                type="button"
-                                className="nav-link text-light fs-4"
-                                onClick={logout}
-                            >
-                                Logout
-                            </button>
 
                         ) : (
 
@@ -97,15 +109,25 @@ export default function Header() {
                     </div>
                     <div className="d-none d-lg-block ms-auto me-4">
                         {isAuthenticated ? (
-
-                            <button
-                                type="button"
-                                className="nav-link text-light fs-4"
-                                onClick={logout}
-                            >
-                                Logout
-                            </button>
-
+                            <div className="d-flex">
+                                <div className="me-3">
+                                    <NavLink
+                                        className="nav-link text-light fs-4"
+                                        to="/profilo"
+                                    >
+                                        {username}
+                                    </NavLink>
+                                </div>
+                                <div>
+                                    <button
+                                        type="button"
+                                        className="nav-link text-light fs-4"
+                                        onClick={logout}
+                                    >
+                                        Logout
+                                    </button>
+                                </div>
+                            </div>
                         ) : (
 
                             <NavLink

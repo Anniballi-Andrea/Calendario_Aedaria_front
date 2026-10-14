@@ -14,6 +14,10 @@ export function AuthProvider({ children }) {
         localStorage.getItem("role")
     );
 
+    const [username, setUsername] = useState(
+        localStorage.getItem("username")
+    )
+
     const isAuthenticated = !!token;
     const isAdmin = role === "ADMIN";
 
@@ -21,22 +25,26 @@ export function AuthProvider({ children }) {
 
     const login = (loginResponse) => {
 
-        const { token, role } = loginResponse;
+        const { token, role, username } = loginResponse;
 
         localStorage.setItem("token", token);
         localStorage.setItem("role", role);
+        localStorage.setItem("username", username);
 
         setToken(token);
         setRole(role);
+        setUsername(username)
     };
 
     const logout = () => {
 
         localStorage.removeItem("token");
         localStorage.removeItem("role");
+        localStorage.removeItem("username")
 
         setToken(null);
         setRole(null);
+        setUsername(null);
         navigate("/")
     };
 
@@ -46,6 +54,7 @@ export function AuthProvider({ children }) {
             value={{
                 token,
                 role,
+                username,
                 isAuthenticated,
                 isAdmin,
                 login,
