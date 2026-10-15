@@ -1,4 +1,8 @@
-export default function AccountManager({ logout }) {
+import api from "../api/axiosConfig";
+
+export default function AccountManager({ logout, setError, setSuccess }) {
+
+    const API_URL = `${import.meta.env.VITE_API_URL}/auth`;
 
     const handleDeleteAccount = () => {
 
@@ -10,7 +14,22 @@ export default function AccountManager({ logout }) {
             return;
         }
 
+        setError("");
+        setSuccess("");
 
+
+        api
+            .delete(`${API_URL}/delete-account`)
+            .then(() => {
+                logout();
+            })
+            .catch((error) => {
+                console.error(error);
+                setError(
+                    error.response?.data?.message ||
+                    "Errore durante l'eliminazione dell'account"
+                )
+            })
     };
 
 

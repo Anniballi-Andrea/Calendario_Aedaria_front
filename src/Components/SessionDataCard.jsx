@@ -51,7 +51,7 @@ export default function SessionDataCard({ closeSession, selectedSession, API_URL
             })
             .catch((error) => {
                 setError(
-                    error.response?.data?.message ||
+                    error.response.data.message ||
                     "Errore durante l'uscita dalla sessione."
                 );
             })

@@ -4,9 +4,9 @@ import api from "../api/axiosConfig";
 import JumboUser from "../Components/JumboUser";
 import SessionCardBody from "../Components/SessionCardBody";
 import SessionCardHeader from "../Components/SessionCardHeader";
-import AccountData from "./AccountData";
+import AccountData from "../Components/AccountData";
 import AccountDataChange from "../Components/AccountDataChange";
-import AccountManager from "./AccountManager";
+import AccountManager from "../Components/AccountManager";
 import SessionDataCard from "../Components/SessionDataCard";
 
 export default function Profile() {
@@ -121,7 +121,7 @@ export default function Profile() {
 
             <AccountDataChange setError={setError} setSuccess={setSuccess} />
 
-            <AccountManager logout={logout} />
+            <AccountManager logout={logout} setError={setError} setSuccess={setSuccess} />
 
             {selectedSession && (
                 <SessionDataCard
