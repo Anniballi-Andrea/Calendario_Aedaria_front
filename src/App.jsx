@@ -43,6 +43,8 @@ import CreateWeapon from "./pages/CreateWeapon"
 import CreateArmor from "./pages/CreateArmor"
 import CreateTool from "./pages/CreateTool"
 import CreateItem from "./pages/CreateItem"
+import SessionTest from "./pages/SessionTest"
+import Profile from "./pages/Profile"
 
 
 function App() {
@@ -56,6 +58,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/profilo" element={<Profile />} />
                 <Route path="/iniziativa" element={<InitiativePage />} />
                 <Route path="/dati-di-gioco" element={<HandBookPage />} />
                 <Route path="/dati-di-gioco/incantesimi" element={<SpellPage />} />
@@ -109,6 +112,8 @@ function App() {
                 <Route path="/admin/azione-bonus/modifica/:id" element={<CreateBonusAction />} />
                 <Route path="/admin/azione-leggendaria/modifica/:id" element={<CreateLegendAction />} />
                 <Route path="/admin/richieste" element={<RequestPage />} />
+                <Route path="/test" element={<SessionTest />} />
+
                 <Route path="*" element={<NotFound />} />
               </Route>
             </Routes>

@@ -8,11 +8,12 @@ import { useAuth } from "../context/AuthContext";
 
 export default function CalendarHeader({ season }) {
 
-    const API_URL = `${import.meta.env.VITE_API_URL}/days/addDay`;
+    const { sessionId, displayYear, getDay } = useCalendar()
+    const { isMaster } = useResource()
+
+    const API_URL = `${import.meta.env.VITE_API_URL}/session/${sessionId}/calendar`;
 
     const { isAdmin } = useAuth()
-    const { displayYear, getDay } = useCalendar()
-
 
     const { playerList, setTotalFood, setTotalWather } = useResource()
 
@@ -23,7 +24,7 @@ export default function CalendarHeader({ season }) {
     function changeDays(quantity) {
 
         api
-            .post(`${API_URL}`, {
+            .post(`${API_URL}/add`, {
                 quantity: quantity
             })
             .then(() => {
@@ -55,7 +56,7 @@ export default function CalendarHeader({ season }) {
                 </h2>
             </div>
             {
-                isAdmin &&
+                isMaster &&
                 <div className="d-md-flex justify-content-between d-none " >
                     <ButtonChangeDays
                         setDaysToAdd={setDaysToAdd}

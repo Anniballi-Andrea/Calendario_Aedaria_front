@@ -4,12 +4,23 @@ import { useRef } from "react";
 import { useState } from "react";
 import { useContext } from "react";
 import { createContext } from "react";
+import { useResource } from "./ResourceContext";
 
 const CalendarContext = createContext();
 
 export function CalendarProvider({ children }) {
 
-    const API_URL = `${import.meta.env.VITE_API_URL}/days/get`;
+    const { activeSession } = useResource()
+    const [sessionId, setSessionId] = useState(null)
+
+    useEffect(() => {
+        if (activeSession) {
+            setSessionId(activeSession.id)
+        }
+    }, [activeSession])
+
+    const API_URL = sessionId ? `${import.meta.env.VITE_API_URL}/session/${sessionId}/calendar`
+        : null;
 
     const [classLoader, setClassLoader] = useState(false);
 
@@ -18,7 +29,9 @@ export function CalendarProvider({ children }) {
     const [backendStatus, setBackendStatus] = useState("loading");
 
     function getDay() {
-        setBackendStatus("loading");
+        if (!API_URL) {
+            return
+        }
         api
             .get(`${API_URL}`, {
                 timeout: 3000
@@ -26,12 +39,28 @@ export function CalendarProvider({ children }) {
             .then((response) => {
                 const data = response.data;
                 setDayCount(data);
-                setBackendStatus("ready");
+
             })
             .catch((error) => {
                 console.error("Errore:", error);
-                setBackendStatus("error");
+
             });
+    }
+
+    function checkBackendStatus() {
+        setBackendStatus("loading");
+        api
+            .get(`${import.meta.env.VITE_API_URL}/health`, {
+                timeout: 3000
+            })
+            .then(() => {
+                setBackendStatus("ready")
+            })
+            .catch((error) => {
+                console.error("Backend non raggiungibile:", error)
+
+                setBackendStatus("error")
+            })
     }
 
     const DAYS_IN_WEEK = 7;
@@ -89,17 +118,25 @@ export function CalendarProvider({ children }) {
     const [displayYear, setDisplayYear] = useState(yearCount);
 
     useEffect(() => {
+        if (!sessionId) {
+            setDayCount(1)
+            return
+        }
         getDay();
-    }, []);
+    }, [sessionId]);
 
-    // Quando cambia il giorno corrente,
-    // riportiamo il carosello alla stagione e all'anno correnti.
     useEffect(() => {
-        if (dayCount === undefined) return
+        if (dayCount === undefined) {
+            return
+        }
 
         setDisplaySeason(seasonIndex)
         setDisplayYear(yearCount)
     }, [dayCount])
+
+    useEffect(() => {
+        checkBackendStatus()
+    }, [])
 
     return (
         <CalendarContext.Provider
@@ -131,7 +168,8 @@ export function CalendarProvider({ children }) {
                 carouselRef,
                 classLoader,
                 setClassLoader,
-                backendStatus
+                backendStatus,
+                sessionId
             }}
         >
             {children}

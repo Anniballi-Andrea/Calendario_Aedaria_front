@@ -1,8 +1,9 @@
 import { useAuth } from "../context/AuthContext"
+import { useResource } from "../context/ResourceContext"
 
 export default function TurnManager({ round, initiative, changeTurn, restartTurn }) {
+    const { isMaster } = useResource()
 
-    const { isAdmin } = useAuth()
 
     return (
         <div className="mt-3 mb-3 bg">
@@ -13,7 +14,7 @@ export default function TurnManager({ round, initiative, changeTurn, restartTurn
 
             </div>
             {
-                isAdmin &&
+                isMaster &&
                 <div className="d-flex justify-content-center align-items-center gap-2">
 
                     <button

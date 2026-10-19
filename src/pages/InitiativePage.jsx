@@ -7,10 +7,13 @@ import InitiativeCards from "../Components/InitiativeCards"
 import RemoveFromInitiative from "../Components/RemoveFromInitiative"
 import { useAuth } from "../context/AuthContext";
 import MonsterManager from "../Components/MonsterManager";
+import { useCalendar } from "../context/CalendarContext";
+import { useResource } from "../context/ResourceContext";
 
 export default function InitiativePage() {
+    const { isMaster } = useResource()
 
-    const { isAdmin } = useAuth()
+    const { sessionId } = useCalendar()
 
     const [playerName, setPlayerName] = useState("")
     const [playerDex, setPlayerDex] = useState(0)
@@ -22,15 +25,21 @@ export default function InitiativePage() {
     const [turnCount, setTurnCount] = useState(0)
     const [round, setRound] = useState(1)
 
-    const API_URL = `${import.meta.env.VITE_API_URL}/initiative`
+    const API_URL = `${import.meta.env.VITE_API_URL}/session/${sessionId}/initiative`
 
 
     useEffect(() => {
+        if (!sessionId) {
+            return
+        }
         getPlayerList()
         getTurnCount()
-    }, [])
+    }, [sessionId])
 
     useEffect(() => {
+        if (!sessionId) {
+            return
+        }
         const interval = setInterval(() => {
             if (!document.hidden) {
                 getTurnCount()
@@ -38,9 +47,12 @@ export default function InitiativePage() {
         }, 3000)
 
         return () => clearInterval(interval)
-    }, [])
+    }, [sessionId])
 
     useEffect(() => {
+        if (!sessionId) {
+            return
+        }
         const interval = setInterval(() => {
             if (!document.hidden) {
                 getPlayerList()
@@ -48,10 +60,13 @@ export default function InitiativePage() {
         }, 10000)
 
         return () => clearInterval(interval)
-    }, [])
+    }, [sessionId])
 
 
     function getPlayerList() {
+        if (!sessionId) {
+            return
+        }
         api
             .get(`${API_URL}/getPlayerList`)
             .then((response) => {
@@ -110,6 +125,9 @@ export default function InitiativePage() {
 
 
     function getTurnCount() {
+        if (!sessionId) {
+            return
+        }
         api
             .get(`${API_URL}/getRound`)
             .then((response) => {
@@ -249,7 +267,7 @@ export default function InitiativePage() {
 
                     {/* Form aggiunta giocatore */}
                     {
-                        isAdmin &&
+                        isMaster &&
                         <FormAddInitiativePlayer
                             addPlayer={addPlayer}
                             playerName={playerName}
@@ -261,14 +279,8 @@ export default function InitiativePage() {
                         />
                     }
 
-                    {/* Controlli turno */}
-
-
-
-                    {/* Lista giocatori */}
-
                     <div className="mt-3 row relative">
-                        {isAdmin && (
+                        {isMaster && (
                             <div className="col-12 col-lg-6 col-xl-5 col-xxl-4 mb-5 ">
                                 <div className="stiky">
                                     <TurnManager round={round} initiative={initiative} changeTurn={changeTurn} restartTurn={restartTurn} />
@@ -311,7 +323,7 @@ export default function InitiativePage() {
                         )}
 
                         {
-                            !isAdmin && (
+                            !isMaster && (
                                 <div className="row  justify-content-center">
                                     <div className="col-12 col-xl-6  mb-5 ">
                                         <div className="stiky">
@@ -356,7 +368,7 @@ export default function InitiativePage() {
                             )
                         }
 
-                        {isAdmin && (
+                        {isMaster && (
 
                             <div className="d-none d-lg-block col-lg-6 col-xl-7 col-xxl-8">
                                 <MonsterManager />

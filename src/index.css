@@ -485,6 +485,16 @@ textarea,
   overflow: visible;
 }
 
+.data-page-col {
+
+  max-width: 1400px;
+  padding: 25px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
+  overflow: visible;
+}
+
 .initiative-data-page {
   width: 100%;
   padding: 25px;
