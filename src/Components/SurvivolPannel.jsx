@@ -43,11 +43,11 @@ export default function SurvivolPannel() {
     return (
 
         <div className="survival-pannel ">
-            <div className="col text-center mt-3 ">
+            <div className="col text-center mt-5 ">
                 <h2>Risorse dei Giocatori:</h2>
                 <div className="container-fluid">
 
-                    {/* Razioni */}
+
                     <div className="row text-center mb-3">
                         <div className="col-12 fw-bold fs-5 mb-1">
                             Razioni
@@ -95,8 +95,6 @@ export default function SurvivolPannel() {
                         </div>
                     </div>
 
-
-                    {/* Acqua */}
                     <div className="row text-center">
                         <div className="col-12 fw-bold fs-5 mb-1">
                             Acqua

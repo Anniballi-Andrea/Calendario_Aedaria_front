@@ -7,7 +7,7 @@ export default function BackendLoader({ children }) {
     const { backendStatus } = useCalendar();
 
     const API_URL =
-        `${import.meta.env.VITE_API_URL}/days/get`;
+        `${import.meta.env.VITE_API_URL}/health`;
 
     const TIMER_SECONDS = 210;
 
@@ -83,19 +83,14 @@ export default function BackendLoader({ children }) {
             return;
         }
 
-        // MODIFICA: variabile per gestire il timeout
-        // del prossimo controllo.
         let timeoutId;
 
-        // MODIFICA: controllo sequenziale del backend.
-        // La richiesta successiva viene programmata
-        // solo dopo la conclusione della precedente.
+
         const checkBackend = () => {
 
             api
                 .get(API_URL, {
-                    // MODIFICA: concediamo 15 secondi al server
-                    // per rispondere.
+
                     timeout: 15000
                 })
                 .then(() => {
@@ -112,8 +107,7 @@ export default function BackendLoader({ children }) {
                         error
                     );
 
-                    // MODIFICA: programmiamo il controllo successivo
-                    // solo dopo che la richiesta precedente è terminata.
+
                     timeoutId = setTimeout(
                         checkBackend,
                         CHECK_INTERVAL
@@ -121,8 +115,7 @@ export default function BackendLoader({ children }) {
                 });
         };
 
-        // MODIFICA: il primo controllo viene effettuato
-        // dopo 15 secondi.
+
         timeoutId = setTimeout(
             checkBackend,
             CHECK_INTERVAL

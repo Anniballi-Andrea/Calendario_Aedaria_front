@@ -8,11 +8,13 @@ import AccountData from "../Components/AccountData";
 import AccountDataChange from "../Components/AccountDataChange";
 import AccountManager from "../Components/AccountManager";
 import SessionDataCard from "../Components/SessionDataCard";
+import { useResource } from "../context/ResourceContext";
 
 export default function Profile() {
 
     const API_URL = `${import.meta.env.VITE_API_URL}/session`;
     const { username, role, logout } = useAuth();
+    const { setUserSessions } = useResource()
 
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
@@ -54,7 +56,7 @@ export default function Profile() {
                 const updatedSessions = response.data;
 
                 setSessions(updatedSessions);
-
+                setUserSessions(updatedSessions)
                 setSelectedSession((currentSession) => {
 
                     if (!currentSession) {

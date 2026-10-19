@@ -1,8 +1,16 @@
 import { useState } from "react";
+import api from "../api/axiosConfig";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function AccountDataChange({ setError, setSuccess }) {
 
+    const { logout } = useAuth()
+    const navigate = useNavigate()
+
+    const API_URL = `${import.meta.env.VITE_API_URL}/auth`;
     const [email, setEmail] = useState("");
+    const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -10,28 +18,29 @@ export default function AccountDataChange({ setError, setSuccess }) {
     const [loadingPassword, setLoadingPassword] = useState(false);
 
 
-    const handleEmailSubmit = async (event) => {
+    function handleEmailSubmit(event) {
         event.preventDefault();
 
         setError("");
         setSuccess("");
         setLoadingEmail(true);
 
-        try {
-
-            setSuccess("Email modificata correttamente.");
-
-        } catch (error) {
-
-            setError(error.message);
-
-        } finally {
-
-            setLoadingEmail(false);
-        }
+        api
+            .put(`${API_URL}/email/change`, {
+                email
+            })
+            .then(() => {
+                setEmail("")
+            })
+            .catch((error) => {
+                setError(error.response?.data?.message || error.message)
+            })
+            .finally(() => {
+                setLoadingEmail(false)
+            })
     };
 
-    const handlePasswordSubmit = async (event) => {
+    function handlePasswordSubmit(event) {
         event.preventDefault();
 
         setError("");
@@ -43,22 +52,27 @@ export default function AccountDataChange({ setError, setSuccess }) {
         }
 
         setLoadingPassword(true);
+        api
+            .put(`${API_URL}/password/change`, {
+                currentPassword,
+                newPassword,
+                confirmPassword
+            })
+            .then(() => {
+                logout()
+                navigate("/login")
 
-        try {
+            })
 
-            setNewPassword("");
-            setConfirmPassword("");
+            .catch((error) => {
 
-            setSuccess("Password modificata correttamente.");
+                setError(error.response?.data?.message || error.message);
 
-        } catch (error) {
-
-            setError(error.message);
-
-        } finally {
-
-            setLoadingPassword(false);
-        }
+            })
+            .finally(() => {
+                setLoadingPassword(false)
+            }
+            )
     };
 
     return (
@@ -145,6 +159,30 @@ export default function AccountDataChange({ setError, setSuccess }) {
                         <div className="card-body">
 
                             <form onSubmit={handlePasswordSubmit}>
+                                <div className="mb-3">
+
+                                    <label
+                                        htmlFor="newPassword"
+                                        className="form-label"
+                                    >
+                                        Vecchia password
+                                    </label>
+
+                                    <input
+                                        id="newPassword"
+                                        type="password"
+                                        className="form-control"
+                                        value={currentPassword}
+                                        onChange={(event) =>
+                                            setCurrentPassword(
+                                                event.target.value
+                                            )
+                                        }
+                                        required
+                                    />
+
+                                </div>
+
 
                                 <div className="mb-3">
 

@@ -2,11 +2,16 @@ import { useContext } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { createContext } from "react";
+import api from "../api/axiosConfig";
+import { useAuth } from "./AuthContext";
 
 const ResourceContext = createContext();
 
 export function ResourceProvider({ children }) {
 
+    const API_URL = `${import.meta.env.VITE_API_URL}/session`;
+
+    const { isAuthenticated } = useAuth()
     const handbooks = ["Manuale del Giocatore", "Eroi del faerun"]
 
     const [playerList, setPlayerList] = useState(() => {
@@ -28,6 +33,7 @@ export function ResourceProvider({ children }) {
 
         return savedTotalFood ? JSON.parse(savedTotalFood) : 0
     })
+
 
     const [season, setSeason] = useState(0)
 
@@ -52,7 +58,52 @@ export function ResourceProvider({ children }) {
             currentPlayerList.filter(player => player.id !== id)
         )
     }
+    const [userSessions, setUserSessions] = useState([])
+    const [activeSession, setActiveSession] = useState(null)
+    const [isMaster, setIsMaster] = useState(false)
 
+    function fetchSessions() {
+        api
+            .get(`${API_URL}/my`)
+            .then((res) => {
+                setUserSessions(res.data)
+            })
+            .catch((err) => {
+                console.log(err.message)
+            })
+    }
+
+    useEffect(() => {
+        if (!isAuthenticated) {
+            setUserSessions([])
+            setActiveSession(null);
+            setIsMaster(false);
+            return;
+        }
+        fetchSessions()
+
+    }, [isAuthenticated])
+
+    function checkIsMaster() {
+        if (!activeSession) {
+            return
+        }
+        const sessionId = activeSession.id;
+
+        api
+            .get(`${API_URL}/${sessionId}/is-master`)
+            .then((res) => {
+                setIsMaster(res.data)
+            })
+            .catch((err) => {
+                console.log(err.message)
+                setIsMaster(false)
+            })
+    }
+
+    useEffect(() => {
+        checkIsMaster()
+    }, [activeSession]);
 
     useEffect(() => {
         localStorage.setItem("playerList", JSON.stringify(playerList))
@@ -63,6 +114,10 @@ export function ResourceProvider({ children }) {
     useEffect(() => {
         localStorage.setItem("totalFood", JSON.stringify(totalFood))
     }, [totalFood])
+
+    useEffect(() => {
+        console.log(isMaster)
+    }, [isMaster])
 
     return (
         <ResourceContext.Provider
@@ -83,7 +138,12 @@ export function ResourceProvider({ children }) {
                 season,
                 setSeason,
                 removePlayer,
-                handbooks
+                handbooks,
+                userSessions,
+                setUserSessions,
+                activeSession,
+                setActiveSession,
+                isMaster
             }}
         >
             {children}

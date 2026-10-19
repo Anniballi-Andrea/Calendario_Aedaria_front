@@ -8,7 +8,7 @@ export default function InitiativeInput({
 }) {
 
     return (
-        <div className="col-6 col-md-2 d-flex flex-column align-items-center">
+        <>
 
             <label
                 htmlFor={`${field}-${player.id}`}
@@ -34,6 +34,6 @@ export default function InitiativeInput({
                 }
             />
 
-        </div>
+        </>
     )
 }

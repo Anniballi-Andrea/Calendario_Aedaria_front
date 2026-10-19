@@ -2,13 +2,16 @@ import { useEffect, useState } from "react"
 
 import api from "../api/axiosConfig"
 import MonsterCard from "./MonsterCard"
+import { useCalendar } from "../context/CalendarContext"
 
 export default function MonsterManager() {
+
+    const { sessionId } = useCalendar()
 
     const [monsterName, setMonsterName] = useState("")
     const [monsterQuantity, setMonsterQuantity] = useState(0)
     const [monsters, setMonsters] = useState(() => {
-        const savedMonsters = localStorage.getItem("aedariaMonsters")
+        const savedMonsters = localStorage.getItem(`${sessionId}-aedariaMonsters`)
 
         return savedMonsters
             ? JSON.parse(savedMonsters)
@@ -19,11 +22,31 @@ export default function MonsterManager() {
     const API_URL = `${import.meta.env.VITE_API_URL}/monster`
 
     useEffect(() => {
+        if (!sessionId) {
+            setMonsters([])
+            return
+        }
+
+        const savedMonsters = localStorage.getItem(
+            `${sessionId}-aedariaMonsters`
+        )
+
+        setMonsters(
+            savedMonsters
+                ? JSON.parse(savedMonsters)
+                : []
+        )
+    }, [sessionId])
+    useEffect(() => {
+        if (!sessionId) {
+            return
+        }
+
         localStorage.setItem(
-            "aedariaMonsters",
+            `${sessionId}-aedariaMonsters`,
             JSON.stringify(monsters)
         )
-    }, [monsters])
+    }, [monsters, sessionId])
 
     function searchMonsters(value) {
 

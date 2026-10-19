@@ -1,60 +1,91 @@
 import { useAuth } from "../context/AuthContext";
+import { useResource } from "../context/ResourceContext";
 import InitiativeInput from "./InitiativeImput";
 
 export default function InitiativeCards({ name, player, editedPlayers, handlePlayerChange, changePlayer, openRemoveModal }) {
 
-    const { isAdmin } = useAuth()
+    const { isMaster } = useResource()
+
 
     return (
         <div className="row g-2 card-body align-items-end">
 
-            <div className="col-4 col-md-2 text-center d-flex align-items-center justify-content-center">
+            {!isMaster ?
+                (<>
+                    <div className="col-4 col-xl-4 text-center d-flex align-items-center justify-content-center">
 
-                <span className="fw-bold ">
-                    {name}
-                </span>
-
-            </div>
-
-            <InitiativeInput player={player} editedPlayers={editedPlayers} handlePlayerChange={handlePlayerChange} field={"initiative"} label={"Init"} />
-
-            <InitiativeInput player={player} editedPlayers={editedPlayers} handlePlayerChange={handlePlayerChange} field={"dex"} label={"Dex"} />
-
-            {isAdmin &&
-
-                <InitiativeInput player={player} editedPlayers={editedPlayers} handlePlayerChange={handlePlayerChange} field={"priority"} label={"Priorità"} />
-
-            }
-
-            {
-                isAdmin &&
-                <div className="col-12 col-md-2 justify-content-start d-none d-lg-flex">
-                    <div className="d-flex">
-                        <div>
-                            <button
-                                type="button"
-                                className="btn btn-success btn-sm me-2"
-                                onClick={() => changePlayer(player)}
-                            >
-                                Salva
-                            </button>
-                        </div>
-
-                        <div>
-                            <button
-                                type="button"
-                                className="btn btn-warning btn-sm"
-                                onClick={() => openRemoveModal(player)}
-                            >
-                                Rimuovi
-                            </button>
-                        </div>
+                        <span className="fw-bold ">
+                            {name}
+                        </span>
 
                     </div>
+                    <div className="col-4 col-xl-4 d-flex flex-column align-items-center">
+                        <InitiativeInput player={player} editedPlayers={editedPlayers} handlePlayerChange={handlePlayerChange} field={"initiative"} label={"Init"} />
+                    </div>
+                    <div className="col-4 col-xl-4 d-flex flex-column align-items-center">
+                        <InitiativeInput player={player} editedPlayers={editedPlayers} handlePlayerChange={handlePlayerChange} field={"dex"} label={"Dex"} />
+                    </div>
 
-                </div>
-            }
 
+                </>) : (
+                    <>
+
+
+
+                        <div className="col-3 col-xl-2 text-center d-flex align-items-center justify-content-center">
+
+                            <span className="fw-bold ">
+                                {name}
+                            </span>
+
+                        </div>
+                        <div className="col-3 col-xl-2 d-flex flex-column align-items-center">
+                            <InitiativeInput player={player} editedPlayers={editedPlayers} handlePlayerChange={handlePlayerChange} field={"initiative"} label={"Init"} />
+                        </div>
+
+                        <div className="col-3 col-xl-2 d-flex flex-column align-items-center">
+                            <InitiativeInput player={player} editedPlayers={editedPlayers} handlePlayerChange={handlePlayerChange} field={"dex"} label={"Dex"} />
+                        </div>
+
+                        <div className="col-3 col-xl-2 d-flex flex-column align-items-center">
+                            <InitiativeInput player={player} editedPlayers={editedPlayers} handlePlayerChange={handlePlayerChange} field={"priority"} label={"Priorità"} />
+                        </div>
+
+
+
+                        <div className="col-12 col-md-2 justify-content-start d-none d-lg-flex">
+                            <div className="d-flex">
+                                <div>
+                                    <button
+                                        type="button"
+                                        className="btn btn-success btn-sm me-2"
+                                        onClick={() => changePlayer(player)}
+                                    >
+                                        Salva
+                                    </button>
+                                </div>
+
+                                <div>
+                                    <button
+                                        type="button"
+                                        className="btn btn-warning btn-sm"
+                                        onClick={() => openRemoveModal(player)}
+                                    >
+                                        Rimuovi
+                                    </button>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+
+                    </>)}
         </div>
     )
+
+
+
 }
