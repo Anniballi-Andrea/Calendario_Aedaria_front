@@ -66,7 +66,22 @@ export function ResourceProvider({ children }) {
         api
             .get(`${API_URL}/my`)
             .then((res) => {
-                setUserSessions(res.data)
+                const sessions = res.data
+                setUserSessions(sessions)
+
+                const savedSession = localStorage.getItem("activeSession")
+
+                if (savedSession) {
+                    const parsedSession = JSON.parse(savedSession)
+
+                    const sessionExist = sessions.find(session => session.id === parsedSession.id)
+
+                    if (sessionExist) {
+                        setActiveSession(sessionExist)
+                        return
+                    }
+                }
+                setActiveSession(sessions.length > 0 ? sessions[0] : null)
             })
             .catch((err) => {
                 console.log(err.message)
@@ -78,11 +93,27 @@ export function ResourceProvider({ children }) {
             setUserSessions([])
             setActiveSession(null);
             setIsMaster(false);
+            localStorage.removeItem("activeSession")
             return;
         }
         fetchSessions()
 
+
     }, [isAuthenticated])
+
+    useEffect(() => {
+        if (!isAuthenticated) {
+            localStorage.removeItem("activeSession")
+            return
+        }
+
+        if (activeSession) {
+            localStorage.setItem(
+                "activeSession",
+                JSON.stringify(activeSession)
+            )
+        }
+    })
 
     function checkIsMaster() {
         if (!activeSession) {
