@@ -16,6 +16,8 @@ export function ResourceProvider({ children }) {
 
     const talentTypes = ["Talento delle origini", "Talento generale", "Stile di combattimento", "Dono Epico"]
 
+    const weaponTypes = ["Arma da mischia semplice", "Arma a distanza semplice", "Arma da mischia da guerra", "Armi a distanza da guerra"]
+
     const [playerList, setPlayerList] = useState(() => {
         const savedPlayers = localStorage.getItem("playerList")
 
@@ -180,7 +182,8 @@ export function ResourceProvider({ children }) {
                 activeSession,
                 setActiveSession,
                 isMaster,
-                talentTypes
+                talentTypes,
+                weaponTypes
             }}
         >
             {children}

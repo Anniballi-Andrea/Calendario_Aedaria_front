@@ -178,9 +178,9 @@ export default function TalentPage() {
                         handbooks={handbooks}
                         selectedHandbooks={selectedHandbooks}
                         handleHandbookChange={handleHandbookChange}
-                        talentTypes={talentTypes}
-                        selectedTalentType={selectedTalentType}
-                        handleTalentTypeChange={handleTalentTypeChange}
+                        types={talentTypes}
+                        selectedType={selectedTalentType}
+                        handleTypeChange={handleTalentTypeChange}
                     />
                     <div className=" row justify-content-between ">
                         <div className={showDetail

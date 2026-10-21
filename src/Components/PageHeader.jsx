@@ -13,9 +13,10 @@ export default function PageHeader({
     handbooks,
     selectedHandbooks,
     handleHandbookChange,
-    talentTypes,
-    selectedTalentType,
-    handleTalentTypeChange
+    types,
+    selectedType,
+    handleTypeChange,
+    onSearch
 }) {
 
     const navigate = useNavigate()
@@ -74,6 +75,12 @@ export default function PageHeader({
                             onChange={(event) =>
                                 setSearchValue(event.target.value)
                             }
+                            onKeyDown={(event) => {
+                                if (event.key === "Enter" && onSearch) {
+                                    event.preventDefault();
+                                    onSearch();
+                                }
+                            }}
                         />
 
 
@@ -154,7 +161,7 @@ export default function PageHeader({
                             }
                         </div>
                         <div>
-                            {talentTypes &&
+                            {types &&
                                 <div className="dropdown">
                                     <button
                                         type="button"
@@ -162,19 +169,19 @@ export default function PageHeader({
                                         data-bs-toggle="dropdown"
                                         aria-expanded="false"
                                     >
-                                        {selectedTalentType.length === 0
+                                        {selectedType.length === 0
                                             ? "tutti i tipi"
-                                            : `${selectedTalentType.length} tipi`}
+                                            : `${selectedType.length} tipi`}
                                     </button>
                                     <ul className="dropdown-menu dropdown-menu-end">
-                                        {talentTypes.map((type) => (
+                                        {types.map((type) => (
                                             <li key={type}>
                                                 <label className="dropdown-item">
                                                     <input
                                                         type="checkbox"
                                                         className="form-check-input me-2"
-                                                        checked={selectedTalentType.includes(type)}
-                                                        onChange={() => handleTalentTypeChange(type)}
+                                                        checked={selectedType.includes(type)}
+                                                        onChange={() => handleTypeChange(type)}
                                                     />
                                                     {type}
                                                 </label>

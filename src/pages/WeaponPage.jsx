@@ -5,13 +5,16 @@ import api from "../api/axiosConfig";
 import PageSectionLeft from "../Components/PageSectionLeft";
 import { useEffect } from "react";
 import WeaponDetail from "../Components/WeaponDetail";
+import { useResource } from "../context/ResourceContext";
 
 export default function WeaponPage() {
 
     const API_URL = `${import.meta.env.VITE_API_URL}/items`;
 
+    const { weaponTypes } = useResource()
 
-    const [searchValue, setSearchValue] = useState()
+    const [searchValue, setSearchValue] = useState("")
+    const [searchQuery, setSearchQuery] = useState("")
     const [showDetail, setShowDetail] = useState()
 
     const navigate = useNavigate()
@@ -20,12 +23,14 @@ export default function WeaponPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [selectedItem, setSelectedItem] = useState(null)
-    const [itemDetail, setItemDetail] = useState(null)
 
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
 
+    const [selectedWeaponType, setSelectedWeaponType] = useState([]);
+
     function dataFatch() {
+
         setLoading(true);
         setError("");
 
@@ -33,6 +38,15 @@ export default function WeaponPage() {
             page: currentPage,
             size: 20
         });
+
+        selectedWeaponType.forEach((type) => {
+            params.append("types", type)
+        })
+
+        if (searchQuery !== "") {
+            params.append("name", searchQuery);
+        }
+
         api
             .get(`${API_URL}/weapon?${params.toString()}`)
             .then((response) => {
@@ -45,24 +59,6 @@ export default function WeaponPage() {
                 setError("Impossibile recuperare i dati.");
             })
             .finally(() => { setLoading(false); });
-    }
-
-    function FetchItemDetail(itemId) {
-        api
-            .get(`${API_URL}/${itemId}`)
-            .then((response) => {
-                setItemDetail(response.data);
-            })
-            .catch((error) => {
-                console.error(
-                    "Errore nel recupero dei dati:",
-                    error
-                );
-
-                setError(
-                    "Impossibile recuperare i dati."
-                );
-            });
     }
 
     function deleteItem(id) {
@@ -86,22 +82,28 @@ export default function WeaponPage() {
             });
     }
 
+    function handleWeaponTypeChange(type) {
+
+        setSelectedWeaponType((current) =>
+            current.includes(type)
+                ? current.filter((item) => item !== type)
+                : [...current, type]
+        )
+
+        setCurrentPage(0)
+    }
+
+    function handleSearch() {
+
+        setSearchQuery(searchValue.trim());
+        setCurrentPage(0);
+    }
 
     useEffect(() => {
         dataFatch();
         setSelectedItem(null);
         setShowDetail(false);
-    }, [currentPage]);
-
-    useEffect(() => {
-
-        if (!selectedItem?.id) {
-            return;
-        }
-
-        FetchItemDetail(selectedItem.id);
-
-    }, [selectedItem]);
+    }, [currentPage, selectedWeaponType, searchQuery]);
 
 
 
@@ -148,7 +150,11 @@ export default function WeaponPage() {
                         name={"Lista Armi"}
                         searchValue={searchValue}
                         setSearchValue={setSearchValue}
+                        onSearch={handleSearch}
                         showDetail={showDetail}
+                        types={weaponTypes}
+                        selectedType={selectedWeaponType}
+                        handleTypeChange={handleWeaponTypeChange}
                     />
                     <div className=" row justify-content-between ">
                         <div className={showDetail
@@ -173,7 +179,7 @@ export default function WeaponPage() {
                             selectedItem={selectedItem}
                             setSelectedItem={setSelectedItem}
                             setShowDetail={setShowDetail}
-                            setTalentDetail={setItemData}
+
                         />
                     </div>
 

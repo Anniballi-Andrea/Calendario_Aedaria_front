@@ -21,7 +21,6 @@ export default function CreateTalent() {
 
     const [name, setName] = useState("");
     const [effect, setEffect] = useState("");
-    const [type, setType] = useState("");
     const [handbook, setHandbook] = useState("");
     const [talentType, setTalentType] = useState("")
     const [requisite, setRequisite] = useState("");
@@ -38,7 +37,7 @@ export default function CreateTalent() {
                 const talent = response.data;
 
                 setName(talent.name ?? "");
-                setType(talent.type ?? "");
+                setTalentType(talent.type ?? "");
                 setHandbook(talent.handbook ?? "");
                 setRequisite(talent.requisite ?? "");
                 setEffect(talent.effect ?? "")

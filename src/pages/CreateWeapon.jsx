@@ -5,9 +5,13 @@ import ContentNotPermitted from "../Components/ContentNotPermitted";
 import { useAuth } from "../context/AuthContext";
 import { useEffect } from "react";
 import api from "../api/axiosConfig";
+import { useResource } from "../context/ResourceContext";
 
 export default function CreateWeapon() {
     const { isAdmin } = useAuth()
+
+    const { weaponTypes } = useResource()
+
     const API_URL = `${import.meta.env.VITE_API_URL}/items`;
     const navigate = useNavigate();
     const { id } = useParams();
@@ -162,16 +166,20 @@ export default function CreateWeapon() {
                                         <label className="form-label">
                                             Tipo di arma
                                         </label>
-
-                                        <input
-                                            type="text"
-                                            className="form-control"
+                                        <select
+                                            className="form-select"
                                             value={type}
-                                            onChange={(event) =>
-                                                setType(event.target.value)
-                                            }
+                                            onChange={(event) => setType(event.target.value)}
                                             required
-                                        />
+                                        >
+                                            <option value="">Seleziona Categoria</option>
+
+                                            {weaponTypes.map((weaponType) => (
+                                                <option key={weaponType} value={weaponType}>
+                                                    {weaponType}
+                                                </option>
+                                            ))}
+                                        </select>
 
 
                                     </div>
