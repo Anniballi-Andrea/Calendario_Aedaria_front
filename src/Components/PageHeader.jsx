@@ -12,7 +12,10 @@ export default function PageHeader({
     showFeatureButton,
     handbooks,
     selectedHandbooks,
-    handleHandbookChange
+    handleHandbookChange,
+    talentTypes,
+    selectedTalentType,
+    handleTalentTypeChange
 }) {
 
     const navigate = useNavigate()
@@ -20,7 +23,7 @@ export default function PageHeader({
     return (
         <div className="container-fluid data-page-header">
             <div className="row justify-content-between ">
-                {/* PARTE DESTRA */}
+
                 <div className="col-12 col-lg-4 text-lg-start mt-3 mt-lg-0">
                     <div className="d-flex align-items-center">
                         <h1 className="mb-0">
@@ -51,7 +54,7 @@ export default function PageHeader({
 
                     </div>
                 </div>
-                {/* PARTE SINISTRA */}
+
                 <div
                     className={
                         showDetail
@@ -62,7 +65,7 @@ export default function PageHeader({
 
                     <div className="d-flex justify-content-end gap-2">
 
-                        {/* SEARCHBAR */}
+
                         <input
                             type="text"
                             className="form-control w-25"
@@ -73,7 +76,7 @@ export default function PageHeader({
                             }
                         />
 
-                        {/* LIVELLI */}
+
                         {levels && levels.length > 0 &&
                             <div className="dropdown">
                                 <button
@@ -117,36 +120,76 @@ export default function PageHeader({
                             </div>}
 
                     </div>
-                    {handbooks &&
-                        <div className="dropdown">
-                            <button
-                                type="button"
-                                className="btn btn-outline-primary dropdown-toggle text-nowrap"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                            >
-                                {selectedHandbooks.length === 0
-                                    ? "Tutti i manuali"
-                                    : `${selectedHandbooks.length} manuali`}
-                            </button>
+                    <div className="d-flex justify-content-end mt-3">
+                        <div className="me-4">
+                            {handbooks &&
+                                <div className="dropdown">
+                                    <button
+                                        type="button"
+                                        className="btn btn-outline-primary dropdown-toggle text-nowrap"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                    >
+                                        {selectedHandbooks.length === 0
+                                            ? "Tutti i manuali"
+                                            : `${selectedHandbooks.length} manuali`}
+                                    </button>
 
-                            <ul className="dropdown-menu dropdown-menu-end">
-                                {handbooks.map((handbook) => (
-                                    <li key={handbook}>
-                                        <label className="dropdown-item">
-                                            <input
-                                                type="checkbox"
-                                                className="form-check-input me-2"
-                                                checked={selectedHandbooks.includes(handbook)}
-                                                onChange={() => handleHandbookChange(handbook)}
-                                            />
-                                            {handbook}
-                                        </label>
-                                    </li>
-                                ))}
-                            </ul>
+                                    <ul className="dropdown-menu dropdown-menu-end">
+                                        {handbooks.map((handbook) => (
+                                            <li key={handbook}>
+                                                <label className="dropdown-item">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="form-check-input me-2"
+                                                        checked={selectedHandbooks.includes(handbook)}
+                                                        onChange={() => handleHandbookChange(handbook)}
+                                                    />
+                                                    {handbook}
+                                                </label>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            }
                         </div>
-                    }
+                        <div>
+                            {talentTypes &&
+                                <div className="dropdown">
+                                    <button
+                                        type="button"
+                                        className="btn btn-outline-success dropdown-toggle text-nowrap"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                    >
+                                        {selectedTalentType.length === 0
+                                            ? "tutti i tipi"
+                                            : `${selectedTalentType.length} tipi`}
+                                    </button>
+                                    <ul className="dropdown-menu dropdown-menu-end">
+                                        {talentTypes.map((type) => (
+                                            <li key={type}>
+                                                <label className="dropdown-item">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="form-check-input me-2"
+                                                        checked={selectedTalentType.includes(type)}
+                                                        onChange={() => handleTalentTypeChange(type)}
+                                                    />
+                                                    {type}
+                                                </label>
+                                            </li>
+                                        ))}
+
+                                    </ul>
+                                </div>
+
+                            }
+                        </div>
+
+                    </div>
+
+
 
                 </div>
 

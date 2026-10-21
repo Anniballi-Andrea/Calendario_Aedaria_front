@@ -14,6 +14,8 @@ export function ResourceProvider({ children }) {
     const { isAuthenticated } = useAuth()
     const handbooks = ["Manuale del Giocatore", "Eroi del faerun"]
 
+    const talentTypes = ["Talento delle origini", "Talento generale", "Stile di combattimento", "Dono Epico"]
+
     const [playerList, setPlayerList] = useState(() => {
         const savedPlayers = localStorage.getItem("playerList")
 
@@ -28,6 +30,7 @@ export function ResourceProvider({ children }) {
 
         return savedTotalWather ? JSON.parse(savedTotalWather) : 0
     })
+
     const [totalFood, setTotalFood] = useState(() => {
         const savedTotalFood = localStorage.getItem("totalFood")
 
@@ -139,9 +142,11 @@ export function ResourceProvider({ children }) {
     useEffect(() => {
         localStorage.setItem("playerList", JSON.stringify(playerList))
     }, [playerList])
+
     useEffect(() => {
         localStorage.setItem("totalWather", JSON.stringify(totalWather))
     }, [totalWather])
+
     useEffect(() => {
         localStorage.setItem("totalFood", JSON.stringify(totalFood))
     }, [totalFood])
@@ -174,7 +179,8 @@ export function ResourceProvider({ children }) {
                 setUserSessions,
                 activeSession,
                 setActiveSession,
-                isMaster
+                isMaster,
+                talentTypes
             }}
         >
             {children}

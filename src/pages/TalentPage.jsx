@@ -8,7 +8,7 @@ import { useResource } from "../context/ResourceContext";
 import { useNavigate } from "react-router-dom";
 
 export default function TalentPage() {
-    const { handbooks } = useResource()
+    const { handbooks, talentTypes } = useResource()
 
 
     const API_URL = `${import.meta.env.VITE_API_URL}/talent`;
@@ -24,6 +24,7 @@ export default function TalentPage() {
     const navigate = useNavigate()
 
     const [selectedHandbooks, setSelectedHandbooks] = useState([]);
+    const [selectedTalentType, setSelectedTalentType] = useState([]);
 
     function handleHandbookChange(handbook) {
         setSelectedHandbooks((current) =>
@@ -104,6 +105,14 @@ export default function TalentPage() {
             });
     }
 
+    function handleTalentTypeChange(type) {
+        setSelectedTalentType((current) =>
+            current.includes(type)
+                ? current.filter((item) => item !== type)
+                : [...current, type]
+        )
+    }
+
     const filteredTalents = talentData.filter((talent) => {
 
         const matchesSearch = talent.name
@@ -114,7 +123,11 @@ export default function TalentPage() {
             selectedHandbooks.length === 0 ||
             selectedHandbooks.includes(talent.handbook);
 
-        return matchesSearch && matchesHandbook;
+        const matchesTalentType =
+            selectedTalentType.length === 0 ||
+            selectedTalentType.includes(talent.type)
+
+        return matchesSearch && matchesHandbook && matchesTalentType;
     });
 
     if (loading) {
@@ -165,6 +178,9 @@ export default function TalentPage() {
                         handbooks={handbooks}
                         selectedHandbooks={selectedHandbooks}
                         handleHandbookChange={handleHandbookChange}
+                        talentTypes={talentTypes}
+                        selectedTalentType={selectedTalentType}
+                        handleTalentTypeChange={handleTalentTypeChange}
                     />
                     <div className=" row justify-content-between ">
                         <div className={showDetail

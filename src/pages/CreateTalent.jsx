@@ -9,7 +9,7 @@ import { useResource } from "../context/ResourceContext";
 
 export default function CreateTalent() {
     const { isAdmin } = useAuth()
-    const { handbooks } = useResource()
+    const { handbooks, talentTypes } = useResource()
 
     const API_URL = `${import.meta.env.VITE_API_URL}/talent`;
     const REQUEST_API_URL = `${import.meta.env.VITE_API_URL}/request/create/talentRequest`;
@@ -23,6 +23,7 @@ export default function CreateTalent() {
     const [effect, setEffect] = useState("");
     const [type, setType] = useState("");
     const [handbook, setHandbook] = useState("");
+    const [talentType, setTalentType] = useState("")
     const [requisite, setRequisite] = useState("");
 
     useEffect(() => {
@@ -61,7 +62,7 @@ export default function CreateTalent() {
         const talent = {
             id: isEditMode ? Number(id) : null,
             name: name,
-            type: type,
+            type: talentType,
             handbook: handbook,
             requisite: requisite,
             effect: effect
@@ -73,7 +74,7 @@ export default function CreateTalent() {
                 id: Number(id)
             })
             : isAdmin
-                ? api.post(API_URL, talent)
+                ? api.post(`${API_URL}/create`, talent)
                 : api.post(REQUEST_API_URL, talent);
 
         request
@@ -161,16 +162,21 @@ export default function CreateTalent() {
                                         <label className="form-label">
                                             Categoria talento
                                         </label>
-
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            value={type}
-                                            onChange={(event) =>
-                                                setType(event.target.value)
-                                            }
+                                        <select
+                                            className="form-select"
+                                            value={talentType}
+                                            onChange={(event) => setTalentType(event.target.value)}
                                             required
-                                        />
+                                        >
+                                            <option value="">Seleziona Categoria</option>
+
+                                            {talentTypes.map((talentType) => (
+                                                <option key={talentType} value={talentType}>
+                                                    {talentType}
+                                                </option>
+                                            ))}
+                                        </select>
+
 
                                     </div>
 
