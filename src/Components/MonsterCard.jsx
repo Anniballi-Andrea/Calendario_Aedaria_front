@@ -82,54 +82,50 @@ export default function MonsterCard({
 
         <div className="card mb-3 ">
 
-            <div className="card-header text-center">
+            <div className="card-header">
 
-                <div className="mb-2">
-                    {monster.name}
+                <div className="d-flex justify-content-between align-items-center mb-2">
+                    <h5 className="mb-0 fw-bold">
+                        {monster.name}
+                    </h5>
+
+                    <span className="badge bg-dark">
+                        GS {monster.challengeRating}
+                    </span>
                 </div>
 
-                <div className="text-center mb-2">
-                    GS: {monster.challengeRating}
-                </div>
                 <HpBar el={monster} />
 
-                <div className="d-flex justify-content-center mt-2">
+                <div className="row text-center mt-2">
 
-                    <div className="me-2">
-
-                        {monster.currentLifePoint === 0 ? (
-                            "morto"
-                        ) : (
-                            <>
-                                <span className="active fw-bold">
-                                    {"PF: "}
-                                </span>
-
-                                {monster.currentLifePoint}/{monster.maxLifePoint}
-                            </>
-                        )}
-
+                    <div className="col">
+                        <div className="fw-bold">
+                            PF
+                        </div>
+                        <div>
+                            {monster.currentLifePoint === 0
+                                ? "Morto"
+                                : `${monster.currentLifePoint}/${monster.maxLifePoint}`}
+                        </div>
                     </div>
 
-                    <div className="me-2">
-
-                        <span className="active fw-bold">
-                            {"CA: "}
-                        </span>
-
-                        {monster.armorClass}
-
+                    <div className="col">
+                        <div className="fw-bold">
+                            CA
+                        </div>
+                        <div>
+                            {monster.armorClass}
+                        </div>
                     </div>
 
-                </div>
-
-                <div className="text-center">
-
-                    <span className="active fw-bold">
-                        {"Velocità: "}
-                    </span>
-
-                    {monster.moviment}
+                    <div className="col">
+                        <div className="fw-bold">
+                            Vel.
+                        </div>
+                        <div>
+                            {monster.moviment}
+                        </div>
+                    </div>
 
                 </div>
 
@@ -137,95 +133,78 @@ export default function MonsterCard({
 
             <div className="card-body ">
 
-                <div className="d-flex align-items-center">
+                <div className="row g-2">
 
-                    <form
-                        className="me-3 "
-                        onSubmit={handleDanno}
-                    >
-
-                        <div className="input-group">
-
-                            <input
-                                className="form-control"
-                                type="number"
-                                min="0"
-                                value={inputDanno}
-                                onChange={(event) =>
-                                    setInputDanno(event.target.value)
-                                }
-                                placeholder="danno"
-                            />
-
-                            <button
-                                className="btn btn-sm btn-warning"
-                                type="submit"
-                            >
-                                <img
-                                    src="/img/sword_icon.svg"
-                                    alt=""
+                    <div className="col-6">
+                        <form onSubmit={handleDanno}>
+                            <div className="input-group">
+                                <input
+                                    className="form-control"
+                                    type="number"
+                                    min="0"
+                                    value={inputDanno}
+                                    onChange={(event) =>
+                                        setInputDanno(event.target.value)
+                                    }
+                                    placeholder="Danno"
                                 />
-                            </button>
 
-                        </div>
+                                <button
+                                    className="btn btn-warning"
+                                    type="submit"
+                                >
+                                    <img
+                                        src="/img/sword_icon.svg"
+                                        alt=""
+                                    />
+                                </button>
+                            </div>
+                        </form>
+                    </div>
 
-                    </form>
+                    <div className="col-6">
+                        <form onSubmit={handleCura}>
+                            <div className="input-group">
+                                <input
+                                    className="form-control"
+                                    type="number"
+                                    min="0"
+                                    value={inputCura}
+                                    onChange={(event) =>
+                                        setInputCura(event.target.value)
+                                    }
+                                    placeholder="Cura"
+                                />
 
-                    <form
-                        className=""
-                        onSubmit={handleCura}>
-
-                        <div className="input-group">
-
-                            <input
-                                className="form-control"
-                                type="number"
-                                min="0"
-                                value={inputCura}
-                                onChange={(event) =>
-                                    setInputCura(event.target.value)
-                                }
-                                placeholder="cura"
-                            />
-
-                            <button
-                                className="btn btn-sm btn-success text-dark"
-                                type="submit"
-                            >
-                                <i className="bi bi-heart-fill"></i>
-                            </button>
-
-                        </div>
-
-                    </form>
+                                <button
+                                    className="btn btn-success text-dark"
+                                    type="submit"
+                                >
+                                    <i className="bi bi-heart-fill"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
 
                 </div>
 
-                <div className="row row-cols-2 justify-content-center mt-2 mb-2">
+                <div className="mt-2">
+                    <label
+                        className="form-label fw-bold mb-1"
+                        htmlFor={`tempPf-${monster.instanceId}`}
+                    >
+                        TEMP PF
+                    </label>
 
-                    <div className="col text-center">
-
-                        <label
-                            className="form-label"
-                            htmlFor={`tempPf-${monster.instanceId}`}
-                        >
-                            <span className="active fw-bold">
-                                {"TEMP PF:"}
-                            </span>
-                        </label>
-
-                        <input
-                            id={`tempPf-${monster.instanceId}`}
-                            className="form-control text-center"
-                            type="number"
-                            min="0"
-                            placeholder="0"
-                            value={monster.tempLifePoint}
-                            onChange={handleTempPf}
-                        />
-
-                    </div>
-
+                    <input
+                        id={`tempPf-${monster.instanceId}`}
+                        className="form-control text-center"
+                        type="number"
+                        min="0"
+                        placeholder="0"
+                        value={monster.tempLifePoint}
+                        onChange={handleTempPf}
+                    />
                 </div>
                 <div className="row row-cols-3 row-cols-xxl-6 g-2 mt-2">
                     <div className="col">
@@ -322,69 +301,39 @@ export default function MonsterCard({
                 </div>
 
 
-                <div className="row row-cols-1 justify-content-start monster-vh w-75">
+                <div className="row row-cols-1 justify-content-start monster-vh ">
                     {activeSection === "stats" && (
                         <>
-                            <div className="row row-cols-3 mt-3 justify-content-start">
+                            <div className="row justify-content-center g-2 mt-3">
 
-                                <div className="col text-start">
-
-                                    <span className="active fw-bold">
-                                        {"STR: "}
-                                    </span>
-
+                                <div className="col-4">
+                                    <span className="fw-bold">STR:</span>{" "}
                                     {formatModifier(monster.strength)}
-
                                 </div>
 
-                                <div className="col text-start">
-
-                                    <span className="active fw-bold">
-                                        {"DEX: "}
-                                    </span>
-
+                                <div className="col-4">
+                                    <span className="fw-bold">DEX:</span>{" "}
                                     {formatModifier(monster.dexterity)}
-
                                 </div>
 
-                                <div className="col text-start">
-
-                                    <span className="active fw-bold">
-                                        {"CON: "}
-                                    </span>
-
+                                <div className="col-4">
+                                    <span className="fw-bold">CON:</span>{" "}
                                     {formatModifier(monster.constitution)}
-
                                 </div>
 
-                                <div className="col mt-2 text-start">
-
-                                    <span className="active fw-bold">
-                                        {"INT: "}
-                                    </span>
-
+                                <div className="col-4">
+                                    <span className="fw-bold">INT:</span>{" "}
                                     {formatModifier(monster.intelligence)}
-
                                 </div>
 
-                                <div className="col mt-2 text-start">
-
-                                    <span className="active fw-bold">
-                                        {"SAG: "}
-                                    </span>
-
+                                <div className="col-4">
+                                    <span className="fw-bold">SAG:</span>{" "}
                                     {formatModifier(monster.wisdom)}
-
                                 </div>
 
-                                <div className="col mt-2 text-start">
-
-                                    <span className="active fw-bold">
-                                        {"CAR: "}
-                                    </span>
-
+                                <div className="col-4">
+                                    <span className="fw-bold">CAR:</span>{" "}
                                     {formatModifier(monster.charisma)}
-
                                 </div>
 
                             </div>
