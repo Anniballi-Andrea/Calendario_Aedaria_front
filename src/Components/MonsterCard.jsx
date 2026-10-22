@@ -304,34 +304,34 @@ export default function MonsterCard({
                 <div className="row row-cols-1 justify-content-start monster-vh ">
                     {activeSection === "stats" && (
                         <>
-                            <div className="row justify-content-center g-2 mt-3">
+                            <div className="row g-2 mt-3">
 
-                                <div className="col-4">
+                                <div className="col-4 text-center">
                                     <span className="fw-bold">STR:</span>{" "}
                                     {formatModifier(monster.strength)}
                                 </div>
 
-                                <div className="col-4">
+                                <div className="col-4 text-center">
                                     <span className="fw-bold">DEX:</span>{" "}
                                     {formatModifier(monster.dexterity)}
                                 </div>
 
-                                <div className="col-4">
+                                <div className="col-4 text-center">
                                     <span className="fw-bold">CON:</span>{" "}
                                     {formatModifier(monster.constitution)}
                                 </div>
 
-                                <div className="col-4">
+                                <div className="col-4 text-center">
                                     <span className="fw-bold">INT:</span>{" "}
                                     {formatModifier(monster.intelligence)}
                                 </div>
 
-                                <div className="col-4">
+                                <div className="col-4 text-center">
                                     <span className="fw-bold">SAG:</span>{" "}
                                     {formatModifier(monster.wisdom)}
                                 </div>
 
-                                <div className="col-4">
+                                <div className="col-4 text-center">
                                     <span className="fw-bold">CAR:</span>{" "}
                                     {formatModifier(monster.charisma)}
                                 </div>
