@@ -261,15 +261,16 @@ export default function MonsterManager() {
 
             <form onSubmit={addMonster}>
 
-                <div className="row  justify-content-center mt-3">
+                <div className="row  justify-content-center mt-3 align-items-end">
 
                     <div className="col-12 col-md-2">
 
                         <div className="position-relative">
+                            <label htmlFor="">Nome</label>
                             <input
                                 type="text"
                                 className="form-control"
-                                placeholder="Nome del nemico"
+                                placeholder="Nome"
                                 value={monsterName}
                                 onChange={(event) => searchMonsters(event.target.value)}
                             />
@@ -297,7 +298,7 @@ export default function MonsterManager() {
                     </div>
 
                     <div className="col-6 col-md-2">
-
+                        <label htmlFor="">Quantità</label>
                         <input
                             type="number"
                             className="form-control"
@@ -312,7 +313,7 @@ export default function MonsterManager() {
 
                         <button
                             type="submit"
-                            className="btn btn-sm btn-primary w-100"
+                            className="btn btn-sm btn-primary"
                         >
                             Aggiungi
                         </button>

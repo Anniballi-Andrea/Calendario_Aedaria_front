@@ -30,8 +30,6 @@ export default function MonsterCard({
             return
         }
 
-        // MODIFICA: il danno viene gestito dal MonsterManager,
-        // prima sui PF temporanei e poi sui PF normali
         applyDamage(
             monster.instanceId,
             danno
@@ -50,7 +48,6 @@ export default function MonsterCard({
             return
         }
 
-        // MODIFICA: la cura viene applicata solamente ai PF normali
         applyHeal(
             monster.instanceId,
             cura
@@ -66,7 +63,6 @@ export default function MonsterCard({
             Number(event.target.value)
         )
 
-        // MODIFICA: aggiorna i PF temporanei nel MonsterManager
         changeTempLife(
             monster.instanceId,
             value
@@ -301,7 +297,7 @@ export default function MonsterCard({
                 </div>
 
 
-                <div className="row row-cols-1 justify-content-start monster-vh ">
+                <div className="row row-cols-1 justify-content-start monster-vh mt-3">
                     {activeSection === "stats" && (
                         <>
                             <div className="row g-2 mt-3">
