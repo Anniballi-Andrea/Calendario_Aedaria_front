@@ -70,7 +70,7 @@ export default function UsersPage() {
                 setUsers((currentUsers) =>
                     currentUsers.map((user) =>
                         user.id === userId
-                            ? { ...user, role: roleId }
+                            ? { ...user, roleId: roleId }
                             : user
                     )
                 );
@@ -101,8 +101,6 @@ export default function UsersPage() {
     const handleSearchChange = (event) => {
 
         const value = event.target.value;
-
-        console.log("Ricerca:", value); // MODIFICA: verifica che l'input venga intercettato
 
         setSearchTerm(value);
         setCurrentPage(0);
@@ -169,7 +167,7 @@ export default function UsersPage() {
                                             <td>
                                                 <select
                                                     className="form-select w-50"
-                                                    value={user.role}
+                                                    value={user.roleId}
                                                     onChange={(event) =>
                                                         changeRole(
                                                             user.id,
