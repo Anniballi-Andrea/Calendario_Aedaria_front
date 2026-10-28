@@ -127,14 +127,13 @@ export default function Header() {
                                 </li>
                             )}
 
-                            {/* MODIFICA: login/logout dentro il menu */}
                             <li className="nav-item">
 
                                 {isAuthenticated ? (
 
                                     <button
                                         type="button"
-                                        className="nav-link text-light fs-4"
+                                        className="nav-link text-light fs-4 d-lg-none"
                                         onClick={() => {
                                             closeMenu()
                                             logout()
@@ -146,7 +145,7 @@ export default function Header() {
                                 ) : (
 
                                     <NavLink
-                                        className="nav-link text-light fs-4"
+                                        className="nav-link text-light fs-4 d-lg-none"
                                         to="/login"
                                         onClick={closeMenu}
                                     >
