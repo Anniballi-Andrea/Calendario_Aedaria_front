@@ -175,7 +175,7 @@ export default function CreateSpell() {
                         <button
                             type="button"
                             className="btn btn-outline-success border-3 fw-bold"
-                            onClick={() => navigate("/incantesimi")}
+                            onClick={() => navigate("/dati-di-gioco/incantesimi")}
                         >
                             ← Torna agli incantesimi
                         </button>
@@ -485,7 +485,7 @@ export default function CreateSpell() {
                                     <button
                                         type="button"
                                         className="btn btn-outline-success border-3 fw-bold"
-                                        onClick={() => navigate("/incantesimi")}
+                                        onClick={() => navigate("/dati-di-gioco/incantesimi")}
                                     >
                                         Annulla
                                     </button>

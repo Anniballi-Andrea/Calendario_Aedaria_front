@@ -250,7 +250,7 @@ export default function SpellPage() {
                             <li>
                                 <button
                                     type="button"
-                                    className="dropdown-item"
+                                    className="dropdown-item "
                                     onClick={() => setSelectedClass(null)}
                                 >
                                     Tutte le classi
@@ -263,7 +263,7 @@ export default function SpellPage() {
 
                                     <button
                                         type="button"
-                                        className="dropdown-item"
+                                        className="dropdown-item "
                                         onClick={() =>
                                             setSelectedClass(dndClass.id)
                                         }

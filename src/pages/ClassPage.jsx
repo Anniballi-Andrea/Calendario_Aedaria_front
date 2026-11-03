@@ -21,6 +21,7 @@ export default function ClassPage() {
     const navigate = useNavigate()
     const [searchValue, setSearchValue] = useState("");
     const [selectedLevel, setSelectedLevel] = useState(null);
+    const [showImage, setShowImage] = useState(false);
     const showFeatureButton = true
 
     const levels = Array.from(
@@ -156,6 +157,7 @@ export default function ClassPage() {
                         showDetail={showDetail}
                         slug={slug}
                         showFeatureButton={showFeatureButton}
+                        setShowImage={setShowImage}
                     />
                     <div className=" row justify-content-between ">
 
@@ -195,7 +197,42 @@ export default function ClassPage() {
                             setShowDetail={setShowDetail}
                             emptyMessage={"Nessuna abilità selezionata"} />
                     </div>
+                    {showImage && (
+                        <div
+                            className="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center p-3"
+                            style={{
+                                zIndex: 1050,
+                                backgroundColor: "rgba(0, 0, 0, 0.5)"
+                            }}
+                            onClick={() => setShowImage(false)}
+                        >
+                            <div className="position-relative">
 
+                                <div className="d-flex justify-content-end mb-2">
+                                    <button
+                                        type="button"
+                                        className="btn btn-danger btn-sm"
+                                        onClick={() => setShowImage(false)}
+                                    >
+                                        ✕
+                                    </button>
+                                </div>
+
+                                <img
+                                    src={`/img/tabella-${slug}.PNG`}
+                                    alt={`Tabella ${classData.name}`}
+                                    className="img-fluid"
+                                    style={{
+                                        maxHeight: "85vh",
+                                        maxWidth: "95vw",
+                                        objectFit: "contain"
+                                    }}
+                                    onClick={(event) => event.stopPropagation()}
+                                />
+
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

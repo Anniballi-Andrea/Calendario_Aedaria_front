@@ -772,6 +772,11 @@ textarea,
   min-width: 150px;
 }
 
+.class-dropdown .dropdown-item:hover {
+  background-color: #81a4f1 !important;
+  color: #000 !important;
+}
+
 /* =========================================================
    RESPONSIVE
    ========================================================= */

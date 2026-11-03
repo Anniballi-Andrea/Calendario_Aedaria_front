@@ -16,8 +16,10 @@ export default function PageHeader({
     types,
     selectedType,
     handleTypeChange,
-    onSearch
+    onSearch,
+    setShowImage
 }) {
+
 
     const navigate = useNavigate()
 
@@ -26,9 +28,14 @@ export default function PageHeader({
             <div className="row justify-content-between ">
 
                 <div className="col-12 col-lg-4 text-lg-start mt-3 mt-lg-0">
-                    <div className="d-flex align-items-center">
+                    <div className="d-flex align-items-center mb-2">
                         <h1 className="mb-0">
-                            {name}
+                            {name}  {setShowImage && <button
+                                className="btn btn-primary btn-sm "
+                                onClick={() => setShowImage(true)}
+                            >
+                                <i className="bi bi-table"></i>
+                            </button>}
                         </h1>
                         {showFeatureButton && (
                             <>
