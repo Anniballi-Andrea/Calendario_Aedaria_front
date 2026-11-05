@@ -70,6 +70,26 @@ export default function WeaponDetail({ selectedItem, setSelectedItem, setShowDet
 
                             </div>
 
+                            <div className="mb-3 border-bottom pb-2">
+                                <div className="d-flex justify-content-around">
+                                    <div>
+                                        <strong>
+                                            Prezzo
+                                        </strong>
+
+                                        {`: ${selectedItem.cost}`}
+                                    </div>
+                                    <div>
+                                        <strong>
+                                            Peso
+                                        </strong>
+
+                                        {`: ${selectedItem.weight}`}
+                                    </div>
+                                </div>
+
+
+                            </div>
 
                             <div className="text-center">
                                 <h5>
