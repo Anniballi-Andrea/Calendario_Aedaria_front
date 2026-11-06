@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import ContentNotPermitted from "../Components/ContentNotPermitted";
 import { useAuth } from "../context/AuthContext";
 import api from "../api/axiosConfig";
+import HtmlForNubs from "../Components/HtmlForNub";
 
 export default function CreateItem() {
     const { isAdmin } = useAuth();
@@ -181,12 +182,12 @@ export default function CreateItem() {
 
                                 </div>
 
+                                <HtmlForNubs />
                                 <div className="col-12 mb-3">
 
                                     <label className="form-label">
                                         Descrizione
                                     </label>
-
                                     <textarea
                                         className="form-control"
                                         rows="6"

@@ -1,3 +1,4 @@
+import SafeHtml from "./SafeHtml";
 
 
 export default function ItemDetail({ selectedItem, setSelectedItem, setShowDetail }) {
@@ -70,7 +71,8 @@ export default function ItemDetail({ selectedItem, setSelectedItem, setShowDetai
                             </div>
 
                             <div className="mb-2">
-                                <strong> Descrizione:</strong> {selectedItem.description}
+                                <h5> Descrizione:</h5>
+                                <SafeHtml html={selectedItem.description} />
                             </div>
 
 
