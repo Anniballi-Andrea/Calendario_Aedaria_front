@@ -8,7 +8,7 @@ import HtmlForNubs from "../Components/HtmlForNub";
 
 export default function CreateSkill() {
 
-    const { isAdmin } = useAuth()
+    const { isAdmin, isAuthenticated } = useAuth()
 
     const API_URL = `${import.meta.env.VITE_API_URL}/class/skills`;
     const CLASS_API_URL = `${import.meta.env.VITE_API_URL}/class`;
@@ -94,7 +94,7 @@ export default function CreateSkill() {
             description: description
         };
 
-        // MODIFICA: la modifica rimane disponibile per gli admin
+
         if (isEditMode) {
 
             api
@@ -125,7 +125,7 @@ export default function CreateSkill() {
 
         if (isAdmin) {
 
-            // MODIFICA: l'admin crea direttamente l'abilità
+
             request = isSubClassSkill
                 ? api.post(
                     `${API_URL}/create/sub-class/${subClassId}`,
@@ -138,7 +138,7 @@ export default function CreateSkill() {
 
         } else {
 
-            // MODIFICA: anche le sottoclassi possono creare una richiesta
+
             const skillRequest = {
                 name: name,
                 level: Number(level),
@@ -212,11 +212,11 @@ export default function CreateSkill() {
                         </button>
 
                         <h1>
-                            {isEditMode && isAdmin
+                            {isEditMode && isAuthenticated
                                 ? "Modifica abilità"
-                                : isSubClassSkill && isAdmin
-                                    ? "Nuova abilità della sottoclasse"
-                                    : isAdmin && "Nuova abilità"}
+                                : isSubClassSkill && isAuthenticated
+                                    ? "Nuova abilità per la sottoclasse"
+                                    : isAuthenticated && "Nuova abilità per la classe"}
                         </h1>
 
                     </div>

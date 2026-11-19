@@ -4,24 +4,62 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import ContentNotPermitted from "../Components/ContentNotPermitted";
+import { useResource } from "../context/ResourceContext";
+import HtmlForNubs from "../Components/HtmlForNub";
 export default function CreateSubClass() {
+
+    const { handbooks } = useResource();
+
     const API_URL = `${import.meta.env.VITE_API_URL}/subClass`;
     const CLASS_API_URL = `${import.meta.env.VITE_API_URL}/class`;
 
     const navigate = useNavigate();
-    const { slug } = useParams();
+    const { slug, id } = useParams();
     const { isAdmin } = useAuth()
 
+    const isEditMode = Boolean(id);
+
     const [name, setName] = useState("");
+    const [handbook, setHandbook] = useState("");
+    // const [description, setDescription] = useState("");
     const [classId, setClassId] = useState(null);
     const [error, setError] = useState("");
 
     useEffect(() => {
+        if (!id) {
+            return;
+        }
+        api
+            .get(`${API_URL}/get-by-id/${id}`)
+            .then((response) => {
+                const subClass = response.data;
+
+                setName(subClass.name ?? "");
+                setHandbook(subClass.handbook ?? "");
+                //setDescription(subClass.description ?? "");
+            })
+            .catch((error) => {
+
+                console.error(
+                    "Errore nel caricamento della sottoclasse:",
+                    error
+                );
+
+                setError(
+                    "Impossibile caricare la sottoclasse."
+                );
+            });
+
+    }, [id]);
+
+    useEffect(() => {
+        if (id) {
+            return;
+        }
         api
             .get(`${CLASS_API_URL}/get-by-slug/${slug}`)
             .then((response) => {
                 const classData = response.data;
-
                 setClassId(classData.id);
             })
             .catch((error) => {
@@ -34,12 +72,12 @@ export default function CreateSubClass() {
                     "Impossibile caricare la classe."
                 );
             });
-    }, [slug]);
+    }, [slug, id]);
 
     function createSubClass(event) {
         event.preventDefault();
 
-        if (!classId) {
+        if (!classId && !isEditMode) {
             setError(
                 "Impossibile identificare la classe."
             );
@@ -47,28 +85,41 @@ export default function CreateSubClass() {
         }
 
         const subClass = {
-            name: name
+            name: name,
+            handbook: handbook,
+            //description: description
         };
 
-        api
-            .post(
-                `${API_URL}/create/${classId}`,
+        const request = isEditMode
+            ? api.put(
+                `${API_URL}/update/${id}`,
                 subClass
             )
-            .then((response) => {
-                navigate(`/classe/${slug}`);
+            : api.post(
+                `${API_URL}/create/${classId}`,
+                subClass
+            );
+        request
+            .then(() => {
+                navigate(`/classe/${slug}`)
             })
             .catch((error) => {
+
                 console.error(
-                    "Errore nella creazione della sottoclasse:",
+                    isEditMode
+                        ? "Errore nella modifica della sottoclasse:"
+                        : "Errore nella creazione della sottoclasse:",
                     error
                 );
 
                 setError(
-                    "Impossibile creare la sottoclasse."
+                    isEditMode
+                        ? "Impossibile modificare la sottoclasse."
+                        : "Impossibile creare la sottoclasse."
                 );
             });
     }
+
 
     return (
         <div className="container-fluid pb-5">
@@ -116,7 +167,7 @@ export default function CreateSubClass() {
 
                                     <div className="row">
 
-                                        <div className="col-12 mb-3">
+                                        <div className="col-4 mb-3">
 
                                             <label className="form-label">
                                                 Nome
@@ -136,8 +187,53 @@ export default function CreateSubClass() {
                                             />
 
                                         </div>
+                                        <div className="col-md-4 mb-3">
+
+                                            <label className="form-label">
+                                                Manuale
+                                            </label>
+
+                                            <select
+                                                className="form-select"
+                                                value={handbook}
+                                                onChange={(event) => setHandbook(event.target.value)}
+                                                required
+                                            >
+                                                <option value="">Seleziona un manuale</option>
+
+                                                {handbooks.map((handbook) => (
+                                                    <option key={handbook} value={handbook}>
+                                                        {handbook}
+                                                    </option>
+                                                ))}
+                                            </select>
+
+                                        </div>
 
                                     </div>
+                                    {/*<div >
+
+                                        <h2>
+                                            Descrizione
+                                        </h2>
+                                        <HtmlForNubs />
+                                        <div className="mb-3">
+                                            <textarea
+                                                rows="7"
+                                                className="form-control skill-textarea-description"
+                                                value={description}
+                                                onChange={(event) =>
+                                                    setDescription(
+                                                        event.target.value
+                                                    )
+                                                }
+                                                required
+                                            />
+
+                                        </div>
+
+                                    </div>*/}
+
 
                                 </div>
 

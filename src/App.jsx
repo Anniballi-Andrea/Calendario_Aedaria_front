@@ -7,7 +7,7 @@ import SpellPage from "./pages/SpellPage"
 import CreateSpell from "./pages/CreateSpell"
 import CreateClass from "./pages/CreateClass"
 import ClassPage from "./pages/ClassPage"
-import CreateSkill from "./pages/CreteSkill"
+import CreateSkill from "./pages/CreateSkill"
 import CreateSubClass from "./pages/CreateSubClass"
 import NotFound from "./pages/NotFound"
 import InitiativePage from "./pages/InitiativePage"
@@ -93,6 +93,7 @@ function App() {
                 <Route path="/classe/:slug/feature/aggiungi-feature" element={<CreateEditFeature />} />
                 <Route path="/classe/:slug/feature/:id/modifica" element={<CreateEditFeature />} />
                 <Route path="/classe/:slug/sotto-classe/nuova" element={<CreateSubClass />} />
+                <Route path="/classe/:slug/sotto-classe/:id/modifica" element={<CreateSubClass />} />
                 <Route path="/classe/:slug/skill/nuova" element={<CreateSkill />} />
                 <Route path="/classe/:slug/sotto-classe/:subClassId/skill/nuova" element={<CreateSkill />} />
                 <Route path="/classe/:slug/skill/:id/modifica" element={<CreateSkill />} />

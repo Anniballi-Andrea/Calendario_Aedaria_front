@@ -175,19 +175,36 @@ export default function ClassPage() {
                                         ? `/classe/${slug}/sotto-classe/${selectedSubClass.id}/skill/nuova`
                                         : null
                                 }
+                                navigateToChange={selectedSubClass
+                                    ? `/classe/${slug}/sotto-classe/${selectedSubClass.id}/modifica`
+                                    : null}
                             />
+                            {
+                                selectedSubClass ? (
+                                    <PageSectionLeft
+                                        name={"Abilità"}
+                                        navigateTo={`/classe/${slug}/sotto-classe/${selectedSubClass.id}/skill/nuova`}
+                                        item={filteredSkills}
+                                        selectedItem={selectedSkill}
+                                        setSelectedItem={setSelectedSkill}
+                                        setShowDetail={setShowDetail}
+                                        updateSlugLink={"skill"}
+                                        deleteItem={deleteSkill}
+                                        slug={slug}
+                                        request={true} />
+                                ) : <PageSectionLeft
+                                    name={"Abilità"}
+                                    navigateTo={`/classe/${slug}/skill/nuova`}
+                                    item={filteredSkills}
+                                    selectedItem={selectedSkill}
+                                    setSelectedItem={setSelectedSkill}
+                                    setShowDetail={setShowDetail}
+                                    updateSlugLink={"skill"}
+                                    deleteItem={deleteSkill}
+                                    slug={slug}
+                                    request={true} />
+                            }
 
-                            <PageSectionLeft
-                                name={"Abilità"}
-                                navigateTo={`/classe/${slug}/skill/nuova`}
-                                item={filteredSkills}
-                                selectedItem={selectedSkill}
-                                setSelectedItem={setSelectedSkill}
-                                setShowDetail={setShowDetail}
-                                updateSlugLink={"skill"}
-                                deleteItem={deleteSkill}
-                                slug={slug}
-                                request={true} />
 
                         </div>
 
