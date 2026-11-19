@@ -12,9 +12,9 @@ export function ResourceProvider({ children }) {
     const API_URL = `${import.meta.env.VITE_API_URL}/session`;
 
     const { isAuthenticated } = useAuth()
-    const handbooks = ["Manuale del Giocatore", "Eroi del faerun"]
+    const handbooks = ["Manuale del Giocatore", "Eroi del faerun", "Ravenloft"]
 
-    const talentTypes = ["Talento delle origini", "Talento generale", "Stile di combattimento", "Dono Epico"]
+    const talentTypes = ["Talento delle origini", "Talento generale", "Stile di combattimento", "Dono Epico", "Dono Oscuro"]
 
     const weaponTypes = ["Arma da mischia semplice", "Arma a distanza semplice", "Arma da mischia da guerra", "Armi a distanza da guerra"]
 

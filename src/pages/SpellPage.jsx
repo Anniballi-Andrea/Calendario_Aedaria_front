@@ -79,7 +79,7 @@ export default function SpellPage() {
     useEffect(() => {
         const timeout = setTimeout(() => {
             setSearchQuery(searchValue);
-        }, 500);
+        }, 750);
 
         return () => clearTimeout(timeout);
     }, [searchValue]);

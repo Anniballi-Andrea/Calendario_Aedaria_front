@@ -5,10 +5,12 @@ import { useState } from "react";
 import HtmlForNubs from "../Components/HtmlForNub";
 import ContentNotPermitted from "../Components/ContentNotPermitted";
 import { useEffect } from "react";
+import { useResource } from "../context/ResourceContext";
 
 export default function CreateSpecies() {
 
     const { isAdmin } = useAuth()
+    const { handbooks } = useResource()
     const API_URL = `${import.meta.env.VITE_API_URL}/species`;
     const REQUEST_API_URL = `${import.meta.env.VITE_API_URL}/request/create/speciesRequest`;
 
@@ -20,6 +22,7 @@ export default function CreateSpecies() {
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
+    const [handbook, setHandbook] = useState("");
 
     useEffect(() => {
 
@@ -33,6 +36,7 @@ export default function CreateSpecies() {
                 const species = response.data;
 
                 setName(species.name ?? "");
+                setHandbook(species.handbook ?? "");
                 setDescription(species.description ?? "")
             })
             .catch((error) => {
@@ -54,6 +58,7 @@ export default function CreateSpecies() {
         const species = {
             id: isEditMode ? Number(id) : null,
             name: name,
+            handbook: handbook,
             description: description
         };
 
@@ -63,7 +68,7 @@ export default function CreateSpecies() {
                 id: Number(id)
             })
             : isAdmin
-                ? api.post(API_URL, species)
+                ? api.post(`${API_URL}/create`, species)
                 : api.post(REQUEST_API_URL, species);
 
         request
@@ -145,6 +150,29 @@ export default function CreateSpecies() {
                                             }
                                             required
                                         />
+
+                                    </div>
+
+                                    <div className="col-md-4 mb-3">
+
+                                        <label className="form-label">
+                                            Manuale
+                                        </label>
+
+                                        <select
+                                            className="form-select"
+                                            value={handbook}
+                                            onChange={(event) => setHandbook(event.target.value)}
+                                            required
+                                        >
+                                            <option value="">Seleziona un manuale</option>
+
+                                            {handbooks.map((handbook) => (
+                                                <option key={handbook} value={handbook}>
+                                                    {handbook}
+                                                </option>
+                                            ))}
+                                        </select>
 
                                     </div>
 

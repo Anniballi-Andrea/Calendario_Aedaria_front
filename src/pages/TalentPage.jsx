@@ -19,8 +19,11 @@ export default function TalentPage() {
     const [error, setError] = useState("");
     const [showDetail, setShowDetail] = useState(false);
     const [searchValue, setSearchValue] = useState("");
+    const [searchQuery, setSearchQuery] = useState("");
     const [selectedTalent, setSelectedTalent] = useState(null)
     const [talentDetail, setTalentDetail] = useState(null);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
     const navigate = useNavigate()
 
     const [selectedHandbooks, setSelectedHandbooks] = useState([]);
@@ -37,11 +40,31 @@ export default function TalentPage() {
     function getTalent() {
         setLoading(true);
         setError("");
+
+        const params = new URLSearchParams({
+            page: currentPage,
+            size: 20
+        });
+
+        if (searchQuery.trim() !== "") {
+            params.append("name", searchQuery.trim());
+        }
+
+        selectedHandbooks.forEach((handbook) => {
+            params.append("handbook", handbook);
+        });
+
+        selectedTalentType.forEach((type) => {
+            params.append("type", type);
+        });
+
         api
-            .get(`${API_URL}/getTalent`)
+            .get(`${API_URL}/getTalent?${params.toString()}`)
             .then((response) => {
                 const data = response.data;
-                setTalentData(data);
+                setTalentData(data.content);
+                setTotalPages(data.totalPages)
+
             })
             .catch((error) => {
                 console.error("Errore nel recupero dei talenti:", error);
@@ -72,7 +95,20 @@ export default function TalentPage() {
         getTalent()
         setSelectedTalent(null)
         setShowDetail(false)
-    }, []);
+    }, [
+        currentPage,
+        searchQuery,
+        selectedHandbooks,
+        selectedTalentType
+    ]);
+
+    useEffect(() => {
+        setCurrentPage(0)
+    }, [
+        searchQuery,
+        selectedHandbooks,
+        selectedTalentType
+    ])
 
     useEffect(() => {
 
@@ -83,6 +119,12 @@ export default function TalentPage() {
         getTalentDetail(selectedTalent.id);
 
     }, [selectedTalent]);
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setSearchQuery(searchValue)
+        }, 750)
+    }, [searchValue])
 
     function deleteTalent(id) {
         api
@@ -112,23 +154,6 @@ export default function TalentPage() {
                 : [...current, type]
         )
     }
-
-    const filteredTalents = talentData.filter((talent) => {
-
-        const matchesSearch = talent.name
-            .toLowerCase()
-            .includes(searchValue.toLowerCase());
-
-        const matchesHandbook =
-            selectedHandbooks.length === 0 ||
-            selectedHandbooks.includes(talent.handbook);
-
-        const matchesTalentType =
-            selectedTalentType.length === 0 ||
-            selectedTalentType.includes(talent.type)
-
-        return matchesSearch && matchesHandbook && matchesTalentType;
-    });
 
     if (loading) {
         return (
@@ -189,7 +214,7 @@ export default function TalentPage() {
                             <PageSectionLeft
                                 name={"Lista"}
                                 navigateTo={"/aggiungi-talento"}
-                                item={filteredTalents}
+                                item={talentData}
                                 selectedItem={selectedTalent}
                                 setSelectedItem={setSelectedTalent}
                                 setShowDetail={setShowDetail}
@@ -197,6 +222,9 @@ export default function TalentPage() {
                                 deleteItem={deleteTalent}
                                 editPath={(id) => `/talenti/modifica/${id}`}
                                 request={request}
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                                setCurrentPage={setCurrentPage}
                             />
                         </div>
 

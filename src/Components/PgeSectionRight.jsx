@@ -40,6 +40,11 @@ export default function PageSectionRight({ selectedItem, setSelectedItem, setSho
                                         Sottoclasse
                                     </span>
                                 )}
+                                {selectedItem.handbook && (
+                                    <span className="badge text-bg-warning">
+                                        {selectedItem.handbook}
+                                    </span>
+                                )}
 
                             </div>
 
