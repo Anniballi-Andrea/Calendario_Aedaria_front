@@ -369,6 +369,15 @@ export default function CreateMonster() {
                                             />
                                         </div>
                                         <div className="col-12 mt-3">
+                                            <label className="form-label">Attrezzatura</label>
+                                            <textarea
+                                                className="form-control"
+                                                rows="1"
+                                                value={drops}
+                                                onChange={(e) => setDrops(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="col-12 mt-3">
                                             <label className="form-label">Abilità</label>
                                             <textarea
                                                 className="form-control"
@@ -378,12 +387,35 @@ export default function CreateMonster() {
                                             />
                                         </div>
                                         <div className="col-12 mt-3">
-                                            <label className="form-label">Attrezzatura</label>
+                                            <label className="form-label">Vulnerabilità</label>
                                             <textarea
                                                 className="form-control"
                                                 rows="1"
-                                                value={drops}
-                                                onChange={(e) => setDrops(e.target.value)}
+                                                value={vulnerability}
+                                                onChange={(e) => setVulnerability(e.target.value)}
+                                            />
+                                        </div>
+
+
+
+
+                                        <div className="col-12 mt-3">
+                                            <label className="form-label">Resistenze</label>
+                                            <textarea
+                                                className="form-control"
+                                                rows="1"
+                                                value={resistence}
+                                                onChange={(e) => setResistence(e.target.value)}
+                                            />
+                                        </div>
+
+                                        <div className="col-12 mt-3">
+                                            <label className="form-label">Immunità</label>
+                                            <textarea
+                                                className="form-control"
+                                                rows="1"
+                                                value={immunity}
+                                                onChange={(e) => setImmunity(e.target.value)}
                                             />
                                         </div>
 
@@ -398,36 +430,6 @@ export default function CreateMonster() {
                                         </div>
 
 
-
-                                        <div className="col-12 mt-3">
-                                            <label className="form-label">Immunità</label>
-                                            <textarea
-                                                className="form-control"
-                                                rows="1"
-                                                value={immunity}
-                                                onChange={(e) => setImmunity(e.target.value)}
-                                            />
-                                        </div>
-
-                                        <div className="col-12 mt-3">
-                                            <label className="form-label">Resistenze</label>
-                                            <textarea
-                                                className="form-control"
-                                                rows="1"
-                                                value={resistence}
-                                                onChange={(e) => setResistence(e.target.value)}
-                                            />
-                                        </div>
-
-                                        <div className="col-12 mt-3">
-                                            <label className="form-label">Vulnerabilità</label>
-                                            <textarea
-                                                className="form-control"
-                                                rows="1"
-                                                value={vulnerability}
-                                                onChange={(e) => setVulnerability(e.target.value)}
-                                            />
-                                        </div>
 
                                     </div>
                                 </div>
