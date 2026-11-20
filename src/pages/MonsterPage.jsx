@@ -221,7 +221,7 @@ export default function MonsterPage() {
                                 </option>
 
                                 <option value="0">0</option>
-                                <option value="0.125">1/8</option>
+                                <option value="0.12">1/8</option>
                                 <option value="0.25">1/4</option>
                                 <option value="0.5">1/2</option>
 
