@@ -215,7 +215,12 @@ export default function MonsterDetail({
 
                             <div className="col-12 col-md-6 col-xxl-3 mt-2">
                                 <strong>Grado di Sfida:</strong>
-                                <div>{selectedMonster.challengeRating}</div>
+                                {selectedMonster.challengeRating === 0.5 ? (<div>1/2</div>)
+                                    : selectedMonster.challengeRating === 0.25 ? (<div>1/4</div>)
+                                        : selectedMonster.challengeRating === 0.12 ? (<div>1/8</div>)
+                                            : (<div>{selectedMonster.challengeRating} </div>)
+                                }
+
                             </div>
 
                         </div>
