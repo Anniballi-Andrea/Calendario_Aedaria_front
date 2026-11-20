@@ -37,6 +37,7 @@ export default function CreateMonster() {
     const [type, setType] = useState("");
     const [initiative, setInitiative] = useState(0);
     const [drops, setDrops] = useState("");
+    const [exp, setExp] = useState(0);
 
     const [error, setError] = useState("");
 
@@ -73,6 +74,7 @@ export default function CreateMonster() {
                 setType(monster.type ?? "");
                 setInitiative(monster.initiative ?? 0);
                 setDrops(monster.drops ?? "");
+                setExp(monster.exp ?? 0)
             })
             .catch((error) => {
 
@@ -111,7 +113,8 @@ export default function CreateMonster() {
             size: size,
             type: type,
             drops: drops,
-            initiative: Number(initiative)
+            initiative: Number(initiative),
+            exp: Number(exp)
         };
 
         const request = isEditMode
@@ -214,7 +217,7 @@ export default function CreateMonster() {
                                             />
                                         </div>
 
-                                        <div className="col-12 col-md-4 mt-3">
+                                        <div className="col-12 col-md-5 mt-3">
                                             <label className="form-label">Punti Ferita</label>
                                             <input
                                                 type="number"
@@ -226,7 +229,7 @@ export default function CreateMonster() {
                                             />
                                         </div>
 
-                                        <div className="col-12 col-md-4 mt-3">
+                                        <div className="col-12 col-md-5 mt-3">
                                             <label className="form-label">Movimento</label>
                                             <input
                                                 type="text"
@@ -237,7 +240,7 @@ export default function CreateMonster() {
                                             />
                                         </div>
 
-                                        <div className="col-12 col-md-6 mt-3">
+                                        <div className="col-12 col-md-4 mt-3">
                                             <label className="form-label">Grado di sfida</label>
                                             <input
                                                 type="number"
@@ -249,8 +252,20 @@ export default function CreateMonster() {
                                                 required
                                             />
                                         </div>
+                                        <div className="col-12 col-md-4 mt-3">
+                                            <label className="form-label">Esperienza</label>
+                                            <input
+                                                type="number"
+                                                className="form-control"
+                                                min="0"
+                                                step="0.01"
+                                                value={exp}
+                                                onChange={(e) => setExp(e.target.value)}
+                                                required
+                                            />
+                                        </div>
 
-                                        <div className="col-12 col-md-6 mt-3">
+                                        <div className="col-12 col-md-4 mt-3">
                                             <label className="form-label">Iniziativa</label>
                                             <input
                                                 type="number"

@@ -86,7 +86,7 @@ export default function MonsterCard({
                     </h5>
 
                     <span className="badge bg-dark">
-                        GS {monster.challengeRating}
+                        GS {`${monster.challengeRating} (Exp: ${monster.exp})`}
                     </span>
                 </div>
 
