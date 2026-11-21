@@ -172,7 +172,7 @@ export default function CreateMonster() {
 
                                     <div className="row">
 
-                                        <div className="col-12 col-md-6 mt-3">
+                                        <div className="col-12 col-md-4 mt-3">
                                             <label className="form-label">Nome</label>
                                             <input
                                                 type="text"
@@ -183,7 +183,7 @@ export default function CreateMonster() {
                                             />
                                         </div>
 
-                                        <div className="col-12 col-md-6 mt-3">
+                                        <div className="col-12 col-md-4 mt-3">
                                             <label className="form-label">Tipo</label>
                                             <input
                                                 type="text"
@@ -193,7 +193,7 @@ export default function CreateMonster() {
                                             />
                                         </div>
 
-                                        <div className="col-12 col-md-6 mt-3">
+                                        <div className="col-12 col-md-4 mt-3">
                                             <label className="form-label">Taglia</label>
                                             <input
                                                 type="text"
@@ -216,55 +216,6 @@ export default function CreateMonster() {
                                                 required
                                             />
                                         </div>
-
-                                        <div className="col-12 col-md-5 mt-3">
-                                            <label className="form-label">Punti Ferita</label>
-                                            <input
-                                                type="number"
-                                                className="form-control"
-                                                min="1"
-                                                value={lifePoint}
-                                                onChange={(e) => setLifePoint(e.target.value)}
-                                                required
-                                            />
-                                        </div>
-
-                                        <div className="col-12 col-md-5 mt-3">
-                                            <label className="form-label">Movimento</label>
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                value={moviment}
-                                                onChange={(e) => setMoviment(e.target.value)}
-                                                required
-                                            />
-                                        </div>
-
-                                        <div className="col-12 col-md-4 mt-3">
-                                            <label className="form-label">Grado di sfida</label>
-                                            <input
-                                                type="number"
-                                                className="form-control"
-                                                min="0"
-                                                step="0.01"
-                                                value={challengeRating}
-                                                onChange={(e) => setChallengeRating(e.target.value)}
-                                                required
-                                            />
-                                        </div>
-                                        <div className="col-12 col-md-4 mt-3">
-                                            <label className="form-label">Esperienza</label>
-                                            <input
-                                                type="number"
-                                                className="form-control"
-                                                min="0"
-                                                step="0.01"
-                                                value={exp}
-                                                onChange={(e) => setExp(e.target.value)}
-                                                required
-                                            />
-                                        </div>
-
                                         <div className="col-12 col-md-4 mt-3">
                                             <label className="form-label">Iniziativa</label>
                                             <input
@@ -276,12 +227,35 @@ export default function CreateMonster() {
                                                 onChange={(e) => setInitiative(e.target.value)}
                                             />
                                         </div>
+                                        <div className="w-50">
+                                            <div className="col-12 col-md-5 mt-3">
+                                                <label className="form-label">Punti Ferita</label>
+                                                <input
+                                                    type="number"
+                                                    className="form-control"
+                                                    min="1"
+                                                    value={lifePoint}
+                                                    onChange={(e) => setLifePoint(e.target.value)}
+                                                    required
+                                                />
+                                            </div>
 
+                                            <div className="col-12 col-md-5 mt-3">
+                                                <label className="form-label">Movimento</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    value={moviment}
+                                                    onChange={(e) => setMoviment(e.target.value)}
+                                                    required
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* MODIFICA: sezione caratteristiche */}
+
                             <div className="card mt-4">
                                 <div className="card-body">
 
@@ -365,7 +339,7 @@ export default function CreateMonster() {
                                 </div>
                             </div>
 
-                            {/* MODIFICA: sezione informazioni aggiuntive */}
+
                             <div className="card mt-4">
                                 <div className="card-body">
 
@@ -383,15 +357,7 @@ export default function CreateMonster() {
                                                 onChange={(e) => setSavingThrow(e.target.value)}
                                             />
                                         </div>
-                                        <div className="col-12 mt-3">
-                                            <label className="form-label">Attrezzatura</label>
-                                            <textarea
-                                                className="form-control"
-                                                rows="1"
-                                                value={drops}
-                                                onChange={(e) => setDrops(e.target.value)}
-                                            />
-                                        </div>
+
                                         <div className="col-12 mt-3">
                                             <label className="form-label">Abilità</label>
                                             <textarea
@@ -401,16 +367,6 @@ export default function CreateMonster() {
                                                 onChange={(e) => setSkills(e.target.value)}
                                             />
                                         </div>
-                                        <div className="col-12 mt-3">
-                                            <label className="form-label">Vulnerabilità</label>
-                                            <textarea
-                                                className="form-control"
-                                                rows="1"
-                                                value={vulnerability}
-                                                onChange={(e) => setVulnerability(e.target.value)}
-                                            />
-                                        </div>
-
 
 
 
@@ -425,12 +381,33 @@ export default function CreateMonster() {
                                         </div>
 
                                         <div className="col-12 mt-3">
+                                            <label className="form-label">Vulnerabilità</label>
+                                            <textarea
+                                                className="form-control"
+                                                rows="1"
+                                                value={vulnerability}
+                                                onChange={(e) => setVulnerability(e.target.value)}
+                                            />
+                                        </div>
+
+                                        <div className="col-12 mt-3">
                                             <label className="form-label">Immunità</label>
                                             <textarea
                                                 className="form-control"
                                                 rows="1"
                                                 value={immunity}
                                                 onChange={(e) => setImmunity(e.target.value)}
+                                            />
+                                        </div>
+
+
+                                        <div className="col-12 mt-3">
+                                            <label className="form-label">Attrezzatura</label>
+                                            <textarea
+                                                className="form-control"
+                                                rows="1"
+                                                value={drops}
+                                                onChange={(e) => setDrops(e.target.value)}
                                             />
                                         </div>
 
@@ -445,12 +422,35 @@ export default function CreateMonster() {
                                         </div>
 
 
-
+                                        <div className="col-12 col-md-4 mt-3">
+                                            <label className="form-label">Grado di sfida</label>
+                                            <input
+                                                type="number"
+                                                className="form-control"
+                                                min="0"
+                                                step="0.01"
+                                                value={challengeRating}
+                                                onChange={(e) => setChallengeRating(e.target.value)}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="col-12 col-md-4 mt-3">
+                                            <label className="form-label">Esperienza</label>
+                                            <input
+                                                type="number"
+                                                className="form-control"
+                                                min="0"
+                                                step="0.01"
+                                                value={exp}
+                                                onChange={(e) => setExp(e.target.value)}
+                                                required
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* MODIFICA: pulsanti del form */}
+
                             <div className="d-flex justify-content-center gap-3 mt-4 mb-5">
 
                                 <button
@@ -478,7 +478,6 @@ export default function CreateMonster() {
                 </div>
             </div>
 
-            {/* MODIFICA: contenuto mostrato su mobile e tablet */}
             <div className="d-flex d-lg-none justify-content-center mt-5">
                 <div className="text-center">
 
